@@ -3,11 +3,34 @@
 @tailwind utilities;
 
 
-:root {}
+:root {
+  --code-color: black;
+  --code-bg-color: rgba(59, 131, 246, 0.311);
+  --code-font-size: 14px;
+  --code-line-height: 1.4;
+  --scroll-bar-color: #c5c5c5;
+  --scroll-bar-bg-color: #f6f6f6;
+}
 
 body {
   color: rgba(2, 2, 2, 0.753);
 }
+
+    /* Works on Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: var(--scroll-bar-bg-color);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: var(--scroll-bar-color);
+        border-radius: 20px;
+        border: 3px solid var(--scroll-bar-bg-color);
+    }
 
 .banner-image {
   background-image: repeating-linear-gradient(120deg,
@@ -24,4 +47,36 @@ body {
 .btn-hover:hover {
   @apply bg-slate-200
   duration-150
+}
+
+.text-overflow {
+  text-overflow:ellipsis;
+}
+
+.container-dropdown {
+  position: absolute;
+  width: 100px;
+  z-index: 100px;
+  height: 0px;
+  overflow: hidden;
+  -webkit-transition: height 1s eas-in-out;
+  -moz-transition: height 1s ease-in-out;
+  -o-transition: height 1s ease-in-out;
+  -ms-transition: height 1s ease-in-out;
+  transition: height 1s ease-in-out;
+  transition: background 2s, color 2s cubic-bezier(.48, .73, .47, .54);
+}
+
+.container-show-dropdown {
+  list-style: none;
+  position: relative;
+  z-index: 1000;
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+}
+
+.font-awesome-icon {
+  @apply h-6 btn-hover p-2 rounded mx-2 hover:cursor-pointer
 }

@@ -20,12 +20,22 @@ class UpdateUserSchema(Schema):
 class PlainCategorySchema(Schema):
     category_id = fields.Integer()
     name = fields.String(require=True)
+    image_id = fields.Integer()
+
+
+class UpdateCategorySchema(Schema):
+    name = fields.String()
+    image_id = fields.Integer()
 
 
 class PlainImageSchema(Schema):
     image_id = fields.Integer()
     url = fields.String(require=True)
     create_time = fields.Date(require=True)
+
+
+class CategorySchema(PlainCategorySchema):
+    image = fields.Nested(PlainImageSchema(), dump_only=True)
 
 
 class UpdateImageSchema(Schema):

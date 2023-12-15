@@ -3,7 +3,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from models.category import CategoryModel
 from resources.db import db
-from schemas import PlainCategorySchema
+from schemas import PlainCategorySchema, CategorySchema, UpdateCategorySchema
 
 blp = Blueprint("CategoryModel", __name__, description="Operations on category")
 
@@ -11,12 +11,12 @@ blp = Blueprint("CategoryModel", __name__, description="Operations on category")
 @blp.route("/category")
 class Category(MethodView):
 
-    @blp.response(200, PlainCategorySchema(many=True))
+    @blp.response(200, CategorySchema(many=True))
     def get(self):
         return CategoryModel.query.all()
 
     @blp.arguments(PlainCategorySchema)
-    @blp.response(201, PlainCategorySchema)
+    @blp.response(201, UpdateCategorySchema)
     def post(self, category_data):
         category = CategoryModel(**category_data)
 
@@ -32,7 +32,7 @@ class Category(MethodView):
 @blp.route("/category/<string:name>")
 class CategoryExt(MethodView):
 
-    @blp.response(200, PlainCategorySchema)
+    @blp.response(200, CategorySchema)
     def get(self, name):
         category = CategoryModel.query.filter(CategoryModel.name == name).first()
         if not category:
@@ -42,7 +42,7 @@ class CategoryExt(MethodView):
             return category
 
     @blp.arguments(PlainCategorySchema)
-    @blp.response(201, PlainCategorySchema)
+    @blp.response(201, CategorySchema)
     def put(self, category_data, name):
 
         category = CategoryModel.query.filter(CategoryModel.name == name).first()

@@ -42,7 +42,7 @@ class ImageExt(MethodView):
     def put(self, image_data, image_id):
 
         image = ImageModel.query.get_or_404(image_id,
-                                            message=f"No image exists with the id: {image_id}")
+                                            description=f"No image exists with the id: {image_id}")
         image.url = image_data["url"]
 
         db.session.add(image)
