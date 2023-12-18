@@ -36,7 +36,7 @@ export const SideMenu = () => {
         <>
             <div className="flex">
                 <FontAwesomeIcon icon={faBars} className="font-awesome-icon" onClick={toggle} />
-                <div className={`absolute inset-0 z-30 sm:w-1/2 w-3/4 min-h-screen max-h-screen overflow-x-scroll flex flex-col bg-white rounded-md overflow-y-scroll ${transClass}`}>
+                <div className={`absolute inset-0 z-30 w-96 min-h-screen max-h-screen overflow-x-scroll flex flex-col bg-white rounded-md ${transClass}`}>
                     <div className="flex justify-between border-b">
                         <h1 className="text-lg text-left px-5 p-3 ">Menu</h1>
                         <FontAwesomeIcon icon={faXmark} className="p-3 m-1 bg-slate-100 rounded-full h-4 btn-hover hover:cursor-pointer" onClick={toggle} />
@@ -52,21 +52,45 @@ export const SideMenu = () => {
                             :
                             <></>
                     }
-                    {
+                    <h1 className="text-xl p-4 hover:underline hover:cursor-pointer">Categories</h1>
+                    <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b">
 
-                        categories.map((category: CategoryModel) =>
-                            <div key={category.category_id} className="grid grid-flow-col grid-cols-3">
-                                <img src={category.image.url} className=""/>
-                                <Link className="hover:bg-blue-100 duration-200 hover:text-zinv-500 px-4 py- border-b rounded p-3 text-left font-normal"
-                                    href="" onClick={toggle}>{category.name}</Link>
-                            </div>
+                        {
 
-                        )
-                    }
+                            categories.map((category: CategoryModel) =>
+                                <div key={category.category_id} className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
+                                    <img src={category.image.url} className="object-cover h-16 border rounded-full shadow" />
+                                    <p className="text-sm rounded p-1 text-center font-light">{category.name}</p>
 
+                                </div>
 
+                            )
 
+                        }
+                    </div>
+                    <h1 className="text-xl p-4 hover:underline hover:cursor-pointer">Deals</h1>
+                    <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b">
+                        <div className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
+                            <img src="https://tjcoding.sirv.com/website-images/deals-tag.png" className=" object-fill border border-white shadow bg-slate-50 h-16 rounded-full" />
+                            <p className="text-sm rounded p-1 text-center font-light">Top Deals</p>
 
+                        </div>
+                        <div className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
+                            <img src="https://tjcoding.sirv.com/website-images/cheap-deals.jpg" className=" object-fill shadow  bg-slate-50 h-16 rounded-full" />
+                            <p className="text-sm rounded p-1 text-center font-light">Under $25</p>
+
+                        </div>
+                        <div className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
+                            <img src="https://tjcoding.sirv.com/website-images/top-brands.jpg" className=" object-fill bg-slate-50  shadow h-16 rounded-full" />
+                            <p className="text-sm rounded p-1 text-center font-light">Top Brands</p>
+
+                        </div>
+                        <div className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
+                            <img src="https://tjcoding.sirv.com/website-images/new-item.jpg" className=" object-fill bg-slate-50  shadow h-16 rounded-full" />
+                            <p className="text-sm rounded p-1 text-center font-light">New Items</p>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             {

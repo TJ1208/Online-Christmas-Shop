@@ -6,6 +6,6 @@ class CategoryModel(db.Model):
 
     category_id = db.Column(db.BigInteger, primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
-    image_id = db.Column(db.BigInteger, db.ForeignKey("image.image_id"), unique=False, nullable=True)
+    image_id = db.Column(db.BigInteger, db.ForeignKey("image.image_id"), unique=False, nullable=False)
     image = db.relationship("ImageModel", backref="category")
 
