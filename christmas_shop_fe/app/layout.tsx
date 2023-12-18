@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navbar } from './navbar/page'
 import Footer from './footer/page'
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,13 +18,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+
     <html lang="en">
+      
       <body className={inter.className}>
         <Navbar />
-        <main className="flex min-h-screen flex-col items-center justify-between 2xl:px-96 lg:px-56">
+        <main className="flex flex-col items-center justify-between 2xl:px-96 lg:px-56">
           {children}
         </main>
         <Footer />
+        <Script src="https://scripts.sirv.com/sirvjs/v3/sirv.js" />
       </body>
     </html>
   )

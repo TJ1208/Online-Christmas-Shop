@@ -3,8 +3,8 @@
 import { CategoryModel } from "@/app/models/category";
 import { faBars, faSpinner, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LoadingCompoent } from "../loading-component";
 
 export const SideMenu = () => {
 
@@ -44,10 +44,7 @@ export const SideMenu = () => {
                     {
                         isLoading
                             ?
-                            <div className="flex flex-col items-center justify-center p-5">
-                                <p>Loading...</p>
-                                <FontAwesomeIcon icon={faSpinner} spin className="mt-10 h-5 text-amber-600" />
-                            </div>
+                            <LoadingCompoent />
 
                             :
                             <></>
@@ -90,6 +87,22 @@ export const SideMenu = () => {
                             <p className="text-sm rounded p-1 text-center font-light">New Items</p>
 
                         </div>
+                    </div>
+                    <h1 className="text-xl p-4 hover:underline hover:cursor-pointer">Top Rated</h1>
+                    <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b">
+
+                        {
+
+                            categories.map((category: CategoryModel) =>
+                                <div key={category.category_id} className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
+                                    <img src={category.image.url} className="object-cover h-16 border rounded-full shadow" />
+                                    <p className="text-sm rounded p-1 text-center font-light">{category.name}</p>
+
+                                </div>
+
+                            )
+
+                        }
                     </div>
                 </div>
             </div>

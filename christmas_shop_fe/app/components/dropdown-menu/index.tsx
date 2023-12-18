@@ -5,6 +5,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LoadingCompoent } from "../loading-component";
 
 export const DropdownMenu = () => {
 
@@ -44,7 +45,7 @@ export const DropdownMenu = () => {
                         {
                             isLoading
                                 ?
-                                <FontAwesomeIcon icon={faSpinner} spin className="mt-10 h-5 text-amber-600" />
+                                <LoadingCompoent />
                                 :
                                 <></>
                         }
