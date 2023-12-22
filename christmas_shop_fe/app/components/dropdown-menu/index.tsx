@@ -1,14 +1,11 @@
 "use client"
 
 import { CategoryModel } from "@/app/models/category";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LoadingCompoent } from "../loading-component";
 
 export const DropdownMenu = () => {
-
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
     const [isOpen, setIsOpen] = useState<boolean>(false);

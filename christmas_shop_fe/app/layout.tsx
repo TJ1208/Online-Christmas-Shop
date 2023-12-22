@@ -4,6 +4,7 @@ import './globals.css'
 import { Navbar } from './navbar/page'
 import Footer from './footer/page'
 import Script from 'next/script';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,14 +21,15 @@ export default function RootLayout({
   return (
 
     <html lang="en">
-      
+
       <body className={inter.className}>
         <Navbar />
-        <main className="flex flex-col items-center justify-between 2xl:px-96 lg:px-56">
+        <main className="flex flex-col items-center justify-between 2xl:px-96 lg:px-56 min-h-screen">
           {children}
         </main>
         <Footer />
-        <Script src="https://scripts.sirv.com/sirvjs/v3/sirv.js" />
+
+        {/* <Script src="https://scripts.sirv.com/sirvjs/v3/sirv.js" /> */}
       </body>
     </html>
   )

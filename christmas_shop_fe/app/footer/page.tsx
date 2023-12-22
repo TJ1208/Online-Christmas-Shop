@@ -1,11 +1,20 @@
+"use client"
+
+import GetToken from "../api/sirv-token";
+
+
 export const Footer = () => {
-    return(
+    return (
         <>
-        <footer className="container mx-auto border-slate-200 border-t-2">
-            <a href="https://www.flaticon.com/free-icons/sparkles" title="sparkles icons">Sparkles icons created by Aranagraphics - Flaticon</a>
-        </footer>
-        
+            <div className="flex mt-5">
+                <footer className="border-slate-200 border-t-2 w-full flex items-center justify-between">
+                    <a href="https://www.flaticon.com/free-icons/sparkles" title="sparkles icons">Sparkles icons created by Aranagraphics - Flaticon</a>
+                    <GetToken />
+                </footer>
+            </div>
+
         </>
+
     )
 }
 

@@ -14,63 +14,43 @@
 
 body {
   color: rgba(2, 2, 2, 0.753);
+  @apply bg-slate-50
 }
 
-    /* Works on Chrome, Edge, and Safari */
-    *::-webkit-scrollbar {
-        width: 12px;
-        height: 12px;
-    }
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
 
-    *::-webkit-scrollbar-track {
-        background: var(--scroll-bar-bg-color);
-    }
+*::-webkit-scrollbar-track {
+  background: var(--scroll-bar-bg-color);
+}
 
-    *::-webkit-scrollbar-thumb {
-        background-color: var(--scroll-bar-color);
-        border-radius: 20px;
-        border: 3px solid var(--scroll-bar-bg-color);
-    }
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-bar-color);
+  border-radius: 20px;
+  border: 3px solid var(--scroll-bar-bg-color);
+}
 
 .banner-image {
-  background-image: repeating-linear-gradient(120deg,
+  background-image: repeating-linear-gradient(90deg,
       white,
       rgba(255, 255, 255, 0.671) 20px,
       rgba(59, 131, 246, 0.311) 20px,
       rgb(59, 131, 246, 0.311) 40px);
 }
 
-.mobile-text {
-  @apply sm:text-base text-sm
+p, input, label, textarea, th, td,  button {
+  @apply md:text-base text-sm
 }
 
 .btn-hover:hover {
-  @apply bg-slate-200
-  duration-150
+  @apply bg-orange-200 bg-opacity-40 duration-150
 }
 
 .text-overflow {
-  text-overflow:ellipsis;
-}
-
-.container-dropdown {
-  position: absolute;
-  width: 100px;
-  z-index: 100px;
-  height: 0px;
-  overflow: hidden;
-  -webkit-transition: height 1s eas-in-out;
-  -moz-transition: height 1s ease-in-out;
-  -o-transition: height 1s ease-in-out;
-  -ms-transition: height 1s ease-in-out;
-  transition: height 1s ease-in-out;
-  transition: background 2s, color 2s cubic-bezier(.48, .73, .47, .54);
-}
-
-.container-show-dropdown {
-  list-style: none;
-  position: relative;
-  z-index: 1000;
+  text-overflow: ellipsis;
 }
 
 .scroll-thin {
@@ -78,5 +58,27 @@ body {
 }
 
 .font-awesome-icon {
-  @apply h-6 btn-hover p-2 rounded mx-2 hover:cursor-pointer
+  @apply h-6 border-b-2 btn-hover p-2 m-1 rounded truncate hover:cursor-pointer
+}
+
+.nav-button {
+  @apply border-b-2 btn-hover p-2 m-1 rounded truncate
+}
+
+.admin-button {
+  @apply btn-hover p-1 rounded truncate
+}
+
+.input {
+  @apply p-2 bg-slate-200 w-full  px-2 border-b-2 rounded
+}
+
+.modal {
+  max-height: 90%;
+  @apply absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded p-5 flex flex-col md:w-96 w-72
+  
+}
+
+img, input, textarea {
+  @apply resize-none focus:outline-4 focus:outline-blue-200
 }
