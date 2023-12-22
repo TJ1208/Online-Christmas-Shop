@@ -125,9 +125,9 @@ export const SideMenu = () => {
 
                             {
 
-                                categories.map((category: CategoryModel) =>
+                                categories.slice(0, 6).map((category: CategoryModel) =>
                                     <div key={category.category_id} className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
-                                        <img src={category.image.url} className="object-cover h-16 border rounded-full shadow" />
+                                        <img src={category.image?.url} className="object-cover h-16 border rounded-full shadow" />
                                         <p className="text-sm rounded p-1 text-center font-light">{category.name}</p>
 
                                     </div>
@@ -166,7 +166,7 @@ export const SideMenu = () => {
 
                                 categories.map((category: CategoryModel) =>
                                     <div key={category.category_id} className="flex flex-col p-2 hover:underline hover:cursor-pointer" onClick={toggle}>
-                                        <img src={category.image.url} className="object-cover h-16 border rounded-full shadow" />
+                                        <img src={category.image?.url} className="object-cover h-16 border rounded-full shadow" />
                                         <p className="text-sm rounded p-1 text-center font-light">{category.name}</p>
 
                                     </div>

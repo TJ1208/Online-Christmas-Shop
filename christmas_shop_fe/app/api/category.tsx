@@ -11,9 +11,7 @@ export const getAllCategories = async (): Promise<CategoryModel[]> => {
     return data;
 }
 
-export default getAllCategories;
-
-export const addCategory = async (category: CategoryModel): Promise<CategoryModel> => {
+export const  addCategory = async (category: CategoryModel): Promise<{message: string, code: number}> => {
     const response = await fetch('http://localhost:5000/category', {
         method: 'POST',
         body: JSON.stringify(category),
@@ -25,3 +23,11 @@ export const addCategory = async (category: CategoryModel): Promise<CategoryMode
     return response.json();
 }
 
+export const deleteCategory = async (name: string): Promise<string> => {
+    const response = await fetch(`http://localhost:5000/category/${name}`, {
+        method: 'DELETE',
+    });
+    return response.json();
+}
+
+export default getAllCategories;

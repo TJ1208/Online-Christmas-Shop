@@ -1,12 +1,12 @@
-export const FetchImage = (url: string, name: string) => {
+export const DeleteImage = (name: string) => {
+
     var http = require("https");
-    let newUrl = "";
-    var token = localStorage.getItem("user-token");
+    let token = localStorage.getItem("user-token");
     var options = {
         "method": "POST",
         "hostname": "api.sirv.com",
         "port": null,
-        "path": "/v2/files/fetch",
+        "path": `/v2/files/delete?filename=%2Fcategories%2F${name}.jpg`,
         "headers": {
             "content-type": "application/json",
             "authorization": "Bearer " + token
@@ -28,13 +28,13 @@ export const FetchImage = (url: string, name: string) => {
 
         res.on("end", function () {
             var body = Buffer.concat(chunks);
-            newUrl = body.toString();
+            console.log(body.toString());
         });
     });
 
-    req.write(`[{\"url\":\"${url}\",\"filename\":\"/categories/${name}.jpg\"}]`);
-    req.end();
 
+
+    req.end();
 }
 
-export default FetchImage;
+export default DeleteImage;

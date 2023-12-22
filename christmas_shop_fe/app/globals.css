@@ -62,7 +62,7 @@ p, input, label, textarea, th, td,  button {
 }
 
 .nav-button {
-  @apply border-b-2 btn-hover p-2 m-1 rounded truncate
+  @apply border-b-2 btn-hover p-2 m-1 rounded truncate hover:cursor-pointer
 }
 
 .admin-button {
@@ -81,4 +81,9 @@ p, input, label, textarea, th, td,  button {
 
 img, input, textarea {
   @apply resize-none focus:outline-4 focus:outline-blue-200
+}
+
+.modal-message {
+  max-height: 90%;
+  @apply absolute z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded p-5 text-center flex flex-col md:w-96 w-auto
 }

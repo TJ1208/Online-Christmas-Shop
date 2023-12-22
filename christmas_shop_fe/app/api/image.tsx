@@ -11,3 +11,11 @@ export const addImage = async (image: ImageModel): Promise<ImageModel> => {
     });
     return response.json();
 }
+
+export const deleteImage = async (id: number): Promise<string> => {
+    const response = await fetch(`http://localhost:5000/image/${id}`, {
+        method: 'DELETE'
+    });
+    return response.json();
+}
+

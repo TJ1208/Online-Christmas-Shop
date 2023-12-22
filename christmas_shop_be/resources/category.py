@@ -16,7 +16,7 @@ class Category(MethodView):
         return CategoryModel.query.all()
 
     @blp.arguments(PlainCategorySchema)
-    @blp.response(201, UpdateCategorySchema)
+    @blp.response(201)
     def post(self, category_data):
         category = CategoryModel(**category_data)
 
@@ -24,9 +24,9 @@ class Category(MethodView):
             db.session.add(category)
             db.session.commit()
         except SQLAlchemyError:
-            abort(500, message=f"{category.name} category already exists.")
+            abort(500, message="An error occurred while adding the category.")
 
-        return category
+        return {"message": f"{category.name} category has been added.", "code": 201}
 
 
 @blp.route("/category/<string:name>")
@@ -66,7 +66,7 @@ class CategoryExt(MethodView):
         else:
             db.session.delete(category)
             db.session.commit()
-            return f"Category with the name, {name}, has been removed."
+            return {"message": f"{name} category has been deleted.", "status": 200}
 
 
 

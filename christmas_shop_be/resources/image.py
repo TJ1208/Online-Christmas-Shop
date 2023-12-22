@@ -53,7 +53,7 @@ class ImageExt(MethodView):
     @blp.response(200)
     def delete(self, image_id):
         image = ImageModel.query.get_or_404(image_id,
-                                            message=f"No image exists with the id: {image_id}")
+                                            description=f"No image exists with the id: {image_id}")
         db.session.delete(image)
         db.session.commit()
         return f"Image with the id, {image_id}, has been removed."

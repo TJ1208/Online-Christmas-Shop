@@ -4,13 +4,15 @@ import getAllCategories, { addCategory } from "@/app/api/category";
 import { addImage } from "@/app/api/image";
 import CategoryModel from "@/app/models/category";
 import { ImageModel } from "@/app/models/image";
-import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
+import { FetchImage } from "@/app/scripts/fetch-image";
+import { faSquarePlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export function CreateCategory() {
     let router = useRouter();
+    const [showMessage, setShowMessage] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
     const [category, setCategory] = useState({
         name: '',
@@ -19,6 +21,10 @@ export function CreateCategory() {
     const [image, setImage] = useState({
         url: "",
         create_time: ""
+    })
+    const [message, setMessage] = useState({
+        message: '',
+        code: 0
     })
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,15 +43,26 @@ export function CreateCategory() {
 
     const CreateCategory = (categoryData: CategoryModel, imageData: ImageModel) => {
         imageData.create_time = getDate();
+        FetchImage(imageData.url, categoryData.name);
+        imageData.url = `https://tjcoding.sirv.com/categories/${categoryData.name}.jpg`.replaceAll(' ', '%20');
         addImage(imageData).then(result => {
             categoryData.image_id = result.image_id || 0;
-            addCategory(categoryData).then(() => {
+            addCategory(categoryData).then((result) => {
+                console.log(result);
+                setMessage({ message: result.message, code: result.code })
+                setShowMessage(old => !old)
+                setTimeout(() => {
+                    setShowMessage(old => !old)
+                }, 5000)
+                setImage({url: "", create_time: ""})
+                setCategory({name: "", image_id: 0})
                 getAllCategories().then(() => {
                     router.refresh();
-                });
+                })
             })
         })
     }
+
 
     const getDate = () => {
         return new Date().toJSON()
@@ -56,11 +73,35 @@ export function CreateCategory() {
         <>
             <FontAwesomeIcon icon={faSquarePlus} className="hover:bg-green-200 hover:cursor-pointer text-green-700 nav-button" onClick={() => setShowForm(old => !old)} />
             {
+                (showMessage && message.code == 201)
+                    ?
+                    <p className={`modal-message bg-green-100`}>Success!</p>
+                    :
+                    <>
+                    </>
+            }
+            {
+                (showMessage && message.code == 500)
+                    ?
+                    <p className={`modal-message bg-red-100`}>Error...</p>
+                    :
+                    <>
+                    </>
+            }
+
+
+
+            {
                 showForm
                     ?
-                    <div className="modal">
+                    <div className="modal relative">
+                        <FontAwesomeIcon icon={faX} className="absolute top-0 right-0 font-awesome-icon border-2" onClick={() => setShowForm(old => !old)} />
                         <div>
                             <h1 className="text-center border-b pb-2 font-semibold text-base">Add Category</h1>
+
+                        </div>
+                        <div>
+
                         </div>
                         <div className="border p-1">
                             <div className="flex items-center p-2">

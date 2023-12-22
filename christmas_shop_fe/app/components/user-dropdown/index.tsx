@@ -20,20 +20,20 @@ export const UserDropdown = () => {
 
     return (
         <>
-            <div className="flex relative">
-                <div className="lg:flex items-center justify-center hidden p-1 hover:cursor-pointer" onClick={toggle}>
+            <div className="relative">
+                <div className="flex items-center justify-center nav-button" onClick={toggle}>
                     <FontAwesomeIcon icon={faCircleUser} className="h-6 p-1" />
-                    <p className=" truncate font-normal px-1 w-full text-start">Sign In</p>
+                    <p className="hidden lg:flex truncate font-normal px-1 w-full text-start">Sign In</p>
                 </div>
-                <div className="lg:hidden flex items-cneter justify-center">
+                {/* <div className="lg:hidden flex items-center justify-center">
                     <FontAwesomeIcon onClick={toggle} icon={faCircleUser} className="font-awesome-icon" />
-                </div>
+                </div> */}
 
                 <div>
                     <button className={`absolute top-12 left-0 z-30 w-[50px] min-h-[50px] max-h-[50px] flex flex-col bg-white 
                             ${transClass} rotate-45`}></button>
 
-                    <div className={`absolute top-12 -left-9  z-30 w-[120px] min-h-[120px] max-h-[150px] flex flex-col bg-white rounded-md ${transClass}`}>
+                    <div className={`absolute top-12 -left-7  z-30 w-[120px] min-h-[120px] max-h-[150px] flex flex-col bg-white rounded-md ${transClass}`}>
                         <p className="hover:bg-blue-100 duration-200 hover:text-zinv-500 px-4 py- border-b rounded p-3 text-left font-normal w-full">Account</p>
                         <Link href="/admin" className="hover:bg-blue-100 duration-200 hover:text-zinv-500 px-4 py- border-b rounded p-3 text-left font-normal w-full"
                             onClick={toggle}>Admin</Link>
