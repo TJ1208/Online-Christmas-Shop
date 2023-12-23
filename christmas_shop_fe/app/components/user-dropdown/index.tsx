@@ -21,13 +21,13 @@ export const UserDropdown = () => {
     return (
         <>
             <div className="relative">
-                <div className="flex items-center justify-center nav-button" onClick={toggle}>
+                <div className="hidden lg:flex items-center justify-center nav-button" onClick={toggle}>
                     <FontAwesomeIcon icon={faCircleUser} className="h-6 p-1" />
-                    <p className="hidden lg:flex truncate font-normal px-1 w-full text-start">Sign In</p>
+                    <p className="truncate font-normal px-1 w-full text-start">Sign In</p>
                 </div>
-                {/* <div className="lg:hidden flex items-center justify-center">
+                <div className="lg:hidden flex items-center justify-center">
                     <FontAwesomeIcon onClick={toggle} icon={faCircleUser} className="font-awesome-icon" />
-                </div> */}
+                </div>
 
                 <div>
                     <button className={`absolute top-12 left-0 z-30 w-[50px] min-h-[50px] max-h-[50px] flex flex-col bg-white 

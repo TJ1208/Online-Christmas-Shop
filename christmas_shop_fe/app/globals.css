@@ -41,7 +41,13 @@ body {
       rgb(59, 131, 246, 0.311) 40px);
 }
 
-p, input, label, textarea, th, td,  button {
+p,
+input,
+label,
+textarea,
+th,
+td,
+button {
   @apply md:text-base text-sm
 }
 
@@ -70,20 +76,121 @@ p, input, label, textarea, th, td,  button {
 }
 
 .input {
-  @apply p-2 bg-slate-200 w-full  px-2 border-b-2 rounded
-}
-
-.modal {
-  max-height: 90%;
-  @apply absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded p-5 flex flex-col md:w-96 w-72
-  
+  @apply p-2 bg-slate-200 w-full px-2 border-b-2 rounded
 }
 
 img, input, textarea {
   @apply resize-none focus:outline-4 focus:outline-blue-200
 }
 
-.modal-message {
-  max-height: 90%;
-  @apply absolute z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded p-5 text-center flex flex-col md:w-96 w-auto
+
+
+.side-menu {
+  position: absolute;
+  right: 50%;
+  @apply min-h-screen max-h-screen overflow-x-scroll bg-white rounded-md w-96;
+}
+
+.side-menu[open] {
+  animation: slide-right 1000ms forwards;
+}
+
+.side-menu[closing] {
+  display: block;
+  pointer-events: none;
+  animation: slide-left 500ms backwards;
+}
+
+.modal {
+  inset: 0;
+  background: #fff;
+  border: 0;
+  border-radius: 0.25rem;
+}
+
+.modal-backdrop {
+  @apply inset-0 bg-blue-100 bg-opacity-40;
+}
+
+.modal[open] {
+  animation: slide-up 1000ms forwards, fade-in 500ms forwards;
+}
+
+.modal-backdrop[open] {
+  @apply w-full min-h-screen;
+  animation: fade-in 500ms forwards;
+}
+
+.modal-backdrop[closing] {
+  display: block;
+  pointer-events: none;
+  inset: 0;
+  animation: fade-out 500ms forwards;
+}
+
+.modal[closing] {
+  display: block;
+  pointer-events: none;
+  inset: 0;
+  animation: slide-down 500ms forwards, fade-out 500ms forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slide-down {
+  100% {
+    transform: translateY(100%);
+  }
+
+  0% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slide-right {
+  100% {
+    transform: translateX(-0%);
+  }
+
+  0% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(-0%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
 }
