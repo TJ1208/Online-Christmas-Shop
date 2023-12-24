@@ -16,10 +16,6 @@ export const Navbar = () => {
                     </li>
                     <UserNavBar />
                     <AdminNavBar />
-
-
-
-
                 </ul>
             </nav>
         </>

@@ -1,3 +1,5 @@
+"use client"
+
 import { request } from "https";
 
 const GetToken = () => {

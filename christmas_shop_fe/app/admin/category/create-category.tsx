@@ -48,9 +48,11 @@ export function CreateCategory() {
 
 
     const CreateCategory = (categoryData: CategoryModel, imageData: ImageModel) => {
+        categoryData.name = categoryData.name.trim();
+        imageData.url = imageData.url.replaceAll(" ", "");
         imageData.create_time = getDate();
         FetchImage(imageData.url, categoryData.name);
-        imageData.url = `https://tjcoding.sirv.com/categories/${categoryData.name}.jpg`.replaceAll(' ', '%20');
+        imageData.url = `https://tjcoding.sirv.com/categories/${categoryData.name}.jpg`;
         addImage(imageData).then(result => {
             categoryData.image_id = result.image_id || 0;
             addCategory(categoryData).then((result) => {
@@ -59,7 +61,7 @@ export function CreateCategory() {
                 setShowMessage(old => !old)
                 setTimeout(() => {
                     setShowMessage(old => !old)
-                }, 5000)
+                }, 3000)
                 setImage({ url: "", create_time: "" })
                 setCategory({ name: "", image_id: 0 })
                 getAllCategories().then(() => {
@@ -78,22 +80,7 @@ export function CreateCategory() {
     return (
         <>
             <FontAwesomeIcon icon={faSquarePlus} className="hover:bg-green-200 hover:cursor-pointer text-green-700 nav-button" onClick={() => setShowForm(old => !old)} />
-            {
-                (showMessage && message.code == 201)
-                    ?
-                    <p className={`modal-message bg-green-100`}>Success!</p>
-                    :
-                    <>
-                    </>
-            }
-            {
-                (showMessage && message.code == 500)
-                    ?
-                    <p className={`modal-message bg-red-100`}>Error...</p>
-                    :
-                    <>
-                    </>
-            }
+
             <dialog open={showForm} className="modal z-40" id="modal">
 
 
@@ -109,20 +96,44 @@ export function CreateCategory() {
                         <label className="p-2">Name: </label>
                         <input type="text" name="name" value={category.name} placeholder="Category Name" className="input" onChange={changeHandler} />
                     </div>
-                    <div>
+                    <div className="flex flex-col">
                         <div className="flex items-center p-2">
                             <label className="p-2">Image:</label>
-                            <textarea name="url" value={image.url} placeholder="Image URL" className="input h-auto" onChange={changeHandlerImage} />
+                            <textarea name="url" value={image.url.trim()} placeholder="Image URL" className="input h-auto" onChange={changeHandlerImage} />
                         </div>
                         <div className="flex flex-col items-center p-2 border">
                             <label className="border-b w-full text-center">Preview</label>
                             <img src={image.url} alt="" className=" object-cover min-h-[180px] max-h-[180px]" />
                         </div>
-
                     </div>
-                    <button className={(image.url != "" && category.name != "") ? `w-full text-center nav-button shadow bg-slate-100`
-                        : `w-full text-center nav-button hover:bg-slate-100 bg-slate-100`}
-                        disabled={(image.url != "" && category.name != "") ? false : true} onClick={() => CreateCategory(category, image)}>Add</button>
+                    <div className="flex items-center justify-center">
+                        {
+                            showMessage && message.code == 201
+                                ?
+                                <>
+                                    <button className="shadow m-2 p-2 bg-green-100 hover:opacity-90 flex items-center justify-cente rounded">
+                                        <p>Category Added</p>
+                                        <img src="https://tjcoding.sirv.com/website-images/checkmark-circle-svgrepo-com.png" className="h-5 px-2" />
+                                    </button>
+                                </>
+
+
+                                :
+                                showMessage && message.code == 500
+                                    ?
+                                    <>
+                                        <button className="shadow m-2 p-2 bg-red-300 hover:opacity-90 flex items-center justify-center rounded">
+                                            <p>An Error Occurred</p>
+                                            <img src="https://tjcoding.sirv.com/website-images/error-circle-fail-failure-disallowed-x-cross-bad-svgrepo-com.png" className="h-5 px-2" />
+                                        </button>
+                                    </>
+                                    :
+                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={(image.url == "" || category.name == "")} onClick={() => CreateCategory(category, image)}>
+                                        Add Category
+                                    </button>
+                        }
+                    </div>
+
                 </div>
             </dialog>
 

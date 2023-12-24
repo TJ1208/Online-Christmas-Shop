@@ -1,5 +1,3 @@
-"use client"
-
 import GetToken from "../api/sirv-token";
 
 
