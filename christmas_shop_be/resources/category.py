@@ -3,7 +3,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from models.category import CategoryModel
 from resources.db import db
-from schemas import PlainCategorySchema, CategorySchema, UpdateCategorySchema
+from schemas import PlainCategorySchema, CategorySchema
 
 blp = Blueprint("CategoryModel", __name__, description="Operations on category")
 
@@ -15,18 +15,17 @@ class Category(MethodView):
     def get(self):
         return CategoryModel.query.all()
 
-    @blp.arguments(PlainCategorySchema)
+    @blp.arguments(CategorySchema)
     @blp.response(201)
     def post(self, category_data):
         category = CategoryModel(**category_data)
-
         try:
             db.session.add(category)
             db.session.commit()
-        except SQLAlchemyError:
-            abort(500, message="An error occurred while adding the category.")
+        except SQLAlchemyError as e:
+            return e
 
-        return {"message": f"{category.name} category has been added.", "code": 201}
+        return category
 
 
 @blp.route("/category/<string:name>")
@@ -67,6 +66,3 @@ class CategoryExt(MethodView):
             db.session.delete(category)
             db.session.commit()
             return {"message": f"{name} category has been deleted.", "status": 200}
-
-
-

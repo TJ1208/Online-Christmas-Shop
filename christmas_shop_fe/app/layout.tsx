@@ -24,7 +24,7 @@ export default function RootLayout({
 
       <body className={inter.className}>
         <Navbar />
-        <main className="flex flex-col items-center justify-between 2xl:px-96 lg:px-56 min-h-screen">
+        <main className="flex flex-col items-center 2xl:px-96 lg:px-56 min-h-screen">
           {children}
         </main>
         <Footer />

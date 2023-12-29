@@ -5,6 +5,7 @@ import { addImage } from "@/app/api/image";
 import CategoryModel from "@/app/models/category";
 import { ImageModel } from "@/app/models/image";
 import { FetchImage } from "@/app/scripts/fetch-image";
+import getDate from "@/app/scripts/get-current-date";
 import ModalToggle from "@/app/scripts/modal";
 import { faSquarePlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,8 +25,7 @@ export function CreateCategory() {
         create_time: ""
     })
     const [message, setMessage] = useState({
-        message: '',
-        code: 0
+        isError: false
     })
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,13 +51,12 @@ export function CreateCategory() {
         categoryData.name = categoryData.name.trim();
         imageData.url = imageData.url.replaceAll(" ", "");
         imageData.create_time = getDate();
-        FetchImage(imageData.url, categoryData.name);
+        FetchImage(imageData.url, categoryData.name, "categories");
         imageData.url = `https://tjcoding.sirv.com/categories/${categoryData.name}.jpg`;
         addImage(imageData).then(result => {
             categoryData.image_id = result.image_id || 0;
             addCategory(categoryData).then((result) => {
-                console.log(result);
-                setMessage({ message: result.message, code: result.code })
+                setMessage({ isError: result.name == undefined ? true : false })
                 setShowMessage(old => !old)
                 setTimeout(() => {
                     setShowMessage(old => !old)
@@ -69,12 +68,6 @@ export function CreateCategory() {
                 })
             })
         })
-    }
-
-
-    const getDate = () => {
-        return new Date().toJSON()
-            .substring(0, new Date().toJSON().indexOf("T"))
     }
 
     return (
@@ -108,7 +101,7 @@ export function CreateCategory() {
                     </div>
                     <div className="flex items-center justify-center">
                         {
-                            showMessage && message.code == 201
+                            showMessage && !message.isError
                                 ?
                                 <>
                                     <button className="shadow m-2 p-2 bg-green-100 hover:opacity-90 flex items-center justify-cente rounded">
@@ -117,9 +110,9 @@ export function CreateCategory() {
                                     </button>
                                 </>
 
-
+                                
                                 :
-                                showMessage && message.code == 500
+                                showMessage && message.isError
                                     ?
                                     <>
                                         <button className="shadow m-2 p-2 bg-red-300 hover:opacity-90 flex items-center justify-center rounded">

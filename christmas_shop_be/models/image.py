@@ -1,3 +1,5 @@
+from sqlalchemy.orm import backref
+
 from resources.db import db
 
 

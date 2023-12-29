@@ -1,4 +1,4 @@
-export const DeleteImage = (name: string) => {
+export const DeleteImage = (name: string, fileName: string) => {
 
     var http = require("https");
     let token = localStorage.getItem("user-token");
@@ -6,7 +6,7 @@ export const DeleteImage = (name: string) => {
         "method": "POST",
         "hostname": "api.sirv.com",
         "port": null,
-        "path": `/v2/files/delete?filename=%2Fcategories%2F${name}.jpg`,
+        "path": `/v2/files/delete?filename=%2F${fileName}%2F${name}.jpg`,
         "headers": {
             "content-type": "application/json",
             "authorization": "Bearer " + token

@@ -35,7 +35,7 @@ export const Home = () => {
 
           products.map((product: ProductModel) =>
             <div key={product.product_id} className="flex flex-col px-2 hover:underline hover:cursor-pointer">
-              {product.images.map((image: ImageModel) =>
+              {product.images?.map((image: ImageModel) =>
                 <img key={image.image_id} src={image.url} className="object-cover border shadow" />)}
               <p className="text-sm rounded p-1 text-center font-light">{product.name}</p>
 

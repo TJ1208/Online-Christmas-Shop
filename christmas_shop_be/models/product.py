@@ -5,7 +5,7 @@ class ProductModel(db.Model):
     __tablename__ = "product"
 
     product_id = db.Column(db.BigInteger, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False, unique=True)
     price = db.Column(db.Float(precision=2), nullable=False)
     sale_price = db.Column(db.Float(precision=2))
     description = db.Column(db.String(255), nullable=False)

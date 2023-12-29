@@ -1,4 +1,4 @@
-export const FetchImage = (url: string, name: string) => {
+export const FetchImage = (url: string, name: string, fileName: string) => {
     var http = require("https");
     let newUrl = "";
     var token = localStorage.getItem("user-token");
@@ -32,7 +32,7 @@ export const FetchImage = (url: string, name: string) => {
         });
     });
 
-    req.write(`[{\"url\":\"${url}\",\"filename\":\"/categories/${name}.jpg\"}]`);
+    req.write(`[{\"url\":\"${url}\",\"filename\":\"/${fileName}/${name}.jpg\"}]`);
     req.end();
 
 }
