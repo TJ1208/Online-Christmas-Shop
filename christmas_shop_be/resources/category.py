@@ -15,8 +15,8 @@ class Category(MethodView):
     def get(self):
         return CategoryModel.query.all()
 
-    @blp.arguments(CategorySchema)
-    @blp.response(201)
+    @blp.arguments(PlainCategorySchema)
+    @blp.response(201, CategorySchema)
     def post(self, category_data):
         category = CategoryModel(**category_data)
         try:
@@ -43,16 +43,19 @@ class CategoryExt(MethodView):
     @blp.arguments(PlainCategorySchema)
     @blp.response(201, CategorySchema)
     def put(self, category_data, name):
-
-        category = CategoryModel.query.filter(CategoryModel.name == name).first()
-        if not category:
-            abort(404,
-                  message=f"No category exists with the name: {name}")
-        else:
-            category.name = category_data["name"]
-
-        db.session.add(category)
-        db.session.commit()
+        try:
+            category = CategoryModel.query.filter(CategoryModel.name == name).first()
+            if not category:
+                abort(404,
+                      message=f"No category exists with the name: {name}")
+            else:
+                category.name = category_data["name"]
+                category.image_id = category_data["image_id"]
+            db.session.add(category)
+            db.session.commit()
+        except SQLAlchemyError:
+            abort(500,
+                  message=f"Category name, {category_data['name']}, already exists")
 
         return category
 

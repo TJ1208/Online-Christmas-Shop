@@ -28,7 +28,7 @@ const AdminCategory = async () => {
                             </div></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="overflow-y-scroll">
                     {
                         categories.map((category: CategoryModel, i: number) => (
                             <tr className="hover:bg-blue-50 cell" key={i}>

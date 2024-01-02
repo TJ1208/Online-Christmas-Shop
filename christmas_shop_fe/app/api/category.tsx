@@ -24,7 +24,7 @@ export const  addCategory = async (category: CategoryModel): Promise<CategoryMod
 
 export const  updateCategory = async (category: CategoryModel, name: string): Promise<CategoryModel> => {
     const response = await fetch(`http://localhost:5000/category/${name}`, {
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(category),
         headers: {
             'Content-type': 'application/json; charset=UTF-8'

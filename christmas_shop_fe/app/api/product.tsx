@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { ProductModel } from "../models/product";
-import CategoryModel from "../models/category";
 import { ProductImageModel } from "../models/product_image";
 
 export const getAllProducts = async (): Promise<ProductModel[]> => {
@@ -42,6 +41,28 @@ export const addProductToImage = async (productImage: ProductImageModel): Promis
     const response = await fetch(`http://localhost:5000/product_image`, {
         method: 'POST',
         body: JSON.stringify(productImage),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    });
+    return response.json();
+}
+
+export const deleteProductToImage = async(productId: number, imageId: number): Promise<string> => {
+    const response = await fetch(`http://localhost:5000/product_image/${productId}/${imageId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    });
+    return response.json();
+}
+
+
+export const updateProduct = async (product: ProductModel, id: number): Promise<ProductModel> => {
+    const response = await fetch(`http://localhost:5000/product/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(product),
         headers: {
             'Content-type': 'application/json; charset=UTF-8'
         }

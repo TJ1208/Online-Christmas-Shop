@@ -41,17 +41,20 @@ class ProductExt(MethodView):
     @blp.arguments(UpdateProductSchema)
     @blp.response(201, ProductSchema)
     def put(self, product_data, product_id):
+        try:
+            product = ProductModel.query.get_or_404(product_id,
+                                                    description=f"No product exists with the id: {product_id}")
+            product.name = product_data["name"]
+            product.price = product_data["price"]
+            product.sale_price = product_data["sale_price"]
+            product.description = product_data["description"]
+            product.category_id = product_data["category_id"]
 
-        product = ProductModel.query.get_or_404(product_id,
-                                                description=f"No product exists with the id: {product_id}")
-        product.name = product_data["name"]
-        product.price = product_data["price"]
-        product.sale_price = product_data["sale_price"]
-        product.description = product_data["description"]
-        product.category_id = product_data["category_id"]
-
-        db.session.add(product)
-        db.session.commit()
+            db.session.add(product)
+            db.session.commit()
+        except SQLAlchemyError:
+            abort(500,
+                  message=f"Category name, {product_data['name']}, already exists")
 
         return product
 

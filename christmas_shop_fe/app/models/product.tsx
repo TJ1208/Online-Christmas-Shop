@@ -7,6 +7,6 @@ export interface ProductModel {
     price: number;
     sale_price: number;
     images?: ImageModel[];
-    create_time: string;
+    create_time?: string;
     category_id: number;
 }

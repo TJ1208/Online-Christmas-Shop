@@ -20,7 +20,7 @@ class UpdateUserSchema(Schema):
 class PlainCategorySchema(Schema):
     category_id = fields.Integer()
     name = fields.String(require=True)
-    image_id = fields.Integer()
+    image_id = fields.Integer(require=True)
 
 
 class UpdateCategorySchema(Schema):
