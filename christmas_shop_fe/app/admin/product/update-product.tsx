@@ -18,10 +18,9 @@ export function UpdateProductButton(product: ProductModel) {
     const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false);
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [productUpdate, setProductUpdate] = useState<ProductModel>(product);
-    const [image, setImage] = useState<ImageModel>(product.images![0]);
+    const [image, setImage] = useState<any>(product.images!.length == 0 ? product.images![0] = {image_id: 0, create_time: "", url: ""} : product.images![0]);
     const [message, setMessage] = useState({ isError: false });
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch(`http://localhost:5000/category`);
@@ -141,7 +140,7 @@ export function UpdateProductButton(product: ProductModel) {
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Image(s): </label>
-                        <textarea name="url" value={image.url} placeholder="Image URL" className="input" onChange={changeHandlerImage} />
+                        <textarea name="url" value={product.images!.length == 0 ? "" : image.url} placeholder="Image URL" className="input" onChange={changeHandlerImage} />
                     </div>
                     <div className="flex items-center justify-center">
                         {
@@ -165,7 +164,8 @@ export function UpdateProductButton(product: ProductModel) {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={(productUpdate.name == "" || productUpdate.description == "" || image.url == ""
+                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={(productUpdate.name == "" || productUpdate.description == "" || 
+                                    (product.images!.length == 0 ? false : image.url == "")
                                         || productUpdate.price <= 0 || productUpdate.sale_price < 0 || productUpdate.category_id == 0)} onClick={() => UpdateProduct(product, image)}>
                                         Update Product
                                     </button>

@@ -44,21 +44,25 @@ class UserExt(MethodView):
     @blp.arguments(UpdateUserSchema)
     @blp.response(201, PlainUserSchema)
     def put(self, user_data, email):
+        try:
+            user = UserModel.query.filter(UserModel.email == email).first()
+            if not user:
+                # user = UserModel(**user_data)
+                abort(404,
+                      message=f"No account exists with the email {email}")
+            else:
+                user.username = user_data["username"]
+                user.email = user_data["email"]
+                user.password = user_data["password"]
+                user.create_time = user.create_time
+                user.age = user_data["age"]
+                user.role_id = user_data["role_id"]
 
-        user = UserModel.query.filter(UserModel.email == email).first()
-        if not user:
-            # user = UserModel(**user_data)
-            abort(404,
-                  message=f"No account exists with the email {email}")
-        else:
-            user.username = user_data["username"]
-            user.email = user_data["email"]
-            user.password = user_data["password"]
-            user.create_time = user.create_time
-            user.age = user_data["age"]
-
-        db.session.add(user)
-        db.session.commit()
+            db.session.add(user)
+            db.session.commit()
+        except SQLAlchemyError:
+            abort(500,
+                  message=f"An account already exists with the email: {user_data['email']}")
 
         return user
 

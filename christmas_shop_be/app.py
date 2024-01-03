@@ -4,6 +4,7 @@ from flask import Flask
 from models import *
 from flask_smorest import Api
 from resources.user import blp as UserBlueprint
+from resources.role import blp as RoleBlueprint
 from resources.category import blp as CategoryBlueprint
 from resources.image import blp as ImageBlueprint
 from resources.order import blp as OrderBlueprint
@@ -33,6 +34,7 @@ def create_app(db_url=None):
     api = Api(app)
 
     api.register_blueprint(UserBlueprint)
+    api.register_blueprint(RoleBlueprint)
     api.register_blueprint(CategoryBlueprint)
     api.register_blueprint(ImageBlueprint)
     api.register_blueprint(OrderBlueprint)

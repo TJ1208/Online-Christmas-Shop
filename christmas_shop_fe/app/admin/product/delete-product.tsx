@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const DeleteProduct = (product: ProductModel) => {
+export const DeleteProductButton = (product: ProductModel) => {
     const [showDeleteMessage, setShowDeleteMessage] = useState<boolean>(false);
     let router = useRouter();
 
@@ -50,4 +50,4 @@ export const DeleteProduct = (product: ProductModel) => {
     )
 }
 
-export default DeleteProduct;
+export default DeleteProductButton;

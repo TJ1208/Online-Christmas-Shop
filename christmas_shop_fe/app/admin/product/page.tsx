@@ -1,6 +1,6 @@
 import { getAllProducts } from "@/app/api/product";
 import CreateProduct from "./create-product";
-import DeleteProduct from "./delete-product";
+import { DeleteProductButton } from "./delete-product";
 import { ProductModel } from "@/app/models/product";
 import UpdateProductButton from "./update-product";
 import getAllCategories from "@/app/api/category";
@@ -11,7 +11,7 @@ const AdminProduct = async () => {
     const categories = await getAllCategories();
     return (
         <>
-            <div className=" overflow-x-auto">
+            <div className="overflow-x-auto">
                 <table className="text-left border">
                     <caption className="caption-top p-5 font-semibold">
                         Products
@@ -39,14 +39,15 @@ const AdminProduct = async () => {
                     <tbody>
                         {
                             products.map((product: ProductModel, i: number) => (
+                                
                                 <tr className="hover:bg-blue-50 cell" key={i}>
-                                    <td className="p-2">{i + 1}</td>
-                                    <td>{product.name}</td>
-                                    <td>{product.description}</td>
-                                    <td>{product.price}</td>
-                                    <td>{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
-                                    <td>{categories.find((category) => category.category_id == product.category_id)!.name}</td>
-                                    <td>
+                                    <td className="px-2 pt-1">{i + 1}</td>
+                                    <td className="px-2 pt-1">{product.name}</td>
+                                    <td className="px-2 pt-1 sm:min-w-fit min-w-[250px]">{product.description}</td>
+                                    <td className="px-2 pt-1">{product.price}</td>
+                                    <td className="px-2 pt-1">{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
+                                    <td className="px-2 pt-1">{categories.find((category) => category.category_id == product.category_id)!.name}</td>
+                                    <td className="px-2 pt-1">
                                         <div className="flex">
                                             <UpdateProductImageButton {...product}/>
                                             {/* {
@@ -57,7 +58,7 @@ const AdminProduct = async () => {
                                                 <>
                                                 </>
                                         } */}
-
+                                        
                                         </div>
                                     </td>
 
@@ -67,7 +68,7 @@ const AdminProduct = async () => {
                                                 <UpdateProductButton {...product} />
                                             </div>
                                             <div>
-                                                <DeleteProduct {...product} />
+                                                <DeleteProductButton {...product} />
                                             </div>
                                         </div>
                                     </td>
