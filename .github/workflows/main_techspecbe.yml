@@ -48,6 +48,9 @@ jobs:
             release.zip
             !venv/
 
+      - name: Run Program
+        run: flask run
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -72,6 +75,3 @@ jobs:
           app-name: 'TechSpecBE'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1567090291C24DCDB151FC4484800759 }}
-
-      - name: Run Program
-        run: flask run
