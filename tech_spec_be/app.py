@@ -57,7 +57,12 @@ def create_app(db_url=None):
     bcrypt.init_app(app)
     jwt.init_app(app)
     cors.init_app(app)
+    app = app
     with app.app_context():
         db.create_all()
 
     return app
+
+
+if __name__ == "__main__":
+    create_app()
