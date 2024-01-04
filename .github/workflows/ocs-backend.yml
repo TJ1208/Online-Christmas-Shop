@@ -10,7 +10,8 @@ on:
       - 'main'
     paths:
       - 'tech_spec_be/**'
-
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +31,7 @@ jobs:
           source venv/bin/activate
 
       - name: Set up dependency caching for faster installs
-        uses: actions/cahce@v3
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
