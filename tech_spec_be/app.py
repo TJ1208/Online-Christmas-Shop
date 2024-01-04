@@ -17,7 +17,7 @@ from resources.product_image import blp as ProductImageBlueprint
 from resources.jwt_token import blp as JwtTokenBlueprint
 
 from flask_cors import CORS
-cors = CORS()
+cors = CORS() 
 
 
 def create_app(db_url=None):
