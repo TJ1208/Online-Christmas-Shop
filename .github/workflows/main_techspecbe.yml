@@ -49,7 +49,9 @@ jobs:
             !venv/
 
       - name: Run Program
-        run: flask run
+        run: |
+          cd tech_spec_be
+          flask run
 
   deploy:
     runs-on: ubuntu-latest
