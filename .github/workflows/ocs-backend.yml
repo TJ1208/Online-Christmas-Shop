@@ -53,9 +53,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: python-app
-          path: |
-            .
-            !venv/
+          path: '${{ github.workspace }}/tech_spec_be/app.py'
+          # path: |
+          #   .
+          #   !venv/
 
   deploy:
     permissions:
