@@ -54,4 +54,3 @@ def login_user():
     else:
         abort(400,
               message=f"Password entered was incorrect.")
-
