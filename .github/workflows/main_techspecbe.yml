@@ -34,7 +34,6 @@ jobs:
         run: |
           cd tech_spec_be
           pip install -r requirements.txt
-          flask run
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
