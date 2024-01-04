@@ -1,0 +1,9 @@
+name: ocs-backend-action
+
+on: 
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'christmas-shop-be/**'
+  
