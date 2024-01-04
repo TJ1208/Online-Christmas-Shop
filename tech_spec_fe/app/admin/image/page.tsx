@@ -3,13 +3,13 @@ import { ImageModel } from "@/app/models/image";
 import DeleteImageButton from "./delete-image";
 import CreateImage from "./create-image";
 
-export const AdminImage = async () => {
+const AdminImage = async () => {
     const images = await getAllImages();
 
     return (
         <>
             <div className="w-full overflow-x-auto">
-                <table className="text-left border">
+                <table className="w-full text-left border">
                     <caption className="caption-top p-5 font-semibold">
                         Images
                         {

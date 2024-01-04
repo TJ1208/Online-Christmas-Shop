@@ -11,8 +11,8 @@ const AdminProduct = async () => {
     const categories = await getAllCategories();
     return (
         <>
-            <div className="overflow-x-auto">
-                <table className="text-left border">
+            <div className="w-full overflow-x-auto">
+                <table className="w-full text-left border">
                     <caption className="caption-top p-5 font-semibold">
                         Products
                         {
