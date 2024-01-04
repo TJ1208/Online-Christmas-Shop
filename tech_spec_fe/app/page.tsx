@@ -5,7 +5,7 @@ import { ProductModel } from "./models/product"
 import { LoadingCompoent } from "./components/loading-component";
 import { ImageModel } from "./models/image";
 
-export const Home = () => {
+const Home = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
