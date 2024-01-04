@@ -41,13 +41,13 @@ const AdminProduct = async () => {
                             products.map((product: ProductModel, i: number) => (
                                 
                                 <tr className="hover:bg-blue-50 cell" key={i}>
-                                    <td className="px-2 pt-1">{i + 1}</td>
-                                    <td className="px-2 pt-1">{product.name}</td>
-                                    <td className="px-2 pt-1 sm:min-w-fit min-w-[250px]">{product.description}</td>
-                                    <td className="px-2 pt-1">{product.price}</td>
-                                    <td className="px-2 pt-1">{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
-                                    <td className="px-2 pt-1">{categories.find((category) => category.category_id == product.category_id)!.name}</td>
-                                    <td className="px-2 pt-1">
+                                    <td className="p-2">{i + 1}</td>
+                                    <td className="p-2">{product.name}</td>
+                                    <td className="p-2 sm:min-w-fit min-w-[250px]">{product.description}</td>
+                                    <td className="p-2">{product.price}</td>
+                                    <td className="p-2">{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
+                                    <td className="p-2">{categories.find((category) => category.category_id == product.category_id)!.name}</td>
+                                    <td className="p-2">
                                         <div className="flex">
                                             <UpdateProductImageButton {...product}/>
                                             {/* {

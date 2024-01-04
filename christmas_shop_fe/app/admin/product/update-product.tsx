@@ -175,7 +175,7 @@ export function UpdateProductButton(product: ProductModel) {
                 </div>
             </dialog>
 
-            <dialog open={showUpdateForm} className="modal-backdrop4 z-30" id="modal-backdrop" onClick={toggleModal} />
+            <dialog open={showUpdateForm} className="modal-backdrop z-30" id="modal-backdrop4" onClick={toggleModal} />
         </>
     )
 }

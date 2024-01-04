@@ -78,9 +78,9 @@ export const CreateProduct = () => {
             create_time: getDate(),
             category_id: productData.category_id
         };
-        FetchImage(imageData.url, productData.name, "products");
+        FetchImage(imageData.url, productData.name.replaceAll(" ", ""), "products");
         imageData = {
-            url: `https://tjcoding.sirv.com/products/${productData.name}.jpg`,
+            url: `https://tjcoding.sirv.com/products/${productData.name.replaceAll(" ", "")}.jpg`,
             create_time: getDate()
         }
         addImage(imageData).then((resultImage) => {

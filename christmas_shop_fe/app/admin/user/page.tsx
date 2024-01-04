@@ -1,49 +1,53 @@
-import CategoryModel from "../../models/category";
-import CreateCategory from "@/app/admin/category/create-category";
-import { DeleteCategoryButton } from "./delete-category";
-import { getAllCategories } from "@/app/api/category";
-import { UpdateCategoryButton } from "./update-category";
+import { getAllUsers } from "@/app/api/user";
+import { UserModel } from "@/app/models/user";
+import { UpdateUserButton } from "./update-user";
+import { DeleteUserButton } from "./delete-user";
+import CreateUser from "./create-user";
 
-const AdminCategory = async () => {
-    const categories = await getAllCategories();
+export const AdminUser = async () => {
+    const users = await getAllUsers();
     return (
         <>
             <div className="w-full overflow-x-auto">
                 <table className="w-full text-left border">
                     <caption className="caption-top p-5 font-semibold">
-                        Categories
+                        Users
                         {
-                            <p>({categories.length})</p>
+                            <p>({users.length})</p>
                         }
                     </caption>
 
                     <thead className="bg-blue-100">
                         <tr>
                             <th className="font-semibold px-2">#</th>
-                            <th className="font-semibold px-2">Name</th>
-                            <th className="font-semibold px-2">Image</th>
+                            <th className="font-semibold px-2">Username</th>
+                            <th className="font-semibold px-2">Email</th>
+                            <th className="font-semibold px-2">Age</th>
+                            <th className="font-semibold px-2">Registered</th>
                             <th className="font-semibold px-2">
                                 <div className="flex w-full justify-between items-center">
                                     <p>Actions</p>
-                                    <CreateCategory />
+                                    <CreateUser />
                                 </div>
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="overflow-y-scroll">
+                    <tbody>
                         {
-                            categories.map((category: CategoryModel, i: number) => (
+                            users.map((user: UserModel, i: number) => (
                                 <tr className="hover:bg-blue-50 cell" key={i}>
                                     <td className="p-2">{i + 1}</td>
-                                    <td className="p-2">{category.name}</td>
-                                    <td className="p-2"><img src={category.image?.url} alt="Category Image" className="w-16 object-cover rounded" /></td>
-                                    <td className="p-2">
+                                    <td className="p-2">{user.username}</td>
+                                    <td className="p-2">{user.email}</td>
+                                    <td className="p-2">{user.age}</td>
+                                    <td className="p-2">{user.create_time!}</td>
+                                    <td>
                                         <div className="flex items-center">
                                             <div className="p-1">
-                                                <UpdateCategoryButton {...category} />
+                                                <UpdateUserButton {...user} />
                                             </div>
                                             <div>
-                                                <DeleteCategoryButton {...category} />
+                                                <DeleteUserButton {...user} />
                                             </div>
                                         </div>
                                     </td>
@@ -57,5 +61,4 @@ const AdminCategory = async () => {
     )
 }
 
-
-export default AdminCategory;
+export default AdminUser;

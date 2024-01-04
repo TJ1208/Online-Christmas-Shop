@@ -1,8 +1,11 @@
+from flask import jsonify, request
 from flask.views import MethodView
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt, set_access_cookies, create_refresh_token, \
+    get_jwt_identity, set_refresh_cookies
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from models.user import UserModel
-from resources.db import db
+from resources.db import db, bcrypt
 from schemas import PlainUserSchema, UpdateUserSchema
 
 blp = Blueprint("UserModel", __name__, description="Operations on user")
@@ -19,6 +22,7 @@ class User(MethodView):
     @blp.response(201, PlainUserSchema)
     def post(self, user_data):
         user = UserModel(**user_data)
+        user.password = bcrypt.generate_password_hash(user.password).decode('utf-8')
 
         try:
             db.session.add(user)
@@ -53,7 +57,7 @@ class UserExt(MethodView):
             else:
                 user.username = user_data["username"]
                 user.email = user_data["email"]
-                user.password = user_data["password"]
+                user.password = bcrypt.generate_password_hash(user_data["password"]).decode('utf-8')
                 user.create_time = user.create_time
                 user.age = user_data["age"]
                 user.role_id = user_data["role_id"]
@@ -76,5 +80,3 @@ class UserExt(MethodView):
             db.session.delete(user)
             db.session.commit()
             return f"Account registered with the email, {email}, has been removed."
-
-
