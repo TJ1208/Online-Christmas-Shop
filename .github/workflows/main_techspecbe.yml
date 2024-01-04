@@ -44,6 +44,7 @@ jobs:
         with:
           name: python-app
           path: |
+            cd tech_spec_be
             release.zip
             !venv/
 
