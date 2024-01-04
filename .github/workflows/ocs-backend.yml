@@ -19,6 +19,8 @@ env:
 on:
   push:
     branches: [ "main" ]
+    paths: 
+      'tech_spec_be'
   workflow_dispatch:
 
 permissions:
