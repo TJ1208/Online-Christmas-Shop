@@ -1,6 +1,6 @@
 import { getAllProducts } from "@/app/api/product";
 import CreateProduct from "./create-product";
-import { DeleteProductButton } from "./delete-product";
+import DeleteProductButton  from "./delete-product";
 import { ProductModel } from "@/app/models/product";
 import UpdateProductButton from "./update-product";
 import getAllCategories from "@/app/api/category";

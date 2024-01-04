@@ -3,7 +3,7 @@
 import { ChangeEvent, useState } from "react";
 import { login } from "../api/user";
 
-export const Admin = () => {
+const Admin = () => {
     const [data, setData] = useState({
         email: "",
         password: ""

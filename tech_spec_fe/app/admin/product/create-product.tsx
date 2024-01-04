@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
-export const CreateProduct = () => {
+const CreateProduct = () => {
     let router = useRouter();
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);

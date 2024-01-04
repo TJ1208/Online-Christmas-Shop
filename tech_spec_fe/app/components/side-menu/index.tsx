@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import ModalToggle from "@/app/scripts/modal";
 
-export const SideMenu = () => {
+const SideMenu = () => {
     const path = usePathname();
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);

@@ -1,7 +1,7 @@
 import GetToken from "../api/sirv-token";
 
 
-export const Footer = () => {
+const Footer = () => {
     return (
         <>
             <div className="flex mt-5">

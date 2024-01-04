@@ -4,7 +4,7 @@ import { UpdateUserButton } from "./update-user";
 import { DeleteUserButton } from "./delete-user";
 import CreateUser from "./create-user";
 
-export const AdminUser = async () => {
+const AdminUser = async () => {
     const users = await getAllUsers();
     return (
         <>
