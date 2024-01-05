@@ -68,7 +68,6 @@ jobs:
           sudo apt update
           sudo apt upgrade
           sudo apt-get install python3-venv
-          sudo apt-get install ensurepip --upgrade
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
