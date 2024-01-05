@@ -64,6 +64,12 @@ jobs:
         with:
           name: python-app
 
+      - name: Install pip venv
+        run: |
+          sudo apt-get install python3-pip
+          sudo apt-get install python3-venv
+          python -m ensurepip --upgrade
+
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
