@@ -24,10 +24,13 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install needed venv package
+        run: sudo apt-get install python3-venv
+
       - name: Create and start virtual environment
         run: |
           cd tech_spec_be
-          python3 -m venv venv
+          python -m venv venv
           source venv/bin/activate
       
       - name: Install dependencies
