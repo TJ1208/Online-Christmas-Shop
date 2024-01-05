@@ -35,7 +35,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL"
                                                   , "mysql+pymysql://tjcoding:WakeID12!!@techspecdatabase.mysql.database.azure.com/tech_spec")
 app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
-app.config["JWT_COOKIE_SECURE"] = False
+app.config["JWT_COOKIE_SECURE"] = True
+app.config["JWT_COOKIE_SAMESITE"] = "None"
 app.config['CORS_SUPPORTS_CREDENTIALS'] = True
 
 api = Api(app)
