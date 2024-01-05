@@ -65,7 +65,8 @@ jobs:
 
       - name: Install pip venv
         run: |
-          python3.8 -m venv myvenv --without-pip --system-site-packages
+          sudo apt update
+          sudo apt upgrade
           sudo apt-get install python3.8-venv
           sude apt-get install ensurepip --upgrade
 
