@@ -65,7 +65,7 @@ jobs:
 
       - name: Install pip venv
         run: |
-          sudo apt-get install python3.9-pip --without-pip --system-site-packages
+          sudo apt-get install python3-pip --without-pip --system-site-packages
           sudo apt-get install python3.9-venv
           sude apt-get install ensurepip --upgrade
 
