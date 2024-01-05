@@ -17,10 +17,11 @@ from resources.product_image import blp as ProductImageBlueprint
 from resources.jwt_token import blp as JwtTokenBlueprint
 
 from flask_cors import CORS
+
 cors = CORS()
 
 app = Flask(__name__)
-# CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000"])
 # Exceptions in an extension of flask are propagated
 app.config["PROPAGATE_EXCEPTIONS"] = True
 # Title / Version of documentation
