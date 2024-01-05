@@ -32,7 +32,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           cd tech_spec_fe
-          zip release.zip ./* -r
+          zip release.zip ./* .next -qr
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -62,8 +62,8 @@ jobs:
         with:
           app-name: 'techspec'
           slot-name: 'Production'
-          package: release.zip
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0D7F4DC6519F4A14BC0D04C0EB7BAAB5 }}
+          package: release.zip
 
       - name: Delete zip file
         run: rm release.zip
