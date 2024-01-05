@@ -27,7 +27,7 @@ jobs:
       - name: Create and start virtual environment
         run: |
           cd tech_spec_be
-          sudo apt-get install python3-pip
+          sudo apt-get install python3.9-pip --without-pip --system-site-packages
           sudo apt-get install python3-venv
           python -m ensurepip --upgrade
       
@@ -66,9 +66,9 @@ jobs:
 
       - name: Install pip venv
         run: |
-          sudo apt-get install python3-pip
-          sudo apt-get install python3-venv
-          python -m ensurepip --upgrade
+          sudo apt-get install python3.9-pip --without-pip --system-site-packages
+          sudo apt-get install python3.9-venv
+          sude apt-get install ensurepip --upgrade
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
