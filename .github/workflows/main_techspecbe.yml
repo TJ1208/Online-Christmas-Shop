@@ -27,7 +27,7 @@ jobs:
       - name: Create and start virtual environment
         run: |
           cd tech_spec_be
-          python -m venv venv
+          python -m venv venv --without-pip
           source venv/bin/activate
       
       - name: Install dependencies
@@ -58,9 +58,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
-      - name: Install needed venv package
-        run: sudo apt-get install python3-venv
-        
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
