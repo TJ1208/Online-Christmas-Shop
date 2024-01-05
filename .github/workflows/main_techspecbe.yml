@@ -27,8 +27,7 @@ jobs:
       - name: Create and start virtual environment
         run: |
           cd tech_spec_be
-          sudo apt-get install python3.9-pip --without-pip --system-site-packages
-          sudo apt-get install python3-venv
+          python3 -m venv venv --without-pip --system-site-packages
           python -m ensurepip --upgrade
       
       - name: Install dependencies
