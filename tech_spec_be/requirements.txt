@@ -6,3 +6,4 @@ flask-cors
 flask-Bcrypt
 flask-SQLAlchemy
 flask-jwt-extended
+pymysql
