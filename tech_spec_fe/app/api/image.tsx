@@ -1,7 +1,7 @@
 import { ImageModel } from "../models/image";
 
 export const getAllImages = async (): Promise<ImageModel[]> => {
-    const response = await fetch(`https://techspecbe.azurewebsites.net/image`, {
+    const response = await fetch(`http://localhost:5000/image`, {
         next: {
             revalidate: 0
         },
@@ -14,7 +14,7 @@ export const getAllImages = async (): Promise<ImageModel[]> => {
 }
 
 export const addImage = async (image: ImageModel): Promise<ImageModel> => {
-    const response = await fetch('https://techspecbe.azurewebsites.net/image', {
+    const response = await fetch('http://localhost:5000/image', {
         method: 'POST',
         body: JSON.stringify(image),
         headers: {
@@ -26,7 +26,7 @@ export const addImage = async (image: ImageModel): Promise<ImageModel> => {
 }
 
 export const deleteImage = async (id: number): Promise<string> => {
-    const response = await fetch(`https://techspecbe.azurewebsites.net/image/${id}`, {
+    const response = await fetch(`http://localhost:5000/image/${id}`, {
         method: 'DELETE',
         body: JSON.stringify(id),
         headers: {

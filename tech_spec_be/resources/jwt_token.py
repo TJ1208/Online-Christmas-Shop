@@ -42,15 +42,7 @@ def login_user():
         response = jsonify(access_token=access_token, refresh_token=refresh_token)
         set_access_cookies(response, access_token)
         set_refresh_cookies(response, refresh_token)
-        return jsonify(
-            {
-                "message": "Logged In",
-                "tokens": {
-                    "access": access_token,
-                    "refresh": refresh_token
-                }
-            }
-        ), 200
+        return response, 200
     else:
         abort(400,
               message=f"Password entered was incorrect.")
