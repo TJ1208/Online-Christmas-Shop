@@ -17,52 +17,44 @@ from resources.product_image import blp as ProductImageBlueprint
 from resources.jwt_token import blp as JwtTokenBlueprint
 
 from flask_cors import CORS
-cors = CORS() 
+cors = CORS()
 
+app = Flask(__name__)
+# CORS(app, origins=["http://localhost:3000"])
+# Exceptions in an extension of flask are propagated
+app.config["PROPAGATE_EXCEPTIONS"] = True
+# Title / Version of documentation
+app.config["API_TITLE"] = "Tech Spec Rest API"
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URI_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URI"] = "https://github.com/swagger-api/swagger-ui/dist"
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL"
+                                                            , "mysql+pymysql://tjcoding:WakeID12!!@techspecdatabase.mysql.database.azure.com/tech_spec")
+app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+app.config["JWT_COOKIE_SECURE"] = False
+app.config['CORS_SUPPORTS_CREDENTIALS'] = True
 
-def create_app(db_url=None):
-    app = Flask(__name__)
-    # CORS(app, origins=["http://localhost:3000"])
-    # Exceptions in an extension of flask are propagated
-    app.config["PROPAGATE_EXCEPTIONS"] = True
-    # Title / Version of documentation
-    app.config["API_TITLE"] = "Tech Spec Rest API"
-    app.config["API_VERSION"] = "v1"
-    app.config["OPENAPI_VERSION"] = "3.0.3"
-    app.config["OPENAPI_URI_PREFIX"] = "/"
-    app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
-    app.config["OPENAPI_SWAGGER_UI_URI"] = "https://github.com/swagger-api/swagger-ui/dist"
-    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL"
-                                                                , "mysql+pymysql://tjcoding:WakeID12!!@techspecdatabase.mysql.database.azure.com/tech_spec")
-    app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
-    app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
-    app.config["JWT_COOKIE_SECURE"] = False
-    app.config['CORS_SUPPORTS_CREDENTIALS'] = True
+api = Api(app)
 
-    api = Api(app)
+api.register_blueprint(UserBlueprint)
+api.register_blueprint(RoleBlueprint)
+api.register_blueprint(CategoryBlueprint)
+api.register_blueprint(ImageBlueprint)
+api.register_blueprint(OrderBlueprint)
+api.register_blueprint(OrderProductBlueprint)
+api.register_blueprint(OrderHistoryBlueprint)
+api.register_blueprint(OrderHistoryProductBlueprint)
+api.register_blueprint(ProductBlueprint)
+api.register_blueprint(ProductImageBlueprint)
+api.register_blueprint(JwtTokenBlueprint)
 
-    api.register_blueprint(UserBlueprint)
-    api.register_blueprint(RoleBlueprint)
-    api.register_blueprint(CategoryBlueprint)
-    api.register_blueprint(ImageBlueprint)
-    api.register_blueprint(OrderBlueprint)
-    api.register_blueprint(OrderProductBlueprint)
-    api.register_blueprint(OrderHistoryBlueprint)
-    api.register_blueprint(OrderHistoryProductBlueprint)
-    api.register_blueprint(ProductBlueprint)
-    api.register_blueprint(ProductImageBlueprint)
-    api.register_blueprint(JwtTokenBlueprint)
-
-    db.init_app(app)
-    bcrypt.init_app(app)
-    jwt.init_app(app)
-    cors.init_app(app)
-    app = app
-    with app.app_context():
-        db.create_all()
-
-    return app
-
-
-if __name__ == "__main__":
-    create_app()
+db.init_app(app)
+bcrypt.init_app(app)
+jwt.init_app(app)
+cors.init_app(app)
+app = app
+with app.app_context():
+    db.create_all()
