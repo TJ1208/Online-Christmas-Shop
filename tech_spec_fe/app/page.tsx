@@ -11,7 +11,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:5000https://techspecbe.azurewebsites.net/product");
+      const response = await fetch("https://techspecbe.azurewebsites.net/product");
       const products: ProductModel[] = await response.json();
       setProducts(products);
       setIsLoading(false);

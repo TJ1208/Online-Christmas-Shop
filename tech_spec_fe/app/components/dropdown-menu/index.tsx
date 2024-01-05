@@ -13,7 +13,7 @@ const DropdownMenu = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('http://localhost:5000https://techspecbe.azurewebsites.net/category');
+            const response = await fetch('https://techspecbe.azurewebsites.net/category');
             const categories = await response.json();
             setCategories(categories);
             setLoading(false);
