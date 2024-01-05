@@ -7,4 +7,4 @@ flask-Bcrypt
 flask-SQLAlchemy
 flask-jwt-extended
 pymysql
-flask_sqlalchemy
+flask-sqlalchemy
