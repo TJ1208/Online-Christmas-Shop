@@ -8,3 +8,4 @@ flask-SQLAlchemy
 SQLAlchemy
 flask-jwt-extended
 pymysql
+upgrade-ensurepip

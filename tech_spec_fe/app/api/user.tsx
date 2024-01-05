@@ -1,7 +1,7 @@
 import { UserModel } from "../models/user"
 
 export const login = async (data: {email:string, password:string}): Promise<any> => {
-    const response = await fetch(`http://localhost:5000/login`, {
+    const response = await fetch(`https://techspecbe.azurewebsites.net/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: "include",
@@ -17,7 +17,7 @@ export const login = async (data: {email:string, password:string}): Promise<any>
 }
 
 // export const getTokenClaims = async (): Promise<any> => {
-//     const response = await fetch(`http://localhost:5000/token`, {
+//     const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
 //         method: 'GET',
 //         headers: {
 //             'X-CSRF-TOKEN': getCookie('csrf_access_token'),
@@ -26,7 +26,7 @@ export const login = async (data: {email:string, password:string}): Promise<any>
 // }
 
 export const getAllUsers = async (): Promise<UserModel[]> => {
-    const response = await fetch(`http://localhost:5000/user`, {
+    const response = await fetch(`https://techspecbe.azurewebsites.net/user`, {
         next: {
             revalidate: 0
         }
@@ -35,7 +35,7 @@ export const getAllUsers = async (): Promise<UserModel[]> => {
 }
 
 export const registerUser = async (user: UserModel): Promise<UserModel> => {
-    const response = await fetch(`http://localhost:5000/user`, {
+    const response = await fetch(`https://techspecbe.azurewebsites.net/user`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -46,7 +46,7 @@ export const registerUser = async (user: UserModel): Promise<UserModel> => {
 }
 
 export const deleteUser = async (email: string): Promise<string> => {
-    const response = await fetch(`http://localhost:5000/user/${email}`, {
+    const response = await fetch(`https://techspecbe.azurewebsites.net/user/${email}`, {
         method: 'DELETE'
     });
     return response.json();
