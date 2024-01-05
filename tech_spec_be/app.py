@@ -21,7 +21,7 @@ from flask_cors import CORS
 cors = CORS()
 
 app = Flask(__name__)
-CORS(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000"])
+CORS(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000"], supports_credentials=True)
 # Exceptions in an extension of flask are propagated
 app.config["PROPAGATE_EXCEPTIONS"] = True
 # Title / Version of documentation
