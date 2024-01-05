@@ -29,7 +29,6 @@ jobs:
           cd tech_spec_be
           sudo apt-get install python3-pip
           sudo apt-get install python3-venv
-          source venv/bin/activate
       
       - name: Install dependencies
         run: |
