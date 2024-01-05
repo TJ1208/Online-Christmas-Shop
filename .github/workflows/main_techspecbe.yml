@@ -22,12 +22,12 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.8'
 
       - name: Create and start virtual environment
         run: |
           cd tech_spec_be
-          python3.9 -m venv venv --without-pip --system-site-packages
+          python3.8 -m venv venv --without-pip --system-site-packages
           python -m ensurepip --upgrade
       
       - name: Install dependencies
@@ -65,8 +65,8 @@ jobs:
 
       - name: Install pip venv
         run: |
-          python3.9 -m venv myvenv --without-pip --system-site-packages
-          sudo apt-get install python3.9-venv
+          python3.8 -m venv myvenv --without-pip --system-site-packages
+          sudo apt-get install python3.8-venv
           sude apt-get install ensurepip --upgrade
 
       - name: Unzip artifact for deployment
