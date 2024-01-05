@@ -4,7 +4,6 @@ python-dotenv
 marshmallow~=3.20.1
 flask-cors
 flask-Bcrypt
-flask-SQLAlchemy
+flask-sqlalchemy
 flask-jwt-extended
 pymysql
-flask-sqlalchemy
