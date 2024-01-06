@@ -9,7 +9,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Tech Spec',
+  title: 'TJ Tech Shop',
   description: 'Created by: Taylor Joostema',
 }
 
