@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      'tech_spec_be/**'
+      'TJTechSpecBE/**'
   workflow_dispatch:
 
 jobs:
@@ -31,14 +31,14 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd tech_spec_be
+          cd TJTechSpecBE
           pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
         run: |
-          cd tech_spec_be
+          cd TJTechSpecBE
           zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
@@ -46,7 +46,7 @@ jobs:
         with:
           name: python-app
           path: |
-            tech_spec_be/release.zip
+            TJTechSpecBE/release.zip
             !venv/
 
   deploy:
@@ -73,3 +73,6 @@ jobs:
           app-name: 'TechSpecBE'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_144332804062471F9CD4813D3F9061B5 }}
+
+      - name: Delete zip file
+        run: rm release.zip
