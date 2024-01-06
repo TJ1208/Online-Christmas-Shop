@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      'TJTechSpecBE/**'
+      'TJTechShopBE/**'
   workflow_dispatch:
 
 jobs:
@@ -31,14 +31,14 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd TJTechSpecBE
+          cd TJTechShopBE
           pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
         run: |
-          cd TJTechSpecBE
+          cd TJTechShopBE
           zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
@@ -46,7 +46,7 @@ jobs:
         with:
           name: python-app
           path: |
-            TJTechSpecBE/release.zip
+            TJTechShopBE/release.zip
             !venv/
 
   deploy:
