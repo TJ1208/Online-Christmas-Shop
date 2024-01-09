@@ -20,8 +20,10 @@ const AdminUser = async () => {
                     <thead className="bg-gray-600">
                         <tr>
                             <th className="font-semibold px-2">#</th>
-                            <th className="font-semibold px-2">Username</th>
+                            <th className="font-semibold px-2">First Name</th>
+                            <th className="font-semibold px-2">Last Name</th>
                             <th className="font-semibold px-2">Email</th>
+                            <th className="font-semibold px-2">Phone #</th>
                             <th className="font-semibold px-2">Age</th>
                             <th className="font-semibold px-2">Registered</th>
                             <th className="font-semibold px-2">
@@ -37,8 +39,10 @@ const AdminUser = async () => {
                             users.map((user: UserModel, i: number) => (
                                 <tr className="hover:bg-slate-600 cell" key={i}>
                                     <td className="p-2">{i + 1}</td>
-                                    <td className="p-2">{user.username}</td>
+                                    <td className="p-2">{user.first_name}</td>
+                                    <td className="p-2">{user.last_name}</td>
                                     <td className="p-2">{user.email}</td>
+                                    <td className="p-2">{user.phone_number}</td>
                                     <td className="p-2">{user.age}</td>
                                     <td className="p-2">{user.create_time!}</td>
                                     <td>

@@ -28,7 +28,6 @@ def refresh_access():
 
 @blp.post("/login")
 def login_user():
-    print("hey")
     data = UserModel(**request.get_json())
     user = UserModel.query.filter(UserModel.email == data.email).first()
 

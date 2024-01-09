@@ -5,8 +5,10 @@ import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { login } from "../api/user";
 import ShopLogo from "../components/shop-logo";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+    const router = useRouter();
     const [loginData, setLoginData] = useState({ email: "", password: "" })
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
@@ -19,11 +21,14 @@ const Login = () => {
 
     const LoginUser = () => {
         login(loginData).then((result) => {
+            console.log(result);
             if (!result) {
                 setShowErrorMessage(true);
                 setTimeout(() => {
                     setShowErrorMessage(false);
                 }, 2000);
+            } else {
+                router.push("/");
             }
         })
     }

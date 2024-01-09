@@ -34,10 +34,10 @@ export const getTokenClaims = async (): Promise<any> => {
         })
         return response.json();
     } catch (error) {
-        console.log({ message: "An error occurred", status: "500" })
+        console.log(error)
     }
 
-    redirect(`/admin/user`);
+    redirect(`/login`);
 }
 
 export const getAllUsers = async (): Promise<UserModel[]> => {

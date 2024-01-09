@@ -17,12 +17,14 @@ const CreateUser = () => {
         isError: false
     })
     const [user, setUser] = useState<UserModel>({
-        username: "",
+        first_name: "",
+        last_name: "",
         email: "",
         password: "",
         create_time: "",
         role_id: 1,
-        age: 0
+        age: 0,
+        phone_number: ""
     });
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -38,20 +40,23 @@ const CreateUser = () => {
     }
 
     const CreateUser = (user: UserModel) => {
+        console.log(user);
         user.create_time! = getDate();
         registerUser(user).then((result) => {
-            setMessage({ isError: result.username == undefined ? true : false })
+            setMessage({ isError: result.first_name == undefined ? true : false })
             setShowMessage(old => !old)
             setTimeout(() => {
                 setShowMessage(old => !old)
             }, 3000)
             setUser({
-                username: "",
+                first_name: "",
+                last_name: "",
                 email: "",
                 password: "",
                 create_time: "",
                 role_id: 1,
-                age: 0
+                age: 0,
+                phone_number: ""
             })
             getAllUsers().then(() => {
                 router.refresh();
@@ -74,9 +79,12 @@ const CreateUser = () => {
 
                 </div>
                 <div className="border p-1">
-                    <div className="flex items-center p-2">
-                        <label className="p-2">*&nbsp;Username: </label>
-                        <input type="text" name="username" value={user.username} placeholder="Username" className="input" onChange={changeHandler} />
+                    <div className="flex flex-col p-2">
+                        <label className="p-2">*&nbsp;Name: </label>
+                        <div className="flex flex-col">
+                            <input type="text" name="first_name" value={user.first_name} placeholder="First Name" className="input m-2" onChange={changeHandler} />
+                            <input type="text" name="last_name" value={user.last_name} placeholder="Last Name" className="input m-2" onChange={changeHandler} />
+                        </div>
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Email: </label>
@@ -85,6 +93,10 @@ const CreateUser = () => {
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Password: </label>
                         <input type="password" name="password" value={user.password} placeholder="Password (minimum 8 characters)" className="input placeholder:text-xs" onChange={changeHandler} />
+                    </div>
+                    <div className="flex items-center p-2">
+                        <label className="p-2">*&nbsp;Phone #: </label>
+                        <input type="tel" name="phone_number" value={user.phone_number} placeholder="Phone #" className="input placeholder:text-xs" onChange={changeHandler} />
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Age: </label>
@@ -112,7 +124,8 @@ const CreateUser = () => {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-gray-400 rounded" disabled={user.username == "" || user.age <= 0 || user.email == "" || (user.password == "" || user.password.length < 8)} onClick={() => CreateUser(user)}>
+                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-gray-400 rounded" disabled={user.first_name == "" || user.last_name == "" || user.age <= 0 || user.email == ""
+                                        || (user.password == "" || user.password.length < 8) || user.phone_number == "".trim()} onClick={() => CreateUser(user)}>
                                         Add User
                                     </button>
                         }

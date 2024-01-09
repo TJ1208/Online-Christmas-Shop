@@ -1,24 +1,13 @@
-"use client";
-
-import { useEffect, useState } from "react"
 import { ProductModel } from "./models/product"
-import { LoadingCompoent } from "./components/loading-component";
 import { ImageModel } from "./models/image";
+import { getTokenClaims, login } from "./api/user";
+import { getAllProducts } from "./api/product";
 
-const Home = () => {
-  const [products, setProducts] = useState<ProductModel[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("https://techspecbe.azurewebsites.net/product");
-      const products: ProductModel[] = await response.json();
-      setProducts(products);
-      setIsLoading(false);
-    }
-    fetchData();
-
-  }, [])
+const Home = async () => {
+  const products = await getAllProducts();
+  const user = await login({email: "TaylorJ1208@yahoo.com", password: "Passw0rd"}).then((result) => {
+    console.log(result);
+  });
 
   return (
     <>
@@ -26,13 +15,6 @@ const Home = () => {
         <img src="https://tjcoding.sirv.com/website-images/daniel-korpai-HyTwtsk8XqA-unsplash.jpg" alt="Shop Banner." className="object-cover w-full banner-image" />
       </div>
 
-      {
-        isLoading
-          ?
-          <LoadingCompoent />
-          :
-          <></>
-      }
       <div className="grid gap-4 grid-cols-4 auto-rows-auto container  pt-6">
         {
 
