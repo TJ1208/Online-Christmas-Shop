@@ -4,7 +4,8 @@ from marshmallow import Schema, fields
 class PlainUserSchema(Schema):
     user_id = fields.Integer()
     role_id = fields.Integer(require=True)
-    username = fields.String(require=True)
+    first_name = fields.String(require=True)
+    last_name = fields.String(require=True)
     email = fields.String(require=True)
     password = fields.String(require=True)
     create_time = fields.Date(require=True)
@@ -19,7 +20,8 @@ class PlainRoleSchema(Schema):
 
 class UpdateUserSchema(Schema):
     role_id = fields.Integer(require=True)
-    username = fields.String(require=True)
+    first_name = fields.String(require=True)
+    last_name = fields.String(require=True)
     email = fields.String(require=True)
     password = fields.String(require=True)
     age = fields.Integer()

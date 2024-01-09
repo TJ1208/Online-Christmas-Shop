@@ -75,7 +75,8 @@ class UserExt(MethodView):
                 abort(404,
                       message=f"No account exists with the email {email}")
             else:
-                user.username = user_data["username"]
+                user.first_name = user_data["first_name"]
+                user.last_name = user_data["last_name"]
                 user.email = user_data["email"]
                 user.password = bcrypt.generate_password_hash(user_data["password"]).decode('utf-8')
                 user.create_time = user.create_time

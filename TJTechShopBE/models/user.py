@@ -6,7 +6,8 @@ class UserModel(db.Model):
 
     user_id = db.Column(db.BigInteger, primary_key=True)
     role_id = db.Column(db.BigInteger, db.ForeignKey("role.role_id", ondelete="CASCADE"), unique=False, nullable=False, default=1)
-    username = db.Column(db.String(255), unique=True, nullable=False)
+    first_name = db.Column(db.String(55), nullable=False)
+    last_name = db.Column(db.String(55), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     create_time = db.Column(db.Date, nullable=False)
