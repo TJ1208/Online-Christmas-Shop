@@ -6,7 +6,7 @@ import Image from "next/image";
 import { login } from "../api/user";
 
 const Login = () => {
-    const [loginData, setLoginData] = useState({ email: '', password: '' })
+    const [loginData, setLoginData] = useState({ email: "", password: "" })
 
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +34,7 @@ const Login = () => {
                     <button type="submit" className="nav-button border-b w-24"
                     disabled={loginData.email == "".trim() || loginData.password == "".trim()} onClick={() => LoginUser()}>Login</button>
                     <div className="flex flex-col text-center text-sm mt-3">
-                        <p className="p-2 opacity-50">Don't have an account?</p>
+                        <p className="p-2 opacity-50">Don\&quot;t have an account?</p>
                         <Link href="/login" className="btn-hover">Sign Up</Link>
                     </div>
                     <div className="flex items-center justify-start w-full mt-5 border-t">
