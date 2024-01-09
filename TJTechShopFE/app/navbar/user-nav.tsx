@@ -2,7 +2,6 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import SideMenu from "../components/side-menu"
-import { UserDropdown } from "../components/user-dropdown"
 import { faCartShopping, faCircleUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
