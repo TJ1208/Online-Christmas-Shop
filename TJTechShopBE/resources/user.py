@@ -81,6 +81,7 @@ class UserExt(MethodView):
                 user.create_time = user.create_time
                 user.age = user_data["age"]
                 user.role_id = user_data["role_id"]
+                user.phone_number = user_data["phone_number"]
 
             db.session.add(user)
             db.session.commit()

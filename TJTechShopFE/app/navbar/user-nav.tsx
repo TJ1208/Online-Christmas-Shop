@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import ModalToggle from "../scripts/modal"
 import CategoryModel from "../models/category"
 import Link from "next/link"
+import ShopLogo from "../components/shop-logo"
 
 export const UserNavBar = () => {
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
@@ -82,8 +83,8 @@ export const UserNavBar = () => {
                                             <SideMenu />
                                         </div>
                                     </div>
-                                    <div className="flex items-center rounded w-full justify-center px-14">
-                                        <img src="https://tjcoding.sirv.com/website-images/Screenshot%202024-01-06%20211930.png" className="h-16" />
+                                    <div className="flex items-center rounded w-full justify-center mt-2">
+                                        <ShopLogo height="6" />
                                     </div>
                                     <div className="flex items-center rounded w-full justify-end p-2">
                                         <li className=" btn-hover p-2">

@@ -8,7 +8,8 @@ class PlainUserSchema(Schema):
     email = fields.String(require=True)
     password = fields.String(require=True)
     create_time = fields.Date(require=True)
-    age = fields.Integer()
+    age = fields.Integer(require=True)
+    phone_number = fields.String(require=True)
 
 
 class PlainRoleSchema(Schema):
@@ -22,6 +23,7 @@ class UpdateUserSchema(Schema):
     email = fields.String(require=True)
     password = fields.String(require=True)
     age = fields.Integer()
+    phone_number = fields.String()
 
 
 class PlainCategorySchema(Schema):

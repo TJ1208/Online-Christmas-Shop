@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { UserModel } from "../models/user"
 import { cookies } from 'next/headers';
-export const login = async (data: {email:string, password:string}): Promise<any> => {
+export const login = async (data: { email: string, password: string }): Promise<any> => {
     const response = await fetch(`https://techspecbe.azurewebsites.net/login`, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -11,25 +11,30 @@ export const login = async (data: {email:string, password:string}): Promise<any>
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
             // "getSetCookie": 
-            
+
         },
-        
+
         // credentials: "include"
     });
-    return response.json();
+    if (response.ok) {
+        return response.json();
+    } else {
+        return
+    }
+
 }
 
 export const getTokenClaims = async (): Promise<any> => {
     try {
-      const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
-        method: 'GET',
-        headers: {
-            'X-CSRF-TOKEN': cookies().get('csrf_access_token')!.value,
-          }
-    })
-    return response.json();  
+        const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': cookies().get('csrf_access_token')!.value,
+            }
+        })
+        return response.json();
     } catch (error) {
-        console.log({message: "An error occurred", status: "500"})
+        console.log({ message: "An error occurred", status: "500" })
     }
 
     redirect(`/admin/user`);
@@ -50,7 +55,7 @@ export const registerUser = async (user: UserModel): Promise<UserModel> => {
         body: JSON.stringify(user),
         headers: {
             'Content-type': 'application/json; charset=UTF-8'
-        } 
+        }
     });
     return response.json();
 }
@@ -61,9 +66,3 @@ export const deleteUser = async (email: string): Promise<string> => {
     });
     return response.json();
 }
-
-// function getCookie(name) {
-//     const value = `; ${document.cookie}`;
-//     const parts = value.split(`; ${name}=`);
-//     if (parts.length === 2) return parts.pop().split(';').shift();
-//   }

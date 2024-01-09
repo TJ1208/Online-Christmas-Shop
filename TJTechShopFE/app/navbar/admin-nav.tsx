@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft, faCircleUser } from "@fortawesome/free-solid-svg-icons"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
+import ShopLogo from "../components/shop-logo"
 
 export const AdminNavBar = () => {
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
@@ -34,7 +35,7 @@ export const AdminNavBar = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center rounded w-full justify-center px-14">
-                                    <img src="https://tjcoding.sirv.com/website-images/Screenshot%202024-01-06%20211930.png" className="h-16" />
+                                    <ShopLogo height="6" />
                                 </div>
                                 <div className="flex items-center rounded w-full justify-end p-2 " >
                                     <div className="btn-hover p-2 pr-5 hover:cursor-pointer" onClick={() => setShowUserDropdown(old => !old)} >
