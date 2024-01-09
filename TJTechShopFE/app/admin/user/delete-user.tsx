@@ -23,26 +23,26 @@ export function DeleteUserButton(user: UserModel) {
     }
 
     const toggleModal = () => {
-        ModalToggle("modal-delete-user", "modal-backdrop-delete-user");
+        ModalToggle("modal-delete-user", "modal-backdrop-menu-delete-user");
         setShowDeleteMessage(old => !old);
     }
 
     return (
         <>
-            <FontAwesomeIcon icon={faTrashCan} className="hover:bg-red-200 hover:cursor-pointer text-red-700 nav-button" onClick={() => setShowDeleteMessage(old => !old)} />
+            <FontAwesomeIcon icon={faTrashCan} className="hover:cursor-pointer hover:text-red-400 nav-button" onClick={() => setShowDeleteMessage(old => !old)} />
             <dialog open={showDeleteMessage} className="modal z-40" id="modal-delete-user">
                 <div className="border rounded font-medium shadow">
                     <p className="p-3 border-b w-full">Delete the account registered at, <strong>{user.email}</strong>?</p>
                     <div className="flex items-center justify-end p-3">
-                        <button className="nav-button bg-red-200 hover:bg-red-300" onClick={() => {
+                        <button className="nav-button bg-red-600 hover:bg-red-500" onClick={() => {
                             DeleteUser(user.email)
                         }}>Delete</button>
-                        <button className="nav-button bg-slate-200 hover:bg-slate-300" onClick={toggleModal}>Cancel</button>
+                        <button className="nav-button bg-slate-600 hover:bg-slate-500" onClick={toggleModal}>Cancel</button>
                     </div>
                 </div>
             </dialog>
 
-            <dialog open={showDeleteMessage} className="modal-backdrop z-30" id="modal-backdrop-delete-user" onClick={toggleModal} />
+            <dialog open={showDeleteMessage} className="modal-backdrop-menu z-30" id="modal-backdrop-menu-delete-user" onClick={toggleModal} />
 
         </>
     )

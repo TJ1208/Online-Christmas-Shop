@@ -21,6 +21,7 @@ const CreateUser = () => {
         email: "",
         password: "",
         create_time: "",
+        role_id: 1,
         age: 0
     });
 
@@ -32,7 +33,7 @@ const CreateUser = () => {
     }
 
     const toggleModal = () => {
-        ModalToggle("modal-user", "modal-backdrop-user");
+        ModalToggle("modal-user", "modal-backdrop-menu-user");
         setShowForm(old => !old);
     }
 
@@ -49,6 +50,7 @@ const CreateUser = () => {
                 email: "",
                 password: "",
                 create_time: "",
+                role_id: 1,
                 age: 0
             })
             getAllUsers().then(() => {
@@ -59,14 +61,14 @@ const CreateUser = () => {
 
     return (
         <>
-            <FontAwesomeIcon icon={faSquarePlus} className="hover:bg-green-200 hover:cursor-pointer text-green-700 nav-button" onClick={() => setShowForm(old => !old)} />
+            <FontAwesomeIcon icon={faSquarePlus} className="hover:cursor-pointer hover:text-green-200 nav-button" onClick={() => setShowForm(old => !old)} />
 
             <dialog open={showForm} className="modal z-40" id="modal-user">
 
 
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Register User</h1>
-                    <FontAwesomeIcon icon={faX} className="font-awesome-icon border-2 absolute right-0" onClick={toggleModal} />
+                    <FontAwesomeIcon icon={faX} className="font-awesome-icon absolute right-0 bg-slate-400 hover:bg-slate-500" onClick={toggleModal} />
                 </div>
                 <div>
 
@@ -110,7 +112,7 @@ const CreateUser = () => {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={user.username == "" || user.age <= 0 || user.email == "" || (user.password == "" || user.password.length < 8)} onClick={() => CreateUser(user)}>
+                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-gray-400 rounded" disabled={user.username == "" || user.age <= 0 || user.email == "" || (user.password == "" || user.password.length < 8)} onClick={() => CreateUser(user)}>
                                         Add User
                                     </button>
                         }
@@ -119,7 +121,7 @@ const CreateUser = () => {
                 </div>
             </dialog>
 
-            <dialog open={showForm} className="modal-backdrop z-30" id="modal-backdrop-user" onClick={toggleModal} />
+            <dialog open={showForm} className="modal-backdrop-menu z-30" id="modal-backdrop-menu-user" onClick={toggleModal} />
 
         </>
     )

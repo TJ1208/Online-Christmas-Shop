@@ -23,12 +23,13 @@ export default function RootLayout({
     <html lang="en">
 
       <body className={inter.className}>
-        <Navbar />
-        <main className="sm:flex sm:flex-col items-center 2xl:px-96 lg:px-56 min-h-screen overflow-hidden">
+        <div className=" xl:px-44 sticky top-0 overflow-x-clip">
+          <Navbar />
+        </div>
+        <main className="sm:flex sm:flex-col items-center min-h-screen overflow-hidden">
           {children}
         </main>
         <Footer />
-
         {/* <Script src="https://scripts.sirv.com/sirvjs/v3/sirv.js" /> */}
       </body>
     </html>

@@ -1,5 +1,8 @@
-import { UserModel } from "../models/user"
+"use server"
 
+import { redirect } from "next/navigation";
+import { UserModel } from "../models/user"
+import { cookies } from 'next/headers';
 export const login = async (data: {email:string, password:string}): Promise<any> => {
     const response = await fetch(`https://techspecbe.azurewebsites.net/login`, {
         method: 'POST',
@@ -16,14 +19,21 @@ export const login = async (data: {email:string, password:string}): Promise<any>
     return response.json();
 }
 
-// export const getTokenClaims = async (): Promise<any> => {
-//     const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
-//         method: 'GET',
-//         headers: {
-//             'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-//           }
-//     })
-// }
+export const getTokenClaims = async (): Promise<any> => {
+    try {
+      const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': cookies().get('csrf_access_token')!.value,
+          }
+    })
+    return response.json();  
+    } catch (error) {
+        console.log({message: "An error occurred", status: "500"})
+    }
+
+    redirect(`/admin/user`);
+}
 
 export const getAllUsers = async (): Promise<UserModel[]> => {
     const response = await fetch(`https://techspecbe.azurewebsites.net/user`, {

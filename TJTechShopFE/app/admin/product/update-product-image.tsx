@@ -16,7 +16,7 @@ export function UpdateProductImageButton(product: ProductModel) {
     const [carouselCounter, setCarouselCounter] = useState<number>(0);
 
     const toggleModal = () => {
-        ModalToggle("modal3", "modal-backdrop3");
+        ModalToggle("modal3", "modal-backdrop-menu3");
         setShowUpdateImageForm(old => !old);
     }
 
@@ -30,7 +30,7 @@ export function UpdateProductImageButton(product: ProductModel) {
 
     return (
         <>
-            <img src={product.images!.length ? product.images![0].url : ""} alt="Product Image" className="w-24 h-24 object-cover rounded p-1 hover:cursor-pointer hover:bg-slate-200" onClick={() => setShowUpdateImageForm(old => !old)} />
+            <img src={product.images!.length ? product.images![0].url : ""} alt="Product Image" className="w-24 h-24 object-cover rounded p-1 hover:cursor-pointer hover:" onClick={() => setShowUpdateImageForm(old => !old)} />
             <dialog open={showUpdateImageForm} className="modal z-40" id="modal3">
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Product Image(s)</h1>
@@ -38,11 +38,11 @@ export function UpdateProductImageButton(product: ProductModel) {
                 </div>
                 <div className="border">
                     <div className="flex overflow-hidden items-center">
-                        <button className="rounded p-3 m-1 fixed h-80 text-gray-50 hover:bg-slate-100 hover:bg-opacity-50" onClick={() => carouselCounter == 0 ? setCarouselCounter(product.images!.length - 1) : setCarouselCounter(carouselCounter - 1)}>
+                        <button className="rounded p-3 m-1 fixed h-80 text-gray-50 hover: hover:bg-opacity-50" onClick={() => carouselCounter == 0 ? setCarouselCounter(product.images!.length - 1) : setCarouselCounter(carouselCounter - 1)}>
                             <FontAwesomeIcon icon={faChevronLeft} size="xl" className="p-2" />
                         </button>
                         <img src={product.images!.at(carouselCounter)?.url} alt="Product Image" className="w-96 h-96 object-cover" />
-                        <button className="rounded p-3 m-1 fixed right-0 h-80 text-gray-50 hover:bg-slate-100 hover:bg-opacity-50" onClick={() => carouselCounter == product.images!.length - 1 ? setCarouselCounter(0) : setCarouselCounter(carouselCounter + 1)}>
+                        <button className="rounded p-3 m-1 fixed right-0 h-80 text-gray-50 hover:bg-opacity-50" onClick={() => carouselCounter == product.images!.length - 1 ? setCarouselCounter(0) : setCarouselCounter(carouselCounter + 1)}>
                             <FontAwesomeIcon icon={faChevronRight} size="xl" className="p-2" />
                         </button>
                     </div>
@@ -68,7 +68,7 @@ export function UpdateProductImageButton(product: ProductModel) {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-blue-100 rounded" onClick={() => DeleteImage(product.product_id!, product.images![carouselCounter].image_id!)}>
+                                    <button className="border m-2 p-2 bg-red-300 hover:bg-red-400 rounded" onClick={() => DeleteImage(product.product_id!, product.images![carouselCounter].image_id!)}>
                                         Delete Image
                                     </button>
                         }
@@ -77,7 +77,7 @@ export function UpdateProductImageButton(product: ProductModel) {
                 </div>
             </dialog>
 
-            <dialog open={showUpdateImageForm} className="modal-backdrop z-30" id="modal-backdrop3" onClick={toggleModal} />
+            <dialog open={showUpdateImageForm} className="modal-backdrop-menu z-30" id="modal-backdrop-menu3" onClick={toggleModal} />
         </>
     )
 }

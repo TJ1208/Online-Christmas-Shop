@@ -22,7 +22,10 @@ const Home = () => {
 
   return (
     <>
-      <img src="https://tjcoding.sirv.com/website-images/shop-banner.jpg" alt="Shop Banner." className="container mx-auto rounded-b shadow" />
+      <div className="w-full">
+        <img src="https://tjcoding.sirv.com/website-images/daniel-korpai-HyTwtsk8XqA-unsplash.jpg" alt="Shop Banner." className="object-cover w-full banner-image" />
+      </div>
+
       {
         isLoading
           ?
@@ -30,7 +33,7 @@ const Home = () => {
           :
           <></>
       }
-      <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b container bg-slate-100 pt-6">
+      <div className="grid gap-4 grid-cols-4 auto-rows-auto container  pt-6">
         {
 
           products.map((product: ProductModel) =>

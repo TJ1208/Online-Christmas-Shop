@@ -24,13 +24,13 @@ export function DeleteImageButton(image: ImageModel) {
     }
 
     const toggleModal = () => {
-        ModalToggle("modal-image", "modal-backdrop-image");
+        ModalToggle("modal-image", "modal-backdrop-menu-image");
         setShowDeleteMessage(old => !old);
     }
 
     return (
         <>
-            <FontAwesomeIcon icon={faTrashCan} className="hover:bg-red-200 hover:cursor-pointer text-red-700 nav-button" onClick={() => setShowDeleteMessage(old => !old)} />
+            <FontAwesomeIcon icon={faTrashCan} className="hover:cursor-pointer hover:text-red-400 nav-button" onClick={() => setShowDeleteMessage(old => !old)} />
             <dialog open={showDeleteMessage} className="modal z-40" id="modal2">
                 <div className="border rounded font-medium shadow">
                     <div className="flex flex-col items-center justify-center text-center p-2">
@@ -38,15 +38,15 @@ export function DeleteImageButton(image: ImageModel) {
                         <img src={image.url} alt="Image" className="w-80" />
                     </div>
                     <div className="flex items-center justify-end p-3">
-                        <button className="nav-button bg-red-200 hover:bg-red-300" onClick={() => {
+                        <button className="nav-button bg-red-600 hover:bg-red-400" onClick={() => {
                             removeImage(image.image_id!);
                         }}>Delete</button>
-                        <button className="nav-button bg-slate-200 hover:bg-slate-300" onClick={toggleModal}>Cancel</button>
+                        <button className="nav-button bg-slate-600 hover:bg-slate-400" onClick={toggleModal}>Cancel</button>
                     </div>
                 </div>
             </dialog>
 
-            <dialog open={showDeleteMessage} className="modal-backdrop z-30" id="modal-backdrop2" onClick={toggleModal} />
+            <dialog open={showDeleteMessage} className="modal-backdrop-menu z-30" id="modal-backdrop-menu2" onClick={toggleModal} />
         </>
     )
 }

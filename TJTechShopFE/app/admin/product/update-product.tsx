@@ -45,7 +45,7 @@ export function UpdateProductButton(product: ProductModel) {
     }
 
     const toggleModal = () => {
-        ModalToggle("modal4", "modal-backdrop4");
+        ModalToggle("modal4", "modal-backdrop-menu4");
         setShowUpdateForm(old => !old);
         setProductUpdate(product);
     }
@@ -104,11 +104,11 @@ export function UpdateProductButton(product: ProductModel) {
     }
     return (
         <>
-            <FontAwesomeIcon icon={faPenToSquare} className="nav-button hover:bg-blue-200" onClick={() => setShowUpdateForm(old => !old)} />
+            <FontAwesomeIcon icon={faPenToSquare} className="nav-button hover:text-gray-200" onClick={() => setShowUpdateForm(old => !old)} />
             <dialog open={showUpdateForm} className="modal z-40" id="modal4">
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Update Product</h1>
-                    <FontAwesomeIcon icon={faX} className="font-awesome-icon border-2 absolute right-0" onClick={toggleModal} />
+                    <FontAwesomeIcon icon={faX} className="font-awesome-icon absolute right-0 bg-gray-400 hover:bg-gray-500" onClick={toggleModal} />
                 </div>
                 <div className="border p-1">
                     <div className="flex items-center p-2">
@@ -164,7 +164,7 @@ export function UpdateProductButton(product: ProductModel) {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={(productUpdate.name == "" || productUpdate.description == "" || 
+                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-gray-400 rounded" disabled={(productUpdate.name == "" || productUpdate.description == "" || 
                                     (product.images!.length == 0 ? false : image.url == "")
                                         || productUpdate.price <= 0 || productUpdate.sale_price < 0 || productUpdate.category_id == 0)} onClick={() => UpdateProduct(product, image)}>
                                         Update Product
@@ -175,7 +175,7 @@ export function UpdateProductButton(product: ProductModel) {
                 </div>
             </dialog>
 
-            <dialog open={showUpdateForm} className="modal-backdrop z-30" id="modal-backdrop4" onClick={toggleModal} />
+            <dialog open={showUpdateForm} className="modal-backdrop-menu z-30" id="modal-backdrop-menu4" onClick={toggleModal} />
         </>
     )
 }

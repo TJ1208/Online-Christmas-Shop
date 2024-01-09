@@ -12,7 +12,7 @@ const AdminProduct = async () => {
     return (
         <>
             <div className="w-full overflow-x-auto">
-                <table className="w-full text-left border">
+                <table className="w-full text-left">
                     <caption className="caption-top p-5 font-semibold">
                         Products
                         {
@@ -20,7 +20,7 @@ const AdminProduct = async () => {
                         }
                     </caption>
 
-                    <thead className="bg-blue-100">
+                    <thead className="bg-gray-600">
                         <tr>
                             <th className="font-semibold px-2">#</th>
                             <th className="font-semibold px-2">Name</th>
@@ -40,7 +40,7 @@ const AdminProduct = async () => {
                         {
                             products.map((product: ProductModel, i: number) => (
                                 
-                                <tr className="hover:bg-blue-50 cell" key={i}>
+                                <tr className="hover:bg-slate-600 cell" key={i}>
                                     <td className="p-2">{i + 1}</td>
                                     <td className="p-2">{product.name}</td>
                                     <td className="p-2 sm:min-w-fit min-w-[250px]">{product.description}</td>

@@ -4,5 +4,6 @@ export interface UserModel {
     email: string;
     password: string;
     create_time?: string;
+    role_id: number;
     age:  number;
 }

@@ -61,7 +61,7 @@ const CreateProduct = () => {
     }
 
     const toggleModal = () => {
-        ModalToggle("modal", "modal-backdrop");
+        ModalToggle("modal", "modal-backdrop-menu");
         setShowForm(old => !old);
     }
 
@@ -111,14 +111,14 @@ const CreateProduct = () => {
     }
     return (
         <>
-            <FontAwesomeIcon icon={faSquarePlus} className="hover:bg-green-200 hover:cursor-pointer text-green-700 nav-button" onClick={() => setShowForm(old => !old)} />
+            <FontAwesomeIcon icon={faSquarePlus} className="hover:cursor-pointer hover:text-green-200 nav-button" onClick={() => setShowForm(old => !old)} />
 
             <dialog open={showForm} className="modal z-40" id="modal">
 
 
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Add product</h1>
-                    <FontAwesomeIcon icon={faX} className="font-awesome-icon border-2 absolute right-0" onClick={toggleModal} />
+                    <FontAwesomeIcon icon={faX} className="font-awesome-icon bg-slate-400 hover:bg-slate-500 absolute right-0" onClick={toggleModal} />
                 </div>
                 <div>
 
@@ -177,7 +177,7 @@ const CreateProduct = () => {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={(product.name == "" || product.description == "" || image.url == ""
+                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-slate-400 rounded" disabled={(product.name == "" || product.description == "" || image.url == ""
                                         || product.price == 0 || product.category_id == 0)} onClick={() => CreateProduct(product, image)}>
                                         Add Product
                                     </button>
@@ -187,7 +187,7 @@ const CreateProduct = () => {
                 </div>
             </dialog>
 
-            <dialog open={showForm} className="modal-backdrop z-30" id="modal-backdrop" onClick={toggleModal} />
+            <dialog open={showForm} className="modal-backdrop-menu z-30" id="modal-backdrop-menu" onClick={toggleModal} />
 
         </>
     )

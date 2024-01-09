@@ -9,7 +9,7 @@ const AdminUser = async () => {
     return (
         <>
             <div className="w-full overflow-x-auto">
-                <table className="w-full text-left border">
+                <table className="w-full text-left">
                     <caption className="caption-top p-5 font-semibold">
                         Users
                         {
@@ -17,7 +17,7 @@ const AdminUser = async () => {
                         }
                     </caption>
 
-                    <thead className="bg-blue-100">
+                    <thead className="bg-gray-600">
                         <tr>
                             <th className="font-semibold px-2">#</th>
                             <th className="font-semibold px-2">Username</th>
@@ -35,7 +35,7 @@ const AdminUser = async () => {
                     <tbody>
                         {
                             users.map((user: UserModel, i: number) => (
-                                <tr className="hover:bg-blue-50 cell" key={i}>
+                                <tr className="hover:bg-slate-600 cell" key={i}>
                                     <td className="p-2">{i + 1}</td>
                                     <td className="p-2">{user.username}</td>
                                     <td className="p-2">{user.email}</td>

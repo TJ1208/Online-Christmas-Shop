@@ -42,7 +42,7 @@ export function CreateCategory() {
         })
     }
     const toggleModal = () => {
-        ModalToggle("modal", "modal-backdrop");
+        ModalToggle("modal", "modal-backdrop-menu");
         setShowForm(old => !old);
     }
 
@@ -72,14 +72,14 @@ export function CreateCategory() {
 
     return (
         <>
-            <FontAwesomeIcon icon={faSquarePlus} className="hover:bg-green-200 hover:cursor-pointer text-green-700 nav-button" onClick={() => setShowForm(old => !old)} />
+            <FontAwesomeIcon icon={faSquarePlus} className="hover:text-green-200 hover:cursor-pointer nav-button" onClick={() => setShowForm(old => !old)} />
 
             <dialog open={showForm} className="modal z-40" id="modal">
 
 
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Add Category</h1>
-                    <FontAwesomeIcon icon={faX} className="font-awesome-icon border-2 absolute right-0" onClick={toggleModal} />
+                    <FontAwesomeIcon icon={faX} className="font-awesome-icon absolute right-0 bg-slate-400" onClick={toggleModal} />
                 </div>
                 <div>
 
@@ -121,7 +121,7 @@ export function CreateCategory() {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-blue-100 rounded" disabled={(image.url == "" || category.name == "")} onClick={() => CreateCategory(category, image)}>
+                                    <button className="bg-slate-200 hover:bg-slate-300 border m-2 p-2 rounded" disabled={(image.url == "" || category.name == "")} onClick={() => CreateCategory(category, image)}>
                                         Add Category
                                     </button>
                         }
@@ -130,7 +130,7 @@ export function CreateCategory() {
                 </div>
             </dialog>
 
-            <dialog open={showForm} className="modal-backdrop z-30" id="modal-backdrop" onClick={toggleModal} />
+            <dialog open={showForm} className="modal-backdrop-menu z-30" id="modal-backdrop-menu" onClick={toggleModal} />
 
         </>
     )

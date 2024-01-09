@@ -1,73 +1,174 @@
 "use client"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import DropdownMenu from "../components/dropdown-menu"
 import SideMenu from "../components/side-menu"
 import { UserDropdown } from "../components/user-dropdown"
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
+import { faCartShopping, faCircleUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
+import ModalToggle from "../scripts/modal"
+import CategoryModel from "../models/category"
+import Link from "next/link"
 
 export const UserNavBar = () => {
+    const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+    const [categories, setCategories] = useState<CategoryModel[]>([]);
+    const [isLoading, setLoading] = useState<boolean>(true);
+    const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch('https://techspecbe.azurewebsites.net/category');
+            const categories = await response.json();
+            setCategories(categories);
+            setLoading(false);
+        }
+        fetchData();
+    }, [])
+
+    const toggleSideBar = () => {
+        ModalToggle("", "modal-backdrop-input");
+        setShowSearchBar(old => !old);
+    }
+
+    const toggleUserDropdown = () => {
+        ModalToggle("", "modal-backdrop-menu");
+        setShowUserDropdown(old => !old);
+    }
     return (
 
         <>
             {
                 !(usePathname().includes("admin"))
                     ?
-                    <div className="lg:flex w-full md:justify-between justify-center font-bold">
-                        <div className="justify-evenly w-full  text-center pb-1 hidden lg:flex">
-                            <DropdownMenu />
-                            <div className="border-b-2 btn-hover p-2 m-1 rounded truncate flex items-center justify-center">
-                                <button>Flash Sales</button>
-                                <img src="https://tjcoding.sirv.com/website-images/sparkling.png" alt="Flask Sale Symbol" className="h-5" />
+                    <div className="w-full">
+
+
+                        <div className="lg:flex w-full md:justify-between justify-center font-bold">
+                            <div className="flex flex-col w-full">
+                                <div className="justify-evenly w-full text-center pb-1 hidden lg:flex">
+                                    <div className="relative inline-block dropdown">
+                                        <div className="flex btn-hover">
+                                            <button className="py-2 my-1" id="popup-category">Categories</button>
+                                            <img src="https://tjcoding.sirv.com/website-images/arrow.png" alt="Category Carrot text-white bg-white" className="h-5 my-5 " />
+                                        </div>
+                                        <div className="absolute hidden dropdown-content bg-black">
+
+                                            <div className="gap-5 grid-cols-5 auto-cols-auto m-2 p-2">
+
+                                                <p className="text-white border-b-2 mx-5 text-left w-fit mb-5">Categories</p>
+                                                {
+                                                    categories.map(category =>
+                                                        <Link className="btn-hover p-5 m-5"
+                                                            href="" key={category.category_id}>{category.name}</Link>)
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
+                                        <button className="py-2 my-1">Flash Sales</button>
+                                        <img src="https://tjcoding.sirv.com/website-images/sparkling.png" alt="Flash Sale Symbol" className="h-5" />
+                                    </div>
+
+                                    <button className=" btn-hover p-2 m-1 rounded truncate">New Items</button>
+                                    <button className=" btn-hover p-2 m-1 rounded truncate">Top Brands</button>
+                                </div>
                             </div>
 
-                            <button className="border-b-2 btn-hover p-2 m-1 rounded truncate">New Items</button>
-                            <button className="border-b-2 btn-hover p-2 m-1 rounded truncate">Top Brands</button>
-                        </div>
-                        <div className="items-center justify-center w-full pb-1 lg:hidden flex flex-col">
+                            <div className="items-center justify-center w-full pb-1 lg:hidden flex flex-col">
 
-                            <li className="flex items-center rounded w-full justify-center">
-                                <div className="flex items-center rounded w-full justify-start">
-                                    <div className="">
-                                        <SideMenu />
+                                <div className="flex items-center rounded w-full justify-center">
+                                    <div className="flex items-center rounded w-full justify-start">
+                                        <div className="">
+                                            <SideMenu />
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center rounded w-full justify-center px-14">
+                                        <img src="https://tjcoding.sirv.com/website-images/Screenshot%202024-01-06%20211930.png" className="h-16" />
+                                    </div>
+                                    <div className="flex items-center rounded w-full justify-end p-2">
+                                        <li className=" btn-hover p-2">
+                                            <button onClick={() => { setShowSearchBar(old => !old) }} >
+                                                <p className="p-1">
+                                                    <FontAwesomeIcon icon={faMagnifyingGlass} className="h-5" />
+                                                </p>
+                                            </button>
+                                        </li>
+                                        <li className="btn-hover p-2">
+                                            <div className={`relative inline-block  p-1`}>
+                                                <button>
+                                                    <FontAwesomeIcon icon={faCircleUser} className="h-5" onClick={() => setShowUserDropdown(old => !old)} />
+                                                </button>
+                                                <div className={`absolute -left-5 ${showUserDropdown ? "block" : "hidden"} bg-black w-full text-center`}>
+                                                    <button className="btn-hover w-full p-2" onClick={() => setShowUserDropdown(old => !old)}>Account</button>
+                                                    <button className="btn-hover w-full p-2" onClick={() => setShowUserDropdown(old => !old)}><Link href="/admin">Admin</Link></button>
+                                                    <button className="btn-hover w-full p-2" onClick={() => setShowUserDropdown(old => !old)}>Logout</button>
+                                                </div>
+                                            </div>
+                                        </li>
+
+
+                                        <li className="p-2">
+                                            <button>
+                                                <FontAwesomeIcon icon={faCartShopping} className="h-5 btn-hover" />
+                                            </button>
+                                        </li>
+
                                     </div>
                                 </div>
-                                <div className="flex items-center rounded w-full justify-center px-14">
-                                    <img src="/favicon.ico" className="h-7 border rounded-2xl shadow" />
-                                </div>
-                                <div className="flex items-center rounded w-full justify-end p-2">
-
-                                    <UserDropdown />
-
-                                    <FontAwesomeIcon icon={faCartShopping} className="font-awesome-icon" />
-
-                                </div>
-                            </li>
-                            <div className="flex items-center w-full">
-                                <li className="w-full">
-                                    <a><input type="text" placeholder="What are you looking for?" className="p-2 bg-slate-200 w-full  px-2 border-b-2 rounded" /></a>
+                            </div>
+                            <div className="items-center justify-center w-96 pb-1 hidden lg:flex">
+                                <li className=" btn-hover">
+                                    <button onClick={() => { setShowSearchBar(old => !old) }} >
+                                        <p className="p-1">
+                                            <FontAwesomeIcon icon={faMagnifyingGlass} className="h-5" />
+                                        </p>
+                                    </button>
+                                </li>
+                                <li>
+                                    <div className="relative inline-block dropdown items-center justify-center p-1 m-1 ml-5">
+                                        <div className="hidden lg:flex items-center justify-center nav-button">
+                                            <FontAwesomeIcon icon={faCircleUser} className="h-6 p-1" />
+                                            <p className="truncate font-normal px-1 w-full text-start">Sign In</p>
+                                        </div>
+                                        <div className={`absolute hidden dropdown-content bg-black w-full text-center z-30`}>
+                                            <p className="nav-button w-full py-1">Account</p>
+                                            <p className="nav-button w-full py-1"><Link href="/admin">Admin</Link></p>
+                                            <p className="nav-button w-full py-1">Logout</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li className=" btn-hover p-1 m-1 ml-5">
+                                    <button>
+                                        <p className="p-1">
+                                            <FontAwesomeIcon icon={faCartShopping} className="h-5" />
+                                        </p>
+                                    </button>
                                 </li>
                             </div>
 
                         </div>
-                        <div className="relative items-center justify-center w-full pb-1 hidden lg:flex">
-                            <li className="w-full mx-5">
-                                <a><input type="text" placeholder="What are you looking for?" className="p-2 bg-slate-200 w-full  px-2 border-b-2 rounded" /></a>
-                            </li>
-                            <li>
-                                <div className="flex items-center justify-center p-0.5">
-                                    <UserDropdown />
+                        {
+                            showSearchBar
+                                ?
+                                <div className="absolute flex justify-center lg:justify-start md:w-9/12 md:mx-28 my-10 w-full">
+                                    <input type="text" placeholder="What are you looking for?" className="p-2 border-b border-gray-500 px-2 outline-none bg-black flex justify-center items-center w-9/12" />
+                                    <dialog open={showSearchBar} className="modal-backdrop z-30" id="modal-backdrop-input" onClick={toggleSideBar} />
                                 </div>
-                            </li>
-                            <li className="border-b-2 btn-hover p-1 m-1 ml-5 rounded">
-                                <button>
-                                    <p className="p-1">
-                                        <FontAwesomeIcon icon={faCartShopping} className="h-5" />
-                                    </p>
-                                </button>
-                            </li>
-                        </div>
+                                :
+                                <>
+                                </>
+                        }
+                        {
+                            showUserDropdown
+                                ?
+                                <dialog open={showUserDropdown} className="modal-backdrop-menu -z-30" id="modal-backdrop-menu" onClick={toggleUserDropdown} />
+                                :
+                                <>
+                                </>
+                        }
+
+
                     </div>
                     :
                     <>
