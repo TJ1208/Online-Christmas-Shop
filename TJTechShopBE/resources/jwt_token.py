@@ -28,7 +28,7 @@ def refresh_access():
 
 @blp.post("/login")
 def login_user():
-
+    print("hey")
     data = UserModel(**request.get_json())
     user = UserModel.query.filter(UserModel.email == data.email).first()
 
@@ -36,9 +36,9 @@ def login_user():
         abort(404,
               message=f"No account exists for: {data.email}")
     elif bcrypt.check_password_hash(user.password, data.password):
-        additional_claims = {"username": user.username, "role": user.role_id}
-        access_token = create_access_token(identity=user.username, additional_claims=additional_claims)
-        refresh_token = create_refresh_token(identity=user.username)
+        additional_claims = {"role": user.role_id}
+        access_token = create_access_token(identity=user.email, additional_claims=additional_claims)
+        refresh_token = create_refresh_token(identity=user.email)
         response = jsonify(access_token=access_token, refresh_token=refresh_token)
         set_access_cookies(response, access_token)
         set_refresh_cookies(response, refresh_token)
