@@ -9,8 +9,10 @@ import ModalToggle from "../scripts/modal"
 import CategoryModel from "../models/category"
 import Link from "next/link"
 import ShopLogo from "../components/shop-logo"
+import UserDropdown from "./user-dropdown"
+import ProductSearch from "../components/product-search"
 
-export const UserNavBar = () => {
+export function UserNavBar(userData: any) {
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -83,9 +85,9 @@ export const UserNavBar = () => {
                                             <SideMenu />
                                         </div>
                                     </div>
-                                    <div className="flex items-center rounded w-full justify-center mt-2">
+                                    <Link href="/techshop" className="flex items-center rounded w-full justify-center mt-2">
                                         <ShopLogo height="6" />
-                                    </div>
+                                    </Link>
                                     <div className="flex items-center rounded w-full justify-end p-2">
                                         <li className=" btn-hover p-2">
                                             <button onClick={() => { setShowSearchBar(old => !old) }} >
@@ -100,9 +102,7 @@ export const UserNavBar = () => {
                                                     <FontAwesomeIcon icon={faCircleUser} className="h-5" onClick={() => setShowUserDropdown(old => !old)} />
                                                 </button>
                                                 <div className={`absolute -left-5 ${showUserDropdown ? "block" : "hidden"} bg-black w-full text-center`}>
-                                                    <button className="btn-hover w-full p-2" onClick={() => setShowUserDropdown(old => !old)}>Account</button>
-                                                    <button className="btn-hover w-full p-2" onClick={() => setShowUserDropdown(old => !old)}><Link href="/admin">Admin</Link></button>
-                                                    <button className="btn-hover w-full p-2" onClick={() => setShowUserDropdown(old => !old)}>Logout</button>
+                                                    <UserDropdown {...userData}/>
                                                 </div>
                                             </div>
                                         </li>
@@ -132,9 +132,7 @@ export const UserNavBar = () => {
                                             <p className="truncate font-normal px-1 w-full text-start">Sign In</p>
                                         </div>
                                         <div className={`absolute hidden dropdown-content bg-black w-full text-center z-30`}>
-                                            <p className="nav-button w-full py-1">Account</p>
-                                            <p className="nav-button w-full py-1"><Link href="/admin">Admin</Link></p>
-                                            <p className="nav-button w-full py-1">Logout</p>
+                                            <UserDropdown {...userData} />
                                         </div>
                                     </div>
                                 </li>
@@ -151,8 +149,8 @@ export const UserNavBar = () => {
                         {
                             showSearchBar
                                 ?
-                                <div className="absolute flex justify-center lg:justify-start md:w-9/12 md:mx-28 my-10 w-full">
-                                    <input type="text" placeholder="What are you looking for?" className="p-2 border-b border-gray-500 px-2 outline-none bg-black flex justify-center items-center w-9/12" />
+                                <div className="absolute flex justify-center xl:justify-start md:w-9/12 lg:mx-0 md:mx-28 my-10 w-full">
+                                    <ProductSearch />
                                     <dialog open={showSearchBar} className="modal-backdrop z-30" id="modal-backdrop-input" onClick={toggleSideBar} />
                                 </div>
                                 :

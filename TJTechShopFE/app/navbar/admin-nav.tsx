@@ -17,7 +17,7 @@ export const AdminNavBar = () => {
                 usePathname().includes("admin")
                     ?
                     <div className="lg:flex w-full md:justify-between items-center justify-center font-bold">
-                        <Link href="/" className="nav-button lg:flex hidden"><FontAwesomeIcon icon={faArrowLeft} className="w-full" /></Link>
+                        <Link href="/techshop" className="nav-button lg:flex hidden"><FontAwesomeIcon icon={faArrowLeft} className="w-full" /></Link>
                         <div className="justify-center w-full  text-center hidden lg:flex">
                             <Link href="/admin/user" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/user' ? 'text-white' : 'text-opacity-50'}`}>Users</Link>
                             <Link href="/admin/product" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/product' ? '' : 'text-opacity-50'}`}>Products</Link>

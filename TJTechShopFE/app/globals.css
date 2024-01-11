@@ -44,7 +44,7 @@ html, body {
 }
 
 .btn-hover {
-  @apply text-white opacity-50;
+  @apply text-white opacity-70;
 }
 
 .btn-hover:hover {

@@ -4,13 +4,11 @@ import { getAllImages } from "@/app/api/image";
 import { ImageModel } from "@/app/models/image";
 import DeleteImageButton from "./delete-image";
 import CreateImage from "./create-image";
-import { getTokenClaims } from "@/app/api/user";
 
 
 
 const AdminImage = async () => {
     const images = await getAllImages();
-    const user = await getTokenClaims();
     
     return (
         <>

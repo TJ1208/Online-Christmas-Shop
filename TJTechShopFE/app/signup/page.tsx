@@ -7,8 +7,10 @@ import { registerUser } from "../api/user";
 import ShopLogo from "../components/shop-logo";
 import { UserModel } from "../models/user";
 import getDate from "../scripts/get-current-date";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
+    const router = useRouter();
     const [loginData, setLoginData] = useState<UserModel>({
         first_name: "",
         last_name: "",
@@ -32,11 +34,16 @@ const SignUp = () => {
         user.create_time! = getDate();
         setEmail(user.email);
         registerUser(user).then((result) => {
-            setShowErrorMessage(result.first_name == undefined)
-            setTimeout(() => {
-                setShowErrorMessage(false)
-                setEmail("");
-            }, 3000)
+            if (result.first_name == undefined) {
+                setShowErrorMessage(result.first_name == undefined)
+                setTimeout(() => {
+                    setShowErrorMessage(false)
+                    setEmail("");
+                }, 3000)
+            } else {
+                router.push("/");
+            }
+
             setLoginData({
                 first_name: "",
                 last_name: "",
@@ -82,7 +89,7 @@ const SignUp = () => {
                             || loginData.phone_number == "".trim() || loginData.age < 1} onClick={() => RegisterUser(loginData)}>Sign Up</button>
                     <div className="flex flex-col text-center text-sm mt-3">
                         <p className="p-2 opacity-50">Already Have an Account?</p>
-                        <Link href="/login" className="btn-hover">Login</Link>
+                        <Link href="/" className="btn-hover">Login</Link>
                     </div>
                     <div className="flex flex-col items-center justify-start w-full mt-5 border-t">
                         <p className="p-2 opacity-50 text-sm mt-5 italic">TJCoding</p>

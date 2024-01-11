@@ -105,11 +105,11 @@ export function UpdateCategoryButton(category: CategoryModel) {
                     <div className="flex flex-col">
                         <div className="flex items-center p-2">
                             <label className="p-2">*&nbsp;Image:</label>
-                            <textarea name="url" value={image.url.trim()} placeholder="Image URL" className="input h-auto" onChange={changeHandlerImage} />
+                            <textarea name="url" value={image ? image.url.trim() : ""} placeholder="Image URL" className="input h-auto" onChange={changeHandlerImage} />
                         </div>
                         <div className="flex flex-col items-center p-2 border">
                             <label className="border-b w-full text-center">Preview</label>
-                            <img src={image.url.trim()} alt="" className=" object-cover min-h-[180px] max-h-[180px]" />
+                            <img src={image ? image.url.trim() : ""} alt="" className=" object-cover min-h-[180px] max-h-[180px]" />
                         </div>
                     </div>
                     <div className="flex items-center justify-center">
@@ -134,7 +134,7 @@ export function UpdateCategoryButton(category: CategoryModel) {
                                         </button>
                                     </>
                                     :
-                                    <button className="bg-slate-200 hover:bg-slate-300 border m-2 p-2 rounded" disabled={(image.url == "" || categoryUpdate.name == "")} onClick={() => UpdateCategory(category, image)}>
+                                    <button className="bg-slate-200 hover:bg-slate-300 border m-2 p-2 rounded" disabled={(image ? image.url.trim() == "" : true || categoryUpdate.name == "")} onClick={() => UpdateCategory(category, image)}>
                                         Update Category
                                     </button>
                         }

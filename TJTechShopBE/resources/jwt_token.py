@@ -1,3 +1,5 @@
+from datetime import datetime, timezone, timedelta
+
 from flask import jsonify, request, abort
 from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity, create_access_token, create_refresh_token, \
     set_access_cookies, set_refresh_cookies
@@ -16,14 +18,14 @@ def token():
     return jsonify(claims)
 
 
-@blp.get("/refresh")
+@blp.post("/refresh")
 @jwt_required(refresh=True)
-def refresh_access():
+def refresh():
     identity = get_jwt_identity()
-
-    new_access_token = create_access_token(identity=identity)
-
-    return jsonify({"access_token": new_access_token})
+    access_token = create_access_token(identity=identity)
+    response = jsonify(access_token=access_token)
+    set_access_cookies(response, access_token)
+    return response, 200
 
 
 @blp.post("/login")
@@ -33,10 +35,10 @@ def login_user():
 
     if not user:
         abort(404,
-              message=f"No account exists for: {data.email}")
+              description=f"No account exists for: {data.email}")
     elif bcrypt.check_password_hash(user.password, data.password):
-        additional_claims = {"role": user.role_id}
-        access_token = create_access_token(identity=user.email, additional_claims=additional_claims)
+        # additional_claims = {"role": user.role_id}
+        access_token = create_access_token(identity=user.email)
         refresh_token = create_refresh_token(identity=user.email)
         response = jsonify(access_token=access_token, refresh_token=refresh_token)
         set_access_cookies(response, access_token)
@@ -44,4 +46,19 @@ def login_user():
         return response, 200
     else:
         abort(400,
-              message=f"Password entered was incorrect.")
+              description=f"Password entered was incorrect.")
+
+
+@blp.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        return response

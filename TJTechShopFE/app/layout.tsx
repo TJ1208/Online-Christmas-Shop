@@ -19,14 +19,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-
     <html lang="en">
-
       <body className={inter.className}>
-        <div className=" xl:px-44 sticky top-0 overflow-x-clip">
+        {/* <div className=" xl:px-44 sticky top-0 overflow-x-clip">
           <Navbar />
-        </div>
-        <main className="sm:flex sm:flex-col items-center min-h-screen overflow-hidden">
+        </div> */}
+        <main className="min-h-screen">
           {children}
         </main>
         <Footer />

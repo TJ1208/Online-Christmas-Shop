@@ -11,11 +11,9 @@ import { useState } from "react";
 export function DeleteUserButton(user: UserModel) {
     const [showDeleteMessage, setShowDeleteMessage] = useState<boolean>(false);
     let router = useRouter();
-
     const DeleteUser = (email: string) => {
-        deleteUser(user.email).then((result) => {
+        deleteUser(email).then((result) => {
             toggleModal();
-            console.log(result);
             getAllUsers().then(() => {
                 router.refresh();
             })
