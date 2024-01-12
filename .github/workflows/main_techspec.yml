@@ -62,7 +62,6 @@ jobs:
         with:
           app-name: 'techspec'
           slot-name: 'Production'
-          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4FC11AAA75DC42478219075897B9E175 }}
 
       - name: Delete zip file
