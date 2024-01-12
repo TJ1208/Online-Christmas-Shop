@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: release.zip
+          path: TJTechShopFE/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip TJTechShopFE/release.zip
+        run: release.zip
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -64,3 +64,6 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4FC11AAA75DC42478219075897B9E175 }}
+
+      - name: Delete zip file
+        run: rm release.zip
