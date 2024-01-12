@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+    paths: 'TJTechShopFE/**'
   workflow_dispatch:
 
 jobs:
@@ -53,7 +54,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip TJTechShopFE/release.zip
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
