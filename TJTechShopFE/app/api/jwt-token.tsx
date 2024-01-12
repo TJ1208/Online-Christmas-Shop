@@ -20,4 +20,4 @@ export const getTokenClaims = async (): Promise<any> => {
         console.log(error);
         return;
     }
-}
+} 

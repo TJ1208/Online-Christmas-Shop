@@ -37,9 +37,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL",
 app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
-app.config["JWT_COOKIE_SAMESITE"] = "None"
-app.config["JWT_COOKIE_CSRF_PROTECT"] = True
-app.config["JWT_CSRF_METHODS"] = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+# app.config["JWT_COOKIE_SAMESITE"] = "None"
 api = Api(app)
 
 api.register_blueprint(user_blueprint)
