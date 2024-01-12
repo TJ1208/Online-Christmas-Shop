@@ -38,7 +38,7 @@ app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
 app.config["JWT_COOKIE_SAMESITE"] = "None"
-# app.config["JWT_CSRF_METHODS"] = ["POST", "PUT", "PATCH", "DELETE"]
+app.config["JWT_CSRF_METHODS"] = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 api = Api(app)
 
 api.register_blueprint(user_blueprint)
