@@ -8,7 +8,6 @@ export default async function TechShopLayout({
     children: React.ReactNode
 }) {
     await getTokenClaims().then((result) => {
-        console.log(result);
         if (!result) {
             redirect('/');
         }

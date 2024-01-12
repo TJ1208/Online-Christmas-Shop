@@ -1,4 +1,3 @@
-import { RedirectType, redirect, useRouter } from "next/navigation";
 import { UserModel } from "../models/user"
 
 export const login = async (data: { email: string, password: string }): Promise<any> => {
