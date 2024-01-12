@@ -36,10 +36,10 @@ const SignUp = () => {
         registerUser(user).then((result) => {
             if (result.first_name == undefined) {
                 setShowErrorMessage(result.first_name == undefined)
-                setTimeout(() => {
-                    setShowErrorMessage(false)
-                    setEmail("");
-                }, 3000)
+                // setTimeout(() => {
+                //     setShowErrorMessage(false)
+                //     setEmail("");
+                // }, 3000)
             } else {
                 router.push("/");
             }

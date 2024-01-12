@@ -1,16 +1,16 @@
-"use client"
+// "use client"
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation";
 
 const Unauthorized = () => {
-    const router = useRouter();
+    // const router = useRouter();
     
-    useEffect(() => {
-        setTimeout(() => {
-            router.push("/techshop")
-        }, 3000)
-    }, [])
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         router.push("/techshop")
+    //     }, 3000)
+    // }, [])
     return (
         <>
             <div className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute text-center">
