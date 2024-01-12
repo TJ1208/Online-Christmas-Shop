@@ -38,7 +38,7 @@ app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
 app.config["JWT_COOKIE_SAMESITE"] = "None"
-
+app.config["JWT_COOKIE_DOMAIN"] = "techspecbe.azurewebsites.net"
 api = Api(app)
 
 api.register_blueprint(user_blueprint)

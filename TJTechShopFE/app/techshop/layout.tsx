@@ -9,9 +9,9 @@ export default async function TechShopLayout({
 }) {
     await getTokenClaims().then((result) => {
         console.log(result);
-        // if (!result) {
-        //     redirect('/techshop');
-        // }
+        if (!result) {
+            redirect('/');
+        }
     })
 
     return (
