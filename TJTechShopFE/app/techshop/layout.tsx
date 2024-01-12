@@ -1,7 +1,6 @@
 import Navbar from "../navbar/page";
 import { getTokenClaims } from "../api/jwt-token";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 export default async function TechShopLayout({
     children
@@ -10,9 +9,9 @@ export default async function TechShopLayout({
 }) {
     await getTokenClaims().then((result) => {
         console.log(result);
-        if (!result) {
-            redirect('/');
-        }
+        // if (!result) {
+        //     redirect('/techshop');
+        // }
     })
 
     return (

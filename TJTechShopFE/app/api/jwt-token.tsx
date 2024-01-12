@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 
 export const getTokenClaims = async (): Promise<any> => {
@@ -18,6 +17,7 @@ export const getTokenClaims = async (): Promise<any> => {
             return
         }
     } catch (error) {
+        console.log(error);
         return;
     }
 }
