@@ -1,3 +1,5 @@
+"use server"
+
 import { getAllProducts } from "../api/product";
 import { ImageModel } from "../models/image";
 import { ProductModel } from "../models/product";

@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navbar } from './navbar/page'
 import Footer from './footer/page'
-import Script from 'next/script';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
 const inter = Inter({ subsets: ['latin'] })

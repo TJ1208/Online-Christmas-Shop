@@ -2,11 +2,13 @@ import { cookies } from 'next/headers';
 
 
 export const getTokenClaims = async (): Promise<any> => {
+    "use server"
+    const cookie = cookies();
     try {
         const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${cookies().get('access_token_cookie')!.value}`,
+                'Authorization': `Bearer ${cookie.get('access_token_cookie')!.value}`,
             }
         })
         if (response.status == 200) {

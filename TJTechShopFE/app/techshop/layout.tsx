@@ -1,3 +1,5 @@
+"use server"
+
 import Navbar from "../navbar/page";
 import { getTokenClaims } from "../api/jwt-token";
 import { redirect } from "next/navigation";

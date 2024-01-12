@@ -23,10 +23,10 @@ const Login = () => {
         login(loginData).then((result) => {
             console.log(result);
             if (!result) {
-                // setShowErrorMessage(true);
-                // setTimeout(() => {
-                //     setShowErrorMessage(false);
-                // }, 2000);
+                setShowErrorMessage(true);
+                setTimeout(() => {
+                    setShowErrorMessage(false);
+                }, 2000);
             } else {
                 router.push('/techshop');
             }
