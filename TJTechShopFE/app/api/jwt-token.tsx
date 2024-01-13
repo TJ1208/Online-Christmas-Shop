@@ -1,14 +1,15 @@
+"use server"
+
 import { cookies } from 'next/headers';
 
 
-export const getTokenClaims = async (): Promise<any> => {
-    "use server"
-    const cookie = cookies();
+export async function getTokenClaims(): Promise<any> {
     try {
         const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
             method: 'GET',
+            credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${cookie.get('access_token_cookie')!.value}`,
+                'Authorization': `Bearer ${cookies().get('access_token_cookie')!.value}`,
             }
         })
         if (response.status == 200) {
