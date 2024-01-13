@@ -42,6 +42,7 @@ app.config["JWT_COOKIE_SAMESITE"] = "None"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 app.config["JWT_COOKIE_DOMAIN"] = ".azurewebsites.net"
+app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 api = Api(app)
 
 api.register_blueprint(user_blueprint)
