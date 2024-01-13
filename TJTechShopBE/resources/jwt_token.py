@@ -38,7 +38,7 @@ def login_user():
               description=f"No account exists for: {data.email}")
     elif bcrypt.check_password_hash(user.password, data.password):
         additional_claims = {"first_name": user.first_name, "last_name": user.last_name, "role": user.role_id}
-        access_token = create_access_token(identity=user.email, additional_claims=additional_claims)
+        access_token = create_access_token(identity=user.email, additional_claims=additional_claims, fresh=True)
         refresh_token = create_refresh_token(identity=user.email)
         response = jsonify(access_token=access_token, refresh_token=refresh_token)
         set_access_cookies(response, access_token)
