@@ -72,7 +72,7 @@ jobs:
         with:
           app-name: 'TechSpecBE'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_62D108556652441D8DA644120F922C94 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F0FA1CA936044BB49CB0184A22A9A929 }}
 
       - name: Delete zip file
         run: rm release.zip
