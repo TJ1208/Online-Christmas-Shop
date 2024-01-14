@@ -17,7 +17,7 @@ const SideMenu = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('https://techspecbe.azurewebsites.net/category');
+            const response = await fetch('https://tjtechbe.tcjcoding.com/category');
             const categories: CategoryModel[] = await response.json();
             setCategories(categories);
             setLoading(false);

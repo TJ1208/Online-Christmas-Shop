@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 
 export async function getTokenClaims(): Promise<any> {
     try {
-        const response = await fetch(`https://techspecbe.azurewebsites.net/token`, {
+        const response = await fetch(`https://tjtechbe.tcjcoding.com/token`, {
             method: 'GET',
             credentials: 'include',
             headers: {
