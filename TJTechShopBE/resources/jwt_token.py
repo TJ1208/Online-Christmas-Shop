@@ -41,8 +41,8 @@ def login_user():
         access_token = create_access_token(identity=user.email, additional_claims=additional_claims, fresh=True)
         refresh_token = create_refresh_token(identity=user.email)
         response = jsonify(access_token=access_token, refresh_token=refresh_token)
-        set_access_cookies(response, access_token, domain="techspec.azurewebsites.net")
-        set_refresh_cookies(response, refresh_token, domain="techspec.azurewebsites.net")
+        set_access_cookies(response, access_token, domain=".azurewebsites.net")
+        set_refresh_cookies(response, refresh_token, domain=".azurewebsites.net")
         return response, 200
     else:
         abort(400,
