@@ -56,7 +56,7 @@ api.register_blueprint(jwt_token_blueprint)
 db.init_app(app)
 bcrypt.init_app(app)
 jwt.init_app(app)
-cors.init_app(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000"], supports_credentials=True)
+cors.init_app(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000", "https://tjtech.tcjcoding.com", "https://tjtechbe.tcjcoding.com"], supports_credentials=True)
 app = app
 with app.app_context():
     db.create_all()
