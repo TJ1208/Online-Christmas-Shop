@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 
 from resources.db import db, bcrypt, jwt
 from flask import Flask
@@ -39,10 +38,7 @@ app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
 app.config["JWT_COOKIE_SAMESITE"] = "None"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
-app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
-app.config["JWT_COOKIE_DOMAIN"] = ".azurewebsites.net"
-app.config["JWT_COOKIE_CSRF_PROTECT"] = True
+
 api = Api(app)
 api.register_blueprint(user_blueprint)
 api.register_blueprint(role_blueprint)
