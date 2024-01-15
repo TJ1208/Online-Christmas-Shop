@@ -21,7 +21,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:5000/category`);
+            const response = await fetch(`https://tjtechbe.tcjcoding.com/category`);
             const data = await response.json();
             setCategories(data);
         }

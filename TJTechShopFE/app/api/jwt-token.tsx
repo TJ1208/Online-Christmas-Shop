@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 
 export async function getTokenClaims(): Promise<any> {
     try {
-        const response = await fetch(`http://localhost:5000/token`, {
+        const response = await fetch(`https://tjtechbe.tcjcoding.com/token`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -23,7 +23,7 @@ export async function getTokenClaims(): Promise<any> {
 }
 
 export const logout = async (): Promise<any> => {
-    const response = await fetch(`http://localhost:5000/logout`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/logout`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${cookies().get('access_token_cookie')?.value}`,
