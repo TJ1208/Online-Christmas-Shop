@@ -35,7 +35,7 @@ export const AdminNavBar = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center rounded w-full justify-center px-14">
-                                    <ShopLogo height="6" />
+                                    <ShopLogo />
                                 </div>
                                 <div className="flex items-center rounded w-full justify-end p-2 " >
                                     <div className="btn-hover p-2 pr-5 hover:cursor-pointer" onClick={() => setShowUserDropdown(old => !old)} >
