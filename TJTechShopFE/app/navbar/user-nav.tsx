@@ -20,7 +20,7 @@ export function UserNavBar(userData: any) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('https://tjtechbe.tcjcoding.com/category');
+            const response = await fetch('http://localhost:5000/category');
             const categories = await response.json();
             setCategories(categories);
             setLoading(false);
@@ -49,16 +49,14 @@ export function UserNavBar(userData: any) {
                         <div className="lg:flex w-full md:justify-between justify-center font-bold">
                             <div className="flex flex-col w-full">
                                 <div className="justify-evenly w-full text-center pb-1 hidden lg:flex">
-                                    <div className="relative inline-block dropdown">
+                                    <div className="relative inline-block dropdown hover:border-b border-blue-300">
                                         <div className="flex btn-hover">
-                                            <button className="py-2 my-1" id="popup-category">Categories</button>
-                                            <img src="https://tjcoding.sirv.com/website-images/arrow.png" alt="Category Carrot text-white bg-white" className="h-5 my-5 " />
+                                            <button className="py-2 my-1 text-blue-300" id="popup-category">Categories</button>
+                                            <img src="https://tjcoding.sirv.com/website-images/icons8-category-48.png" alt="Category Carrot text-white bg-white" className="h-5 my-5 " />
                                         </div>
-                                        <div className="absolute hidden dropdown-content bg-black">
+                                        <div className="absolute hidden dropdown-content bg-black bg-opacity-50">
 
                                             <div className="gap-5 grid-cols-5 auto-cols-auto m-2 p-2">
-
-                                                <p className="text-white border-b-2 mx-5 text-left w-fit mb-5">Categories</p>
                                                 {
                                                     categories.map(category =>
                                                         <Link className="btn-hover p-5 m-5"
@@ -68,12 +66,17 @@ export function UserNavBar(userData: any) {
                                         </div>
                                     </div>
                                     <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
-                                        <button className="py-2 my-1">Flash Sales</button>
+                                        <button className="py-2 my-1 text-yellow-500">Flash Sales</button>
                                         <img src="https://tjcoding.sirv.com/website-images/sparkling.png" alt="Flash Sale Symbol" className="h-5" />
                                     </div>
-
-                                    <button className=" btn-hover p-2 m-1 rounded truncate">New Items</button>
-                                    <button className=" btn-hover p-2 m-1 rounded truncate">Top Brands</button>
+                                    <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
+                                        <button className="py-2 my-1 text-red-300">New Items</button>
+                                        <img src="https://tjcoding.sirv.com/website-images/icons8-new-item-100.png" alt="New Item SVG" className="h-8" />
+                                    </div>
+                                    <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
+                                        <button className="py-2 my-1 text-red-400">Top Brands</button>
+                                        <img src="https://tjcoding.sirv.com/website-images/icons8-brand-100.png" alt="Top Brands SVG" className="h-6" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -86,7 +89,7 @@ export function UserNavBar(userData: any) {
                                         </div>
                                     </div>
                                     <Link href="/techshop" className="flex items-center rounded w-full justify-center mt-2">
-                                        <ShopLogo height="6" />
+                                        <ShopLogo />
                                     </Link>
                                     <div className="flex items-center rounded w-full justify-end p-2">
                                         <li className=" btn-hover p-2">
@@ -101,8 +104,8 @@ export function UserNavBar(userData: any) {
                                                 <button>
                                                     <FontAwesomeIcon icon={faCircleUser} className="h-5" onClick={() => setShowUserDropdown(old => !old)} />
                                                 </button>
-                                                <div className={`absolute -left-5 ${showUserDropdown ? "block" : "hidden"} bg-black w-full text-center`}>
-                                                    <UserDropdown {...userData}/>
+                                                <div className={`absolute -left-5 ${showUserDropdown ? "block" : "hidden"} w-full text-center bg-opacity-50`}>
+                                                    <UserDropdown {...userData} />
                                                 </div>
                                             </div>
                                         </li>
@@ -129,9 +132,9 @@ export function UserNavBar(userData: any) {
                                     <div className="relative inline-block dropdown items-center justify-center p-1 m-1 ml-5">
                                         <div className="hidden lg:flex items-center justify-center nav-button">
                                             <FontAwesomeIcon icon={faCircleUser} className="h-6 p-1" />
-                                            <p className="truncate font-normal px-1 w-full text-start">Sign In</p>
+                                            <p className="truncate font-normal px-1 w-full text-start italic">Hello, {userData.first_name}</p>
                                         </div>
-                                        <div className={`absolute hidden dropdown-content bg-black w-full text-center z-30`}>
+                                        <div className={`absolute hidden dropdown-content bg-black w-full text-center z-30 bg-opacity-50`}>
                                             <UserDropdown {...userData} />
                                         </div>
                                     </div>
@@ -150,7 +153,7 @@ export function UserNavBar(userData: any) {
                             showSearchBar
                                 ?
                                 <div className="absolute flex justify-center xl:justify-start md:w-9/12 lg:mx-0 md:mx-28 my-10 w-full">
-                                    <ProductSearch />
+                                    <ProductSearch {...categories} />
                                     <dialog open={showSearchBar} className="modal-backdrop z-30" id="modal-backdrop-input" onClick={toggleSideBar} />
                                 </div>
                                 :

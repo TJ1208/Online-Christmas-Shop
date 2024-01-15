@@ -5,22 +5,29 @@ import { cookies } from 'next/headers';
 
 export async function getTokenClaims(): Promise<any> {
     try {
-        const response = await fetch(`https://tjtechbe.tcjcoding.com/token`, {
+        const response = await fetch(`http://localhost:5000/token`, {
             method: 'GET',
             credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${cookies().get('access_token_cookie')!.value}`,
+                'Authorization': `Bearer ${cookies().get('access_token_cookie')?.value}`,
             }
         })
         if (response.status == 200) {
-            console.log("Access granted!", response.status);
             return response.json();
         } else {
-            console.log("Getting New Token...", response.status);
             return
         }
     } catch (error) {
-        console.log(error);
         return;
     }
-} 
+}
+
+export const logout = async (): Promise<any> => {
+    const response = await fetch(`http://localhost:5000/logout`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${cookies().get('access_token_cookie')?.value}`,
+        }
+    });
+    return response.json();
+}

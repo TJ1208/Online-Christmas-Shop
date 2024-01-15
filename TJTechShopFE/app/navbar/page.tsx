@@ -5,21 +5,20 @@ import { getTokenClaims } from "../api/jwt-token";
 import Link from "next/link";
 
 export const Navbar = async () => {
-    // const router = usePathname();
-    var userData: any;
-    await getTokenClaims().then((result) => {
-        userData = result;
-    });
+    const userData = await getTokenClaims();
     return (
         <>
-            <nav className="bg-black rounded-b w-full">
+            <nav className="bg-black rounded-b w-full bg-opacity-50">
                 <ul className="flex items-center justify-between shadow px-2">
                     <li>
                         <Link href="/techshop" className="lg:flex hidden px-5 py-2">
-                            <ShopLogo height="1" />
+                            <ShopLogo />
                         </Link>
                     </li>
-                    <UserNavBar {...userData} />
+                    {
+                           <UserNavBar {...userData} />
+                    }
+                    
                     <AdminNavBar />
                 </ul>
             </nav>

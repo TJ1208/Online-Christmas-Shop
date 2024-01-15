@@ -23,7 +23,7 @@ export function UpdateProductButton(product: ProductModel) {
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/category`);
+            const response = await fetch(`http://localhost:5000/category`);
             const data = await response.json();
             setCategories(data);
         }

@@ -11,7 +11,7 @@ export default async function TechShopLayout({
 }) {
     await getTokenClaims().then((result) => {
         if (!result) {
-            redirect('/');
+            redirect('/login');
         }
     })
 

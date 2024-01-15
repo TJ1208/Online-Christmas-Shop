@@ -34,7 +34,8 @@ body {
 }
 
 
-html, body {
+html,
+body {
   @apply md:text-base text-sm text-white;
   background-image: linear-gradient(black, rgb(53, 53, 53));
 }
@@ -59,16 +60,26 @@ html, body {
   text-overflow: ellipsis;
 }
 
+.home-button {
+  background: linear-gradient(to left, slategray 50%, rgb(62, 62, 62) 50%) right;
+  background-size: 200% 100%;
+}
+
+.home-button:hover {
+   background-position: left;
+   transition:all 500ms ease;
+}
+
 .scroll-thin {
   scrollbar-width: thin;
 }
 
 .font-awesome-icon {
-  @apply h-6  btn-hover p-2 m-1 rounded truncate hover:cursor-pointer;
+  @apply h-6 btn-hover p-2 m-1 rounded truncate hover:cursor-pointer;
 }
 
 .nav-button {
-  @apply  btn-hover p-2 m-1 rounded truncate hover:cursor-pointer;
+  @apply btn-hover p-2 m-1 rounded truncate hover:cursor-pointer;
 }
 
 .admin-button {
@@ -84,16 +95,18 @@ html, body {
 }
 
 
-img, input, textarea {
+img,
+input,
+textarea {
   @apply resize-none focus:outline-4
 }
 
 .input-login:-webkit-autofill,
-.input-login:-webkit-autofill:hover, 
-.input-login:-webkit-autofill:focus, 
-.input-login:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px black inset !important;
-    -webkit-text-fill-color: white;
+.input-login:-webkit-autofill:hover,
+.input-login:-webkit-autofill:focus,
+.input-login:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px black inset !important;
+  -webkit-text-fill-color: white;
 }
 
 
@@ -103,13 +116,13 @@ img, input, textarea {
 }
 
 .side-menu[open] {
-  animation: slide-right 1000ms forwards;
+  animation: slide-right 200ms forwards;
 }
 
 .side-menu[closing] {
   display: block;
   pointer-events: none;
-  animation: slide-left 500ms backwards;
+  animation: slide-left 200ms backwards;
 }
 
 .modal {
@@ -118,7 +131,7 @@ img, input, textarea {
   background: #fff;
   border: 0;
   border-radius: 0.25rem;
-  
+
 }
 
 .modal-backdrop {

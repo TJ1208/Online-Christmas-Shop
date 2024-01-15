@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 from resources.db import db, bcrypt, jwt
 from flask import Flask
@@ -31,14 +32,16 @@ app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
 app.config["OPENAPI_SWAGGER_UI_URI"] = "https://github.com/swagger-api/swagger-ui/dist"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL",
-                                                  "mysql+pymysql://tjcoding:WakeID12!!@techspecdatabase.mysql.database.azure.com/tech_shop")
+                                                  "mysql+pymysql://root:WakeID12!!@localhost:3306/tech_shop")
 # mysql+pymysql://tjcoding:WakeID12!!@techspecdatabase.mysql.database.azure.com/tech_shop
 # mysql+pymysql://root:WakeID12!!@localhost:3306/tech_shop
 app.config["JWT_SECRET_KEY"] = "Tech-Spec-JWT-Token"
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
 app.config["JWT_COOKIE_SAMESITE"] = "None"
-app.config["JWT_COOKIE_DOMAIN"] = ".tcjcoding.com"
+# app.config["JWT_COOKIE_DOMAIN"] = ".tcjcoding.com"
+app.config["JWT_COOKIE_DOMAIN"] = "localhost"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 api = Api(app)
 api.register_blueprint(user_blueprint)
@@ -56,7 +59,7 @@ api.register_blueprint(jwt_token_blueprint)
 db.init_app(app)
 bcrypt.init_app(app)
 jwt.init_app(app)
-cors.init_app(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000", "https://tjtech.tcjcoding.com", "https://tjtechbe.tcjcoding.com"], supports_credentials=True)
+cors.init_app(app, origins=["https://techspec.azurewebsites.net", "http://localhost:3000", "https://tjtech.tcjcoding.com"], supports_credentials=True)
 app = app
 with app.app_context():
     db.create_all()
