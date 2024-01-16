@@ -1,12 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import SideMenu from "../components/side-menu"
+import SideMenu from "../../components/side-menu"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeft, faCircleUser } from "@fortawesome/free-solid-svg-icons"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import ShopLogo from "../components/shop-logo"
+import ShopLogo from "../../components/shop-logo"
 
 export const AdminNavBar = () => {
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { login } from "../api/user";
-import ShopLogo from "../components/shop-logo";
+import { login } from "../../api/user";
+import ShopLogo from "../../components/shop-logo";
 
 const Login = () => {
     const router = useRouter();
@@ -22,8 +22,9 @@ const Login = () => {
     const LoginUser = () => {
         setIsLoading(old => !old);
         login(loginData).then((result) => {
+            setIsLoading(true);
             if (!result) {
-                setIsLoading(old => !old);
+                setIsLoading(false);
                 setShowErrorMessage(true);
                 setTimeout(() => {
                     setShowErrorMessage(false);

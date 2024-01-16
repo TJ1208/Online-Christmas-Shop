@@ -1,7 +1,7 @@
 import { UserNavBar } from "./user-nav";
 import { AdminNavBar } from "./admin-nav";
-import ShopLogo from "../components/shop-logo";
-import { getTokenClaims } from "../api/jwt-token";
+import ShopLogo from "../../components/shop-logo";
+import { getTokenClaims } from "../../api/jwt-token";
 import Link from "next/link";
 
 export const Navbar = async () => {

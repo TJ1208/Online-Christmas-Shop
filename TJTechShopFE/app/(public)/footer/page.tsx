@@ -1,4 +1,4 @@
-import GetToken from "../api/sirv-token";
+import GetToken from "../../api/sirv-token";
 
 const Footer = () => {
     return (

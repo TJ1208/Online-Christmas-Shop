@@ -1,6 +1,6 @@
 "use server"
 
-import { getAllProducts } from "../api/product";
+import { getAllProducts } from "../../api/product";
 
 const TechShop = async () => {
   var products = await getAllProducts();
@@ -80,19 +80,19 @@ const TechShop = async () => {
         <div className="grid grid-cols-2 justify-evenly text-center bg-slate-900  bg-opacity-10 shadow p-5 mt-5">
           <div className="flex flex-col p-5 nav-button shadow-2xl">
             <img src="https://tjcoding.sirv.com/website-images/cs-450-176_400.webp" alt="Category Image" className="object-contain w-full min-h-[250px] max-h-[250px]"/>
-            <p className="text-semibold text-xl text-blue-200 font-semibold italic">Laptops & Computers</p>
+            <p className="text-semibold md:text-xl text-blue-200 font-semibold italic text-md">Laptops & Towers</p>
           </div>
           <div className="flex flex-col p-5 nav-button shadow-2xl">
             <img src="https://tjcoding.sirv.com/website-images/alienware-keyboard-mouse-aw420k-aw620m-bk-gallery-01.avif" alt="Category Image" className="object-contain w-full min-h-[250px] max-h-[250px]"/>
-            <p className="text-semibold text-xl text-blue-200 font-semibold italic">Computer Accessories</p>
+            <p className="text-semibold md:text-xl text-blue-200 font-semibold italic text-md">Computer Accessories</p>
           </div>
           <div className="flex flex-col p-5 nav-button shadow-2xl">
             <img src="https://tjcoding.sirv.com/website-images/2hntgr1bkgg8lc0t_setting_xxx_0_90_end_2000.png" alt="Category Image" className="object-contain w-full min-h-[250px] max-h-[250px]" />
-            <p className="text-semibold text-xl text-blue-200 font-semibold italic">Gaming Monitors</p>
+            <p className="text-semibold md:text-xl text-blue-200 font-semibold italic text-md">Gaming Monitors</p>
           </div>
           <div className="flex flex-col p-5 nav-button shadow-2xl">
             <img src="https://tjcoding.sirv.com/website-images/gamingchairpng.png" alt="Category Image" className="object-contain w-full max-h-[250px]" />
-            <p className="text-semibold text-xl text-blue-200 font-semibold italic">Performance Chairs</p>
+            <p className="text-semibold md:text-xl text-blue-200 font-semibold italic text-md">Performance Chairs</p>
           </div>
         </div>
       </div>

@@ -1,16 +1,16 @@
 "use client"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import SideMenu from "../components/side-menu"
+import SideMenu from "../../components/side-menu"
 import { faCartShopping, faCircleUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import ModalToggle from "../scripts/modal"
-import CategoryModel from "../models/category"
+import ModalToggle from "../../scripts/modal"
+import CategoryModel from "../../models/category"
 import Link from "next/link"
-import ShopLogo from "../components/shop-logo"
+import ShopLogo from "../../components/shop-logo"
 import UserDropdown from "./user-dropdown"
-import ProductSearch from "../components/product-search"
+import ProductSearch from "../../components/product-search"
 
 export function UserNavBar(userData: any) {
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
@@ -56,26 +56,39 @@ export function UserNavBar(userData: any) {
                                         </div>
                                         <div className="absolute hidden dropdown-content bg-black bg-opacity-50">
 
-                                            <div className="gap-5 grid-cols-5 auto-cols-auto m-2 p-2">
+                                            <div className="grid-cols-5 grid-rows-5 auto-cols-auto m-2 p-2">
                                                 {
                                                     categories.map(category =>
-                                                        <Link className="btn-hover p-5 m-5"
+                                                        <Link className="dropdown-button"
                                                             href="" key={category.category_id}>{category.name}</Link>)
                                                 }
                                             </div>
                                         </div>
                                     </div>
-                                    <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
+                                    <div className="btn-hover rounded truncate items-center flex justify-center p-0 m-0">
                                         <button className="py-2 my-1 text-yellow-500">Flash Sales</button>
                                         <img src="https://tjcoding.sirv.com/website-images/sparkling.png" alt="Flash Sale Symbol" className="h-5" />
                                     </div>
-                                    <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
+                                    <div className="btn-hover rounded truncate items-center flex justify-center p-0 m-0">
                                         <button className="py-2 my-1 text-red-300">New Items</button>
                                         <img src="https://tjcoding.sirv.com/website-images/icons8-new-item-100.png" alt="New Item SVG" className="h-8" />
                                     </div>
-                                    <div className=" btn-hover rounded truncate flex items-center justify-center p-0 m-0">
-                                        <button className="py-2 my-1 text-red-400">Top Brands</button>
-                                        <img src="https://tjcoding.sirv.com/website-images/icons8-brand-100.png" alt="Top Brands SVG" className="h-6" />
+                                    <div className="relative inline-block dropdown hover:border-b border-red-400">
+                                        <div className="flex btn-hover">
+                                            <button className="py-2 my-1 text-red-400" id="popup-category">Top Brands</button>
+                                            <img src="https://tjcoding.sirv.com/website-images/icons8-brand-100.png" alt="Top Brands SVG" className="h-5 my-5" />
+                                        </div>
+                                        <div className="absolute hidden dropdown-content bg-black bg-opacity-50">
+
+                                            <div className="grid grid-col-5 p-2 my-2">
+                                                <Link className="dropdown-button" href="">Samsung</Link>
+                                                <Link className="dropdown-button" href="">lenovo</Link>
+                                                <Link className="dropdown-button" href="">Alienware</Link>
+                                                <Link className="dropdown-button" href="">MSI</Link>
+                                                <Link className="dropdown-button" href="">HP</Link>
+                                                <Link className="dropdown-button" href="">Logitech</Link>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +98,7 @@ export function UserNavBar(userData: any) {
                                 <div className="flex items-center rounded w-full justify-center">
                                     <div className="flex items-center rounded w-full justify-start">
                                         <div className="">
-                                            <SideMenu />
+                                            <SideMenu {...userData} />
                                         </div>
                                     </div>
                                     <Link href="/techshop" className="flex items-center rounded w-full justify-center mt-2">

@@ -1,7 +1,6 @@
-import Navbar from "../navbar/page";
-import { getTokenClaims } from "../api/jwt-token";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+import { getTokenClaims } from "@/app/api/jwt-token";
+import Navbar from "@/app/(public)/navbar/page";
 
 export default async function AdminLayout({
     children

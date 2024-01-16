@@ -61,13 +61,21 @@ body {
 }
 
 .home-button {
-  background: linear-gradient(to left, slategray 50%, rgb(62, 62, 62) 50%) right;
+  background: linear-gradient(to left, rgb(50, 50, 50) 50%, rgb(62, 62, 62) 50%) right;
   background-size: 200% 100%;
 }
 
 .home-button:hover {
    background-position: left;
    transition:all 500ms ease;
+}
+
+.side-menu-button {
+  @apply p-3 hover:cursor-pointer opacity-80 hover:opacity-100 text-red-400 home-button m-1 rounded;
+}
+
+.dropdown-button {
+  @apply px-3 py-2 hover:cursor-pointer text-blue-200 opacity-90 home-button m-1 rounded;
 }
 
 .scroll-thin {
@@ -112,7 +120,7 @@ textarea {
 
 .side-menu {
   right: 50%;
-  @apply fixed inset-0 w-96 h-full overflow-x-scroll;
+  @apply fixed inset-0 w-96 h-full;
 }
 
 .side-menu[open] {

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { registerUser } from "../api/user";
-import ShopLogo from "../components/shop-logo";
-import { UserModel } from "../models/user";
-import getDate from "../scripts/get-current-date";
+import { registerUser } from "../../api/user";
+import ShopLogo from "../../components/shop-logo";
+import { UserModel } from "../../models/user";
+import getDate from "../../scripts/get-current-date";
 import { useRouter } from "next/navigation";
 
 const SignUp = () => {

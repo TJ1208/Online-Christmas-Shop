@@ -1,18 +1,20 @@
 "use client"
 
 import { CategoryModel } from "@/app/models/category";
-import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { LoadingCompoent } from "../loading-component";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import ModalToggle from "@/app/scripts/modal";
+import ShopLogo from "../shop-logo";
 
-const SideMenu = () => {
+function SideMenu(userData: any) {
     const path = usePathname();
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const [isLoading, setLoading] = useState<boolean>(true);
+    const [showCategories, setShowCategories] = useState<boolean>(false);
+    const [showBrands, setShowBrands] = useState<boolean>(false);
+    const [showProfile, setShowProfile] = useState<boolean>(false);
     const [showSideBar, setShowSideBar] = useState<boolean>(false);
 
     useEffect(() => {
@@ -20,10 +22,11 @@ const SideMenu = () => {
             const response = await fetch('https://tjtechbe.tcjcoding.com/category');
             const categories: CategoryModel[] = await response.json();
             setCategories(categories);
-            setLoading(false);
         }
         fetchData();
     }, [])
+
+
 
     const toggleSideBar = () => {
         ModalToggle("side-menu", "modal-backdrop-menu");
@@ -34,102 +37,131 @@ const SideMenu = () => {
         !usePathname().includes("admin")
             ?
             <>
-                <div className="flex">
-                    <FontAwesomeIcon icon={faBars} className="font-awesome-icon" onClick={() => setShowSideBar(old => !old)} />
-                    <dialog open={showSideBar} id="side-menu" className="side-menu mx-0 z-40 bg-gray-950 text-white">
-                        <div className="flex justify-between border-b">
-                            <h1 className="text-lg text-left px-5 p-3 ">Menu</h1>
-                            <FontAwesomeIcon icon={faXmark} className="p-3 m-1  rounded-full h-4 btn-hover hover:cursor-pointer" onClick={toggleSideBar} />
-                        </div>
-                        {
-                            isLoading
-                                ?
-                                <LoadingCompoent />
-
-                                :
-                                <></>
-                        }
-                        {/* <h1 className="text-xl p-4 hover:underline hover:cursor-pointer">Categories</h1>
-                        <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b">
-
-                            {
-
-                                categories.slice(0, 8).map((category: CategoryModel) =>
-                                    <div key={category.category_id} className="flex flex-col p-2 hover:underline hover:cursor-pointer">
-                                        <img src={category.image?.url} className="object-cover h-16 border rounded-full shadow" />
-                                        <p className="text-sm rounded pt-2 text-center font-light">{category.name}</p>
-
-                                    </div>
-
-                                )
-
-                            }
-                        </div>
-                        <h1 className="text-xl p-4 hover:underline hover:cursor-pointer">Deals</h1>
-                        <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b">
-                            <div className="flex flex-col p-2 hover:underline hover:cursor-pointer">
-                                <img src="https://tjcoding.sirv.com/website-images/deals-tag.png" className="object-cover h-16 border rounded-full shadow" />
-                                <p className="text-sm rounded pt-2 text-center font-light">Top Deals</p>
-
+                <FontAwesomeIcon icon={faBars} className="font-awesome-icon" onClick={() => setShowSideBar(old => !old)} />
+                <dialog open={showSideBar} id="side-menu" className="side-menu mx-0 z-40 bg-black bg-opacity-80">
+                    <div className="">
+                        <FontAwesomeIcon icon={faXmark} className="nav-button shadow shadow-white border-b absolute right-0 top-2" onClick={toggleSideBar} />
+                    </div>
+                    <div className="mt-14">
+                        <div>
+                            <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between " onClick={() => setShowCategories(old => !old)}>
+                                <p>Shop By Category</p>
+                                <img src="https://tjcoding.sirv.com/website-images/icons8-sort-down-40.png" alt="Dropdown Arrow" className="h-4 mx-5" />
                             </div>
-                            <div className="flex flex-col p-2 hover:underline hover:cursor-pointer">
-                                <img src="https://tjcoding.sirv.com/website-images/cheap-deals.jpg" className="object-cover h-16 border rounded-full shadow" />
-                                <p className="text-sm rounded pt-2 text-center font-light">Under $25</p>
-
-                            </div>
-                            <div className="flex flex-col p-2 hover:underline hover:cursor-pointer">
-                                <img src="https://tjcoding.sirv.com/website-images/top-brands.jpg" className="object-cover h-16 border rounded-full shadow" />
-                                <p className="text-sm rounded pt-2 text-center font-light">Top Brands</p>
-
-                            </div>
-                            <div className="flex flex-col p-2 hover:underline hover:cursor-pointer">
-                                <img src="https://tjcoding.sirv.com/website-images/new-item.jpg" className="object-cover h-16 border rounded-full shadow" />
-                                <p className="text-sm rounded pt-2 text-center font-light">New Items</p>
-
+                            <div className="grid grid-cols-2 opacity-90">
+                                {
+                                    showCategories
+                                        ?
+                                        categories.map(category => (
+                                            <li className="side-menu-button" key={category.category_id}>
+                                                <p className="border-l px-5 w-fit">{category.name}</p>
+                                            </li>
+                                        ))
+                                        :
+                                        <>
+                                        </>
+                                }
                             </div>
                         </div>
-                        <h1 className="text-xl p-4 hover:underline hover:cursor-pointer">Top Rated</h1>
-                        <div className="grid gap-4 grid-cols-4 auto-rows-auto border-b">
-
-                            {
-
-                                categories.slice(0, 8).map((category: CategoryModel) =>
-                                    <div key={category.category_id} className="flex flex-col p-2 hover:underline hover:cursor-pointer">
-                                        <img src={category.image?.url} className="object-cover h-16 border rounded-full shadow" />
-                                        <p className="text-sm rounded pt-2 text-center font-light">{category.name}</p>
-
-                                    </div>
-
-                                )
-
-                            }
-                        </div> */}
-                    </dialog>
-                    <dialog open={showSideBar} className="modal-backdrop-menu z-30" id="modal-backdrop-menu" onClick={toggleSideBar} />
-                </div>
+                        <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between ">
+                            <p>Best Deals</p>
+                        </div>
+                        <div>
+                            <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between " onClick={() => setShowBrands(old => !old)}>
+                                <p>Top Tech Brands</p>
+                                <img src="https://tjcoding.sirv.com/website-images/icons8-sort-down-40.png" alt="Dropdown Arrow" className="h-4 mx-5" />
+                            </div>
+                            <div className="opacity-90">
+                                {
+                                    showBrands
+                                        ?
+                                        <ul className="grid grid-cols-2">
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Samsung</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Lenovo</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Alienware</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">MSI</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">HP</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Logitech</p>
+                                            </li>
+                                        </ul>
+                                        :
+                                        <>
+                                        </>
+                                }
+                            </div>
+                        </div>
+                        <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between ">
+                            <p>New Tech</p>
+                        </div>
+                        <div>
+                            <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between " onClick={() => setShowProfile(old => !old)}>
+                                <p className="">{userData.first_name}&apos;s Profile</p><FontAwesomeIcon icon={faUser} />
+                                <img src="https://tjcoding.sirv.com/website-images/icons8-sort-down-40.png" alt="Dropdown Arrow" className="ml-36 h-4 mx-5" />
+                            </div>
+                            <div className="opacity-90">
+                                {
+                                    showProfile
+                                        ?
+                                        <ul className="grid grid-cols-2">
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Account</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Orders</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Cart</p>
+                                            </li>
+                                            <li className="side-menu-button">
+                                                <p className="border-l px-5 w-fit">Lists</p>
+                                            </li>
+                                        </ul>
+                                        :
+                                        <>
+                                        </>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 mb-5 flex flex-col items-center justify-center opacity-80 w-full">
+                        <ShopLogo />
+                        <p className="text-white text-xs space-x-1"><span className="text-blue-200">&ldquo;Buy Today,</span>&nbsp;<span className="text-red-400">Love Tomorrow&ldquo;</span></p>
+                    </div>
+                </dialog>
+                <dialog open={showSideBar} className="modal-backdrop-menu z-30" id="modal-backdrop-menu" onClick={toggleSideBar} />
             </>
             :
             <>
                 <div>
                     <div className="flex">
                         <FontAwesomeIcon icon={faBars} className="font-awesome-icon" onClick={() => setShowSideBar(old => !old)} />
-                        <dialog open={showSideBar} id="side-menu" className="side-menu mx-0 z-40 bg-gray-950 text-white">
-                            <div className="flex justify-between border-b">
-                                <h1 className="text-lg text-left px-5 p-3">Menu</h1>
-                                <FontAwesomeIcon icon={faXmark} className="p-3 m-1  rounded-full h-4 btn-hover hover:cursor-pointer" onClick={toggleSideBar} />
+                        <dialog open={showSideBar} id="side-menu" className="side-menu mx-0 z-40 bg-black bg-opacity-80">
+                            <div>
+                                <FontAwesomeIcon icon={faXmark} className="nav-button shadow shadow-white border-b absolute right-0 top-2" onClick={toggleSideBar} />
                             </div>
-                            <div className="flex flex-col">
-                                <Link href="/admin/user" className={`nav-button px-3 bg-slate-600 ${path == '/admin/user' ? 'border-4' : ''}`}
+                            <div className="flex flex-col mt-14">
+                                <Link href="/admin/user" className={`side-menu-button ${path == '/admin/user' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Users</Link>
-                                <Link href="/admin/product" className={`nav-button bg-slate-600 nav-button px-3 ${path == '/admin/product' ? 'border-4' : ''}`}
+                                <Link href="/admin/product" className={`side-menu-button ${path == '/admin/product' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Products</Link>
-                                <Link href="/admin/image" className={`nav-button bg-slate-600 nav-button px-3 ${path == '/admin/image' ? 'border-4' : ''}`}
+                                <Link href="/admin/image" className={`side-menu-button ${path == '/admin/image' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Images</Link>
-                                <Link href="/admin/order" className={`nav-button bg-slate-600 nav-button px-3 ${path == '/admin/order' ? 'border-4' : ''}`}
+                                <Link href="/admin/order" className={`side-menu-button ${path == '/admin/order' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Orders</Link>
-                                <Link href="/admin/past-order" className={`nav-button bg-slate-600 nav-button px-3 ${path == '/admin/past-order' ? 'border-4' : ''}`}
+                                <Link href="/admin/past-order" className={`side-menu-button ${path == '/admin/past-order' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Past Orders</Link>
-                                <Link href="/admin/category" className={`nav-button bg-slate-600 nav-button px-3 ${path == '/admin/category' ? 'border-4' : ''}`}
+                                <Link href="/admin/category" className={`side-menu-button ${path == '/admin/category' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Categories</Link>
                             </div>
                         </dialog>

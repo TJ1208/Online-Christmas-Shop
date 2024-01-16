@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation";
-import { logout } from "../api/jwt-token";
+import { logout } from "../../api/jwt-token";
 import { useEffect, useState } from "react";
 
 function UserDropdown(userData: any) {
