@@ -1,4 +1,3 @@
-import CategoryModel from "../../models/category";
 import { getAllCategories } from "@/app/api/category";
 import CreateSubCategory from "./create-sub-category";
 import DeleteSubCategoryButton from "./delete-sub-category";

@@ -7,11 +7,11 @@ export default async function AdminLayout({
 }: {
     children: React.ReactNode
 }) {
-    // await getTokenClaims().then((result) => {
-    //     if (!result || result.role != 2) {
-    //         redirect('/techshop');
-    //     }
-    // })
+    await getTokenClaims().then((result) => {
+        if (!result || result.role != 2) {
+            redirect('/techshop');
+        }
+    })
 
     return (
         <>
