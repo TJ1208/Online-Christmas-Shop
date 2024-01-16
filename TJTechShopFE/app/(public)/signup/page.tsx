@@ -73,9 +73,9 @@ const SignUp = () => {
                     <input type="tel" name="phone_number" placeholder="Phone #"
                         value={loginData.phone_number} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
                     <input type="number" min={1} value={loginData.age == 0 ? "" : loginData.age} placeholder="Age"
-                        name="age" onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
+                        name="age" onChange={changeHandler} autoComplete="off" className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
                     <input type="password" name="password" placeholder="Password"
-                        value={loginData.password} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
+                        value={loginData.password} onChange={changeHandler}  autoComplete="off" className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
                     {
                         showErrorMessage
                             ?

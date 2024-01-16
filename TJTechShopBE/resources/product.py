@@ -49,6 +49,7 @@ class ProductExt(MethodView):
             product.sale_price = product_data["sale_price"]
             product.description = product_data["description"]
             product.category_id = product_data["category_id"]
+            product.brand_id = product_data["brand_id"]
 
             db.session.add(product)
             db.session.commit()

@@ -2,9 +2,10 @@
 
 import { addImage } from "@/app/api/image";
 import { addProductToImage, getAllProducts, updateProduct } from "@/app/api/product";
-import CategoryModel from "@/app/models/category";
+import { BrandModel } from "@/app/models/brand";
 import { ImageModel } from "@/app/models/image";
 import { ProductModel } from "@/app/models/product";
+import SubCategoryModel from "@/app/models/sub-category";
 import FetchImage from "@/app/scripts/fetch-image";
 import getDate from "@/app/scripts/get-current-date";
 import ModalToggle from "@/app/scripts/modal";
@@ -18,14 +19,19 @@ export function UpdateProductButton(product: ProductModel) {
     const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false);
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [productUpdate, setProductUpdate] = useState<ProductModel>(product);
-    const [image, setImage] = useState<any>(product.images!.length == 0 ? product.images![0] = {image_id: 0, create_time: "", url: ""} : product.images![0]);
+    const [image, setImage] = useState<any>(product.images!.length == 0 ? product.images![0] = { image_id: 0, create_time: "", url: "" } : product.images![0]);
     const [message, setMessage] = useState({ isError: false });
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
+    const [categories, setCategories] = useState<SubCategoryModel[]>([]);
+    const [brands, setBrands] = useState<BrandModel[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/category`);
+            const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category`);
             const data = await response.json();
             setCategories(data);
+            const brandResponse = await fetch(`https://tjtechbe.tcjcoding.com/brand`);
+            const brandData = await brandResponse.json();
+            setBrands(brandData);
         }
         fetchData();
     }, [])
@@ -67,7 +73,8 @@ export function UpdateProductButton(product: ProductModel) {
                     description: productUpdate.description,
                     price: productUpdate.price,
                     sale_price: productUpdate.sale_price,
-                    category_id: productUpdate.category_id
+                    category_id: productUpdate.category_id,
+                    brand_id: productUpdate.brand_id
                 }
                 updateProduct(productData, product.product_id!).then((resultProduct) => {
                     addProductToImage({ product_id: product.product_id!, image_id: resultImage.image_id! });
@@ -88,7 +95,8 @@ export function UpdateProductButton(product: ProductModel) {
                 description: productUpdate.description,
                 price: productUpdate.price,
                 sale_price: productUpdate.sale_price <= 0 ? 0 : productUpdate.sale_price,
-                category_id: productUpdate.category_id
+                category_id: productUpdate.category_id,
+                brand_id: productUpdate.brand_id
             }
             updateProduct(productData, product.product_id!).then((result) => {
                 setMessage({ isError: result.name == undefined ? true : false })
@@ -133,7 +141,18 @@ export function UpdateProductButton(product: ProductModel) {
                             <option value="" disabled hidden key={0}>Select Category</option>
                             {
                                 categories.map((category) => (
-                                    <option value={category.category_id} key={category.category_id}>{category.name}</option>
+                                    <option value={category.category_id} key={category.id}>{category.name}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className="flex items-center p-2">
+                        <label className="p-2">*&nbsp;Brand: </label>
+                        <select name="brand_id" value={product.brand_id != 0 ? product.brand_id : ""} className="input mx-6" onChange={changeHandler} >
+                            <option value="" disabled hidden>Select Brand</option>
+                            {
+                                brands.map((brand) => (
+                                    <option value={brand.brand_id} key={brand.brand_id}>{brand.name}</option>
                                 ))
                             }
                         </select>
@@ -164,8 +183,8 @@ export function UpdateProductButton(product: ProductModel) {
                                         </button>
                                     </>
                                     :
-                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-gray-400 rounded" disabled={(productUpdate.name == "" || productUpdate.description == "" || 
-                                    (product.images!.length == 0 ? false : image.url == "")
+                                    <button className="border m-2 p-2 bg-gray-300 hover:bg-gray-400 rounded" disabled={(productUpdate.name == "" || productUpdate.description == "" ||
+                                        (product.images!.length == 0 ? false : image.url == "")
                                         || productUpdate.price <= 0 || productUpdate.sale_price < 0 || productUpdate.category_id == 0)} onClick={() => UpdateProduct(product, image)}>
                                         Update Product
                                     </button>

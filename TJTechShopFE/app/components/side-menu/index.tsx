@@ -139,7 +139,7 @@ function SideMenu(userData: any) {
                         <p className="text-white text-xs space-x-1"><span className="text-blue-200">&ldquo;Buy Today,</span>&nbsp;<span className="text-red-400">Love Tomorrow&ldquo;</span></p>
                     </div>
                 </dialog>
-                <dialog open={showSideBar} className="modal-backdrop-menu z-30" id="modal-backdrop-menu" onClick={toggleSideBar} />
+                <dialog open={showSideBar} className="modal-backdrop-menu z-20" id="modal-backdrop-menu" onClick={toggleSideBar} />
             </>
             :
             <>
@@ -163,6 +163,10 @@ function SideMenu(userData: any) {
                                     onClick={toggleSideBar}>Past Orders</Link>
                                 <Link href="/admin/category" className={`side-menu-button ${path == '/admin/category' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Categories</Link>
+                                <Link href="/admin/sub-category" className={`side-menu-button ${path == '/admin/sub-category' ? 'border' : ''}`}
+                                    onClick={toggleSideBar}>Sub-Categories</Link>
+                                <Link href="/admin/brand" className={`side-menu-button ${path == '/admin/brand' ? 'border' : ''}`}
+                                    onClick={toggleSideBar}>Brands</Link>
                             </div>
                         </dialog>
                     </div>

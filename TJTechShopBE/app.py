@@ -7,6 +7,7 @@ from flask_smorest import Api
 from resources.user import blp as user_blueprint
 from resources.role import blp as role_blueprint
 from resources.category import blp as category_blueprint
+from resources.sub_category import blp as subcategory_blueprint
 from resources.image import blp as image_blueprint
 from resources.order import blp as order_blueprint
 from resources.order_product import blp as order_product_blueprint
@@ -15,6 +16,7 @@ from resources.order_history_product import blp as order_history_product_bluepri
 from resources.product import blp as product_blueprint
 from resources.product_image import blp as product_image_blueprint
 from resources.jwt_token import blp as jwt_token_blueprint
+from resources.brand import blp as brand_blueprint
 
 from flask_cors import CORS
 
@@ -47,6 +49,7 @@ api = Api(app)
 api.register_blueprint(user_blueprint)
 api.register_blueprint(role_blueprint)
 api.register_blueprint(category_blueprint)
+api.register_blueprint(subcategory_blueprint)
 api.register_blueprint(image_blueprint)
 api.register_blueprint(order_blueprint)
 api.register_blueprint(order_product_blueprint)
@@ -55,6 +58,7 @@ api.register_blueprint(order_history_product_blueprint)
 api.register_blueprint(product_blueprint)
 api.register_blueprint(product_image_blueprint)
 api.register_blueprint(jwt_token_blueprint)
+api.register_blueprint(brand_blueprint)
 
 db.init_app(app)
 bcrypt.init_app(app)

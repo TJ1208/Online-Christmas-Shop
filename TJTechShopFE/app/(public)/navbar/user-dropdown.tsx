@@ -21,6 +21,7 @@ function UserDropdown(userData: any) {
                     <>
                         <div className="border-t">
                             <button className="btn-hover w-full p-2">Account</button>
+                            <button className="btn-hover w-full p-2"><Link href="">Orders</Link></button>
                             <button className="btn-hover w-full p-2"><Link href="/admin">Admin</Link></button>
                             <button className="btn-hover w-full p-2" onClick={() => LogOut()}>Logout</button>
                         </div>

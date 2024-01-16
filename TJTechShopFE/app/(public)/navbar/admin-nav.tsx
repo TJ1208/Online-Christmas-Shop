@@ -25,6 +25,9 @@ export const AdminNavBar = () => {
                             <Link href="/admin/order" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/order' ? '' : 'text-opacity-50'}`}>Orders</Link>
                             <Link href="/admin/past-order" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/past-order' ? '' : 'text-opacity-50'}`}>Past Orders</Link>
                             <Link href="/admin/category" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/category' ? '' : 'text-opacity-50'}`}>Categories</Link>
+                            <Link href="/admin/sub-category" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/sub-category' ? '' : 'text-opacity-50'}`}>Sub-Categories</Link>
+                            <Link href="/admin/brand" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/brand' ? '' : 'text-opacity-50'}`}>Brands</Link>
+
                         </div>
                         <div className="items-center justify-center w-full pb-1 lg:hidden flex flex-col">
                             <div className="flex items-center rounded w-full justify-center">

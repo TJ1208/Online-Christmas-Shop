@@ -9,4 +9,5 @@ export interface ProductModel {
     images?: ImageModel[];
     create_time?: string;
     category_id: number;
+    brand_id: number;
 }

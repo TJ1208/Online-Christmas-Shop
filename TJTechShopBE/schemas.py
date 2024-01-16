@@ -34,6 +34,21 @@ class PlainCategorySchema(Schema):
     image_id = fields.Integer(require=True)
 
 
+class PlainSubCategorySchema(Schema):
+    id = fields.Integer()
+    name = fields.String(require=True)
+    category_id = fields.Integer(require=True)
+
+
+class UpdateSubCategorySchema(Schema):
+    name = fields.String(require=True)
+    category_id = fields.Integer(require=True)
+
+
+class SubCategorySchema(PlainSubCategorySchema):
+    category = fields.Nested(PlainCategorySchema(), dump_only=True)
+
+
 class UpdateCategorySchema(Schema):
     name = fields.String()
     image_id = fields.Integer()
@@ -61,6 +76,16 @@ class PlainProductSchema(Schema):
     description = fields.String(require=True)
     create_time = fields.Date(require=True)
     category_id = fields.Integer(require=True)
+    brand_id = fields.Integer(require=True)
+
+
+class PlainBrandSchema(Schema):
+    brand_id = fields.Integer()
+    name = fields.String(require=True)
+
+
+class UpdateBrandSchema(Schema):
+    name = fields.String(require=True)
 
 
 class UpdateProductSchema(Schema):
@@ -69,6 +94,7 @@ class UpdateProductSchema(Schema):
     sale_price = fields.Float()
     description = fields.String()
     category_id = fields.Integer()
+    brand_id = fields.Integer()
 
 
 class PlainOrderSchema(Schema):

@@ -2,9 +2,10 @@
 
 import { addImage } from "@/app/api/image";
 import { addProduct, addProductToImage, getAllProducts } from "@/app/api/product";
-import CategoryModel from "@/app/models/category";
+import { BrandModel } from "@/app/models/brand";
 import { ImageModel } from "@/app/models/image";
 import { ProductModel } from "@/app/models/product";
+import SubCategoryModel from "@/app/models/sub-category";
 import FetchImage from "@/app/scripts/fetch-image";
 import getDate from "@/app/scripts/get-current-date";
 import ModalToggle from "@/app/scripts/modal";
@@ -17,13 +18,17 @@ const CreateProduct = () => {
     let router = useRouter();
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
+    const [categories, setCategories] = useState<SubCategoryModel[]>([]);
+    const [brands, setBrands] = useState<BrandModel[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/category`);
+            const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category`);
             const data = await response.json();
             setCategories(data);
+            const brandResponse = await fetch(`https://tjtechbe.tcjcoding.com/brand`);
+            const brandData = await brandResponse.json();
+            setBrands(brandData);
         }
         fetchData();
     }, [])
@@ -34,7 +39,8 @@ const CreateProduct = () => {
         price: 0,
         sale_price: 0,
         create_time: "",
-        category_id: 0
+        category_id: 0,
+        brand_id: 0
     })
 
     const [image, setImage] = useState({
@@ -76,7 +82,8 @@ const CreateProduct = () => {
             price: Math.round(productData.price *100) / 100,
             sale_price: Math.round(productData.sale_price *100) / 100,
             create_time: getDate(),
-            category_id: productData.category_id
+            category_id: productData.category_id,
+            brand_id: productData.brand_id
         };
         FetchImage(imageData.url, productData.name.replaceAll(" ", ""), "products");
         imageData = {
@@ -97,7 +104,8 @@ const CreateProduct = () => {
                     price: 0,
                     sale_price: 0,
                     create_time: "",
-                    category_id: 0
+                    category_id: 0,
+                    brand_id: 0
                 });
                 setImage({
                     url: "",
@@ -142,11 +150,22 @@ const CreateProduct = () => {
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Category: </label>
-                        <select name="category_id" value={product.category_id != 0 ? product.category_id : ""} className="input" onChange={changeHandler} >
-                            <option value="" disabled hidden key={0}>Select Category</option>
+                        <select name="category_id" value={product.category_id != 0 ? product.category_id : ""} className="input " onChange={changeHandler} >
+                            <option value="" disabled hidden>Select Category</option>
                             {
                                 categories.map((category) => (
-                                    <option value={category.category_id} key={category.category_id}>{category.name}</option>
+                                    <option value={category.category_id} key={category.id}>{category.name}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div className="flex items-center p-2">
+                        <label className="p-2">*&nbsp;Brand: </label>
+                        <select name="brand_id" value={product.brand_id != 0 ? product.brand_id : ""} className="input mx-6" onChange={changeHandler} >
+                            <option value="" disabled hidden>Select Brand</option>
+                            {
+                                brands.map((brand) => (
+                                    <option value={brand.brand_id} key={brand.brand_id}>{brand.name}</option>
                                 ))
                             }
                         </select>
@@ -178,7 +197,7 @@ const CreateProduct = () => {
                                     </>
                                     :
                                     <button className="border m-2 p-2 bg-gray-300 hover:bg-slate-400 rounded" disabled={(product.name == "" || product.description == "" || image.url == ""
-                                        || product.price == 0 || product.category_id == 0)} onClick={() => CreateProduct(product, image)}>
+                                        || product.price == 0 || product.category_id == 0 || product.brand_id == 0)} onClick={() => CreateProduct(product, image)}>
                                         Add Product
                                     </button>
                         }

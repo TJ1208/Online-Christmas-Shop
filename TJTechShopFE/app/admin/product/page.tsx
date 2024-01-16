@@ -3,12 +3,14 @@ import CreateProduct from "./create-product";
 import DeleteProductButton  from "./delete-product";
 import { ProductModel } from "@/app/models/product";
 import UpdateProductButton from "./update-product";
-import getAllCategories from "@/app/api/category";
 import { UpdateProductImageButton } from "./update-product-image";
+import getAllSubCategories from "@/app/api/sub-category";
+import getAllBrands from "@/app/api/brand";
 
 const AdminProduct = async () => {
     const products = await getAllProducts();
-    const categories = await getAllCategories();
+    const categories = await getAllSubCategories();
+    const brands = await getAllBrands();
     return (
         <>
             <div className="w-full overflow-x-auto">
@@ -28,6 +30,7 @@ const AdminProduct = async () => {
                             <th className="font-semibold px-2">Price</th>
                             <th className="font-semibold px-2">Sale Price</th>
                             <th className="font-semibold px-2">Category</th>
+                            <th className="font-semibold px-2">Brand</th>
                             <th className="font-semibold px-2">Image(s)</th>
                             <th className="font-semibold px-2">
                                 <div className="flex justify-between items-center">
@@ -47,18 +50,10 @@ const AdminProduct = async () => {
                                     <td className="p-2">{product.price}</td>
                                     <td className="p-2">{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
                                     <td className="p-2">{categories.find((category) => category.category_id == product.category_id)!.name}</td>
+                                    <td className="p-2">{brands.find((brand) => brand.brand_id == product.brand_id)!.name}</td>
                                     <td className="p-2">
                                         <div className="flex">
                                             <UpdateProductImageButton {...product}/>
-                                            {/* {
-                                            product.images!.length > 0
-                                                ?
-                                                <p className=" fixed px-14">+{product.images!.length - 1}</p>
-                                                :
-                                                <>
-                                                </>
-                                        } */}
-                                        
                                         </div>
                                     </td>
 
