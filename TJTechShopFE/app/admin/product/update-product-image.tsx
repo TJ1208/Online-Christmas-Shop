@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function UpdateProductImageButton(product: ProductModel) {
+function UpdateProductImageButton(product: ProductModel) {
     let router = useRouter();
     const [showUpdateImageForm, setShowUpdateImageForm] = useState<boolean>(false);
     const [showMessage, setShowMessage] = useState<boolean>(false);
@@ -81,3 +81,5 @@ export function UpdateProductImageButton(product: ProductModel) {
         </>
     )
 }
+
+export default UpdateProductImageButton;

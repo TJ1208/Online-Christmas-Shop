@@ -3,9 +3,9 @@ import CreateProduct from "./create-product";
 import DeleteProductButton  from "./delete-product";
 import { ProductModel } from "@/app/models/product";
 import UpdateProductButton from "./update-product";
-import { UpdateProductImageButton } from "./update-product-image";
 import getAllSubCategories from "@/app/api/sub-category";
 import getAllBrands from "@/app/api/brand";
+import UpdateProductImageButton from "./update-product-image";
 
 const AdminProduct = async () => {
     const products = await getAllProducts();

@@ -12,7 +12,7 @@ import ShopLogo from "../../components/shop-logo"
 import UserDropdown from "./user-dropdown"
 import ProductSearch from "../../components/product-search"
 
-export function UserNavBar(userData: any) {
+function UserNavBar(userData: any) {
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -191,3 +191,5 @@ export function UserNavBar(userData: any) {
         </>
     )
 }
+
+export default UserNavBar;

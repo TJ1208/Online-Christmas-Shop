@@ -5,7 +5,7 @@ import UpdateSubCategoryButton from "./update-sub-category";
 import getAllSubCategories from "@/app/api/sub-category";
 import SubCategoryModel from "@/app/models/sub-category";
 
-const AdminCategory = async () => {
+const AdminSubCategory = async () => {
     const categories = await getAllCategories();
     const subCategories = await getAllSubCategories();
     return (
@@ -60,4 +60,4 @@ const AdminCategory = async () => {
 }
 
 
-export default AdminCategory;
+export default AdminSubCategory;

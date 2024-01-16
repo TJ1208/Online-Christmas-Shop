@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 import ShopLogo from "../../components/shop-logo"
 
-export const AdminNavBar = () => {
+const AdminNavBar = () => {
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
     const path = usePathname();
     return (
@@ -80,3 +80,5 @@ export const AdminNavBar = () => {
         </>
     )
 }
+
+export default AdminNavBar;
