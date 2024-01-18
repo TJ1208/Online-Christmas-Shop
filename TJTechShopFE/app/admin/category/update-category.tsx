@@ -42,12 +42,13 @@ export function UpdateCategoryButton(category: CategoryModel) {
     }
 
     const UpdateCategory = (categoryData: CategoryModel, imageData: ImageModel) => {
+        const number = Math.random() * 100;
         categoryData.name = categoryData.name.trim();
         if (imageData.url != category.image?.url) {
             imageData.url = imageData.url.replaceAll(" ", "");
-            FetchImage(imageData.url, categoryData.name, "categories");
+            FetchImage(imageData.url, number.toString(), "categories");
             imageData = {
-                url: `https://tjcoding.sirv.com/categories/${categoryData.name}.jpg`,
+                url: `https://tjcoding.sirv.com/categories/${number.toString()}.jpg`,
                 create_time: getDate()
             }
             addImage(imageData).then(result => {

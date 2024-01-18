@@ -73,6 +73,7 @@ const CreateProduct = () => {
 
 
     const CreateProduct = (productData: ProductModel, imageData: ImageModel) => {
+        const number = Math.random() * 100;
         productData.name = productData.name.trim();
         imageData.url = imageData.url.replaceAll(" ", "");
         imageData.create_time = getDate();
@@ -85,9 +86,9 @@ const CreateProduct = () => {
             category_id: productData.category_id,
             brand_id: productData.brand_id
         };
-        FetchImage(imageData.url, productData.name.replaceAll(" ", ""), "products");
+        FetchImage(imageData.url, number.toString(), "products");
         imageData = {
-            url: `https://tjcoding.sirv.com/products/${productData.name.replaceAll(" ", "")}.jpg`,
+            url: `https://tjcoding.sirv.com/products/${number.toString()}.jpg`,
             create_time: getDate()
         }
         addImage(imageData).then((resultImage) => {
@@ -154,7 +155,7 @@ const CreateProduct = () => {
                             <option value="" disabled hidden>Select Category</option>
                             {
                                 categories.map((category) => (
-                                    <option value={category.category_id} key={category.id}>{category.name}</option>
+                                    <option value={category.id} key={category.id}>{category.name}</option>
                                 ))
                             }
                         </select>

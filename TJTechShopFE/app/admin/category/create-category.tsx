@@ -48,11 +48,14 @@ export function CreateCategory() {
 
 
     const CreateCategory = (categoryData: CategoryModel, imageData: ImageModel) => {
+        const number = Math.random() * 100;
+        console.log(imageData.url);
         categoryData.name = categoryData.name.trim();
         imageData.url = imageData.url.replaceAll(" ", "");
         imageData.create_time = getDate();
-        FetchImage(imageData.url, categoryData.name, "categories");
-        imageData.url = `https://tjcoding.sirv.com/categories/${categoryData.name}.jpg`;
+        FetchImage(imageData.url, number.toString(), "categories");
+        imageData.url = `https://tjcoding.sirv.com/categories/${number.toString()}.jpg`;
+        console.log(imageData.url);
         addImage(imageData).then(result => {
             categoryData.image_id = result.image_id || 0;
             addCategory(categoryData).then((result) => {

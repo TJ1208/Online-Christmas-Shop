@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import SideMenu from "../../components/side-menu"
 import { faCartShopping, faCircleUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import ModalToggle from "../../scripts/modal"
 import CategoryModel from "../../models/category"
@@ -11,19 +11,23 @@ import Link from "next/link"
 import ShopLogo from "../../components/shop-logo"
 import UserDropdown from "./user-dropdown"
 import ProductSearch from "../../components/product-search"
+import { BrandModel } from "@/app/models/brand"
 
 function UserNavBar(userData: any) {
+    const router = useRouter();
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
-    const [isLoading, setLoading] = useState<boolean>(true);
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
+    const [brands, setBrands] = useState<BrandModel[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch('https://tjtechbe.tcjcoding.com/category');
             const categories = await response.json();
             setCategories(categories);
-            setLoading(false);
+            const brandResponse = await fetch('https://tjtechbe.tcjcoding.com/brand');
+            const brands = await brandResponse.json();
+            setBrands(brands);
         }
         fetchData();
     }, [])
@@ -56,11 +60,11 @@ function UserNavBar(userData: any) {
                                         </div>
                                         <div className="absolute hidden dropdown-content bg-black bg-opacity-50">
 
-                                            <div className="grid-cols-5 grid-rows-5 auto-cols-auto m-2 p-2">
+                                            <div className="grid grid-flow-col grid-rows-3">
                                                 {
                                                     categories.map(category =>
                                                         <Link className="dropdown-button"
-                                                            href="" key={category.category_id}>{category.name}</Link>)
+                                                            href={`/products?category_id=${category.category_id}`} key={category.category_id}>{category.name}</Link>)
                                                 }
                                             </div>
                                         </div>
@@ -80,13 +84,12 @@ function UserNavBar(userData: any) {
                                         </div>
                                         <div className="absolute hidden dropdown-content bg-black bg-opacity-50">
 
-                                            <div className="grid grid-col-5 p-2 my-2">
-                                                <Link className="dropdown-button" href="">Samsung</Link>
-                                                <Link className="dropdown-button" href="">lenovo</Link>
-                                                <Link className="dropdown-button" href="">Alienware</Link>
-                                                <Link className="dropdown-button" href="">MSI</Link>
-                                                <Link className="dropdown-button" href="">HP</Link>
-                                                <Link className="dropdown-button" href="">Logitech</Link>
+                                            <div className="grid grid-flow-col grid-rows-5">
+                                                {
+                                                    brands.map(brand => (
+                                                        <Link className="dropdown-button" href={`/products?brand_id=${brand.brand_id}`} key={brand.brand_id}>{brand.name}</Link>
+                                                    ))
+                                                }
                                             </div>
                                         </div>
                                     </div>

@@ -141,14 +141,14 @@ export function UpdateProductButton(product: ProductModel) {
                             <option value="" disabled hidden key={0}>Select Category</option>
                             {
                                 categories.map((category) => (
-                                    <option value={category.category_id} key={category.id}>{category.name}</option>
+                                    <option value={category.id} key={category.id}>{category.name}</option>
                                 ))
                             }
                         </select>
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Brand: </label>
-                        <select name="brand_id" value={product.brand_id != 0 ? product.brand_id : ""} className="input mx-6" onChange={changeHandler} >
+                        <select name="brand_id" value={productUpdate.brand_id != 0 ? productUpdate.brand_id : ""} className="input mx-6" onChange={changeHandler} >
                             <option value="" disabled hidden>Select Brand</option>
                             {
                                 brands.map((brand) => (

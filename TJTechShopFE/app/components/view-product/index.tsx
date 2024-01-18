@@ -8,7 +8,7 @@ function ViewProduct(product: ProductModel) {
     return (
         <>
             <button className="bg-slate-500 rounded p-3 shadow-sm home-button m-3 w-1/2 font-semibold text-gray-300" onClick={() => {
-                router.push(`/products-page?name=${product.name}`)
+                router.push(`/products?product_id=${product.product_id}`)
             }}>View Product</button>
         </>
     )

@@ -62,6 +62,7 @@ class PlainImageSchema(Schema):
 
 class CategorySchema(PlainCategorySchema):
     image = fields.Nested(PlainImageSchema(), dump_only=True)
+    sub_categories = fields.List(fields.Nested(PlainSubCategorySchema()), dump_only=True)
 
 
 class UpdateImageSchema(Schema):
@@ -109,6 +110,8 @@ class ImageSchema(PlainImageSchema):
 
 class ProductSchema(PlainProductSchema):
     images = fields.List(fields.Nested(PlainImageSchema()), dump_only=True)
+    sub_category = fields.Nested(PlainSubCategorySchema(), dump_only=True)
+    brand = fields.Nested(PlainBrandSchema(), dump_only=True)
 
 
 class OrderSchema(PlainOrderSchema):

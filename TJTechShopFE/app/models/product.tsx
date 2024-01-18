@@ -1,4 +1,6 @@
+import { BrandModel } from "./brand";
 import { ImageModel } from "./image";
+import SubCategoryModel from "./sub-category";
 
 export interface ProductModel {
     product_id?: number;
@@ -10,4 +12,6 @@ export interface ProductModel {
     create_time?: string;
     category_id: number;
     brand_id: number;
+    brand?: BrandModel;
+    sub_category?: SubCategoryModel;
 }

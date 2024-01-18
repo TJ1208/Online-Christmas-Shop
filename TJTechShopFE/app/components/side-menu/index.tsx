@@ -4,24 +4,30 @@ import { CategoryModel } from "@/app/models/category";
 import { faBars, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import ModalToggle from "@/app/scripts/modal";
 import ShopLogo from "../shop-logo";
+import { BrandModel } from "@/app/models/brand";
 
 function SideMenu(userData: any) {
     const path = usePathname();
+    const router = useRouter();
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [showBrands, setShowBrands] = useState<boolean>(false);
     const [showProfile, setShowProfile] = useState<boolean>(false);
     const [showSideBar, setShowSideBar] = useState<boolean>(false);
+    const [brands, setBrands] = useState<BrandModel[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetch('https://tjtechbe.tcjcoding.com/category');
             const categories: CategoryModel[] = await response.json();
             setCategories(categories);
+            const brandResponse = await fetch('https://tjtechbe.tcjcoding.com/brand');
+            const brands: BrandModel[] = await brandResponse.json();
+            setBrands(brands);
         }
         fetchData();
     }, [])
@@ -53,7 +59,7 @@ function SideMenu(userData: any) {
                                     showCategories
                                         ?
                                         categories.map(category => (
-                                            <li className="side-menu-button" key={category.category_id}>
+                                            <li className="side-menu-button" key={category.category_id} onClick={() => router.push(`/products?category_id=${category.category_id}`)}>
                                                 <p className="border-l px-5 w-fit">{category.name}</p>
                                             </li>
                                         ))
@@ -76,24 +82,13 @@ function SideMenu(userData: any) {
                                     showBrands
                                         ?
                                         <ul className="grid grid-cols-2">
-                                            <li className="side-menu-button">
-                                                <p className="border-l px-5 w-fit">Samsung</p>
-                                            </li>
-                                            <li className="side-menu-button">
-                                                <p className="border-l px-5 w-fit">Lenovo</p>
-                                            </li>
-                                            <li className="side-menu-button">
-                                                <p className="border-l px-5 w-fit">Alienware</p>
-                                            </li>
-                                            <li className="side-menu-button">
-                                                <p className="border-l px-5 w-fit">MSI</p>
-                                            </li>
-                                            <li className="side-menu-button">
-                                                <p className="border-l px-5 w-fit">HP</p>
-                                            </li>
-                                            <li className="side-menu-button">
-                                                <p className="border-l px-5 w-fit">Logitech</p>
-                                            </li>
+                                            {
+                                                brands.map(brand => (
+                                                    <li className="side-menu-button" key={brand.brand_id} onClick={() => router.push(`/products?brand_id=${brand.brand_id}`)}>
+                                                        <p className="border-l px-5 w-fit">{brand.name}</p>
+                                                    </li>
+                                                ))
+                                            }
                                         </ul>
                                         :
                                         <>

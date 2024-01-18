@@ -53,7 +53,8 @@ class CategoryExt(MethodView):
                 category.category_id = category_data["category_id"]
             db.session.add(category)
             db.session.commit()
-        except SQLAlchemyError:
+        except SQLAlchemyError as e:
+            print(e)
             abort(500,
                   message=f"Category name, {category_data['name']}, already exists")
 

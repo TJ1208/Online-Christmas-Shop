@@ -86,18 +86,18 @@ const TechShop = async () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 justify-evenly text-center bg-slate-900  bg-opacity-10 shadow p-5 mt-5">
-              {
-                categories.map(category => (
-                  <div className="flex flex-col p-5 nav-button shadow-2xl" key={category.category_id}>
-                    <ProductFilter {...{ url: category.image!.url, name: category.name }} />
-                  </div>
-                ))
-              }
-            </div>
+
           </div>
       }
-
+      <div className="grid grid-cols-2 justify-evenly text-center bg-slate-900  bg-opacity-10 shadow p-5 mt-5">
+        {
+          categories.map(category => (
+            <div className="flex flex-col p-5 nav-button shadow-2xl" key={category.category_id}>
+              <ProductFilter {...{ url: category.image!.url, name: category.name }} />
+            </div>
+          ))
+        }
+      </div>
     </>
   )
 }

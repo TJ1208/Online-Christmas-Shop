@@ -23,7 +23,8 @@ class Product(MethodView):
         try:
             db.session.add(product)
             db.session.commit()
-        except SQLAlchemyError:
+        except SQLAlchemyError as e:
+            print(e)
             abort(500, message=f"An error occurred while adding product.")
 
         return product
