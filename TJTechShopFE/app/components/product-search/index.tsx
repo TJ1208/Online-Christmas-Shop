@@ -16,7 +16,6 @@ function ProductSearch(categories: CategoryModel[]) {
     useEffect(() => {
         const fetchProducts = async () => {
             getAllProducts().then((result) => {
-                console.log(result);
                 setProducts(result);
             })
         }
@@ -31,7 +30,7 @@ function ProductSearch(categories: CategoryModel[]) {
                     {
                         inputString.length > 2
                             ?
-                            products.filter((product => product.name.concat(`${product.brand!.name}${product.sub_category!.name}s`).toLowerCase().includes(inputString.toLowerCase()))).map(product => (
+                            products.filter((product => product.name.concat(`${product.brand?.name}${product.sub_category?.name}s`).toLowerCase().includes(inputString.toLowerCase().trim()))).map(product => (
                                 <div className="flex items-center justify-between nav-button w-full" key={product.product_id}>
                                     <img src={product.images ? product.images[0].url : ""} alt="Product Image" className="w-24 object-cover rounded p-2" />
                                     <p className=" p-2 border-x whitespace-nowrap overflow-hidden text-ellipsis">{product.name}</p>

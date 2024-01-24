@@ -59,9 +59,9 @@ function SideMenu(userData: any) {
                                     showCategories
                                         ?
                                         categories.map(category => (
-                                            <li className="side-menu-button" key={category.category_id} onClick={() => router.push(`/products?category_id=${category.category_id}`)}>
+                                            <Link className="side-menu-button" key={category.category_id} href={`/products?category_id=${category.category_id}`} onClick={() => setShowSideBar(old => !old)}>
                                                 <p className="border-l px-5 w-fit">{category.name}</p>
-                                            </li>
+                                            </Link>
                                         ))
                                         :
                                         <>
@@ -70,7 +70,7 @@ function SideMenu(userData: any) {
                             </div>
                         </div>
                         <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between ">
-                            <p>Best Deals</p>
+                            <Link href={`/products?on_sale=${true}`} onClick={() => setShowSideBar(old => !old)}>Best Deals</Link>
                         </div>
                         <div>
                             <div className="text-blue-200 font-semibold p-5 border-b border-t border-gray-500 opacity-80 hover:opacity-100 hover:cursor-pointer flex items-center justify-between " onClick={() => setShowBrands(old => !old)}>
@@ -84,9 +84,9 @@ function SideMenu(userData: any) {
                                         <ul className="grid grid-cols-2">
                                             {
                                                 brands.map(brand => (
-                                                    <li className="side-menu-button" key={brand.brand_id} onClick={() => router.push(`/products?brand_id=${brand.brand_id}`)}>
+                                                    <Link className="side-menu-button" key={brand.brand_id} href={`/products?brand_id=${brand.brand_id}`} onClick={() => setShowSideBar(old => !old)}>
                                                         <p className="border-l px-5 w-fit">{brand.name}</p>
-                                                    </li>
+                                                    </Link>
                                                 ))
                                             }
                                         </ul>

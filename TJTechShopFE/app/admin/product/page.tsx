@@ -11,6 +11,7 @@ const AdminProduct = async () => {
     const products = await getAllProducts();
     const categories = await getAllSubCategories();
     const brands = await getAllBrands();
+    console.log(products);
     return (
         <>
             <div className="w-full overflow-x-auto">
@@ -49,7 +50,7 @@ const AdminProduct = async () => {
                                     <td className="p-2 sm:min-w-fit min-w-[250px]">{product.description}</td>
                                     <td className="p-2">{product.price}</td>
                                     <td className="p-2">{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
-                                    <td className="p-2">{categories.find((category) => category.category_id == product.category_id)!.name}</td>
+                                    <td className="p-2">{categories.find((category) => category.id == product.category_id)!.name}</td>
                                     <td className="p-2">{brands.find((brand) => brand.brand_id == product.brand_id)!.name}</td>
                                     <td className="p-2">
                                         <div className="flex">

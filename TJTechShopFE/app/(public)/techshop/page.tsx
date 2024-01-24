@@ -14,7 +14,6 @@ const TechShop = async () => {
       <div className="w-full">
         <img src="https://tjcoding.sirv.com/website-images/jack-b-fewhfXbCUzI-unsplash.jpg" alt="Shop Banner." className="object-cover w-full banner-image" />
       </div>
-      {/* <p className="font-semibold text-2xl absolute left-0 translate-x-1/2 translate-y-1/2">Shop Best In Class Towers, Laptops, Monitors</p> */}
 
       {
         products.length == 0
@@ -89,11 +88,11 @@ const TechShop = async () => {
 
           </div>
       }
-      <div className="grid grid-cols-2 justify-evenly text-center bg-slate-900  bg-opacity-10 shadow p-5 mt-5">
+      <div className="grid grid-cols-2 justify-evenly text-center bg-slate-900 bg-opacity-10 shadow p-5 mt-5 container">
         {
           categories.map(category => (
             <div className="flex flex-col p-5 nav-button shadow-2xl" key={category.category_id}>
-              <ProductFilter {...{ url: category.image!.url, name: category.name }} />
+              <ProductFilter {...category} />
             </div>
           ))
         }

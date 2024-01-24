@@ -49,7 +49,6 @@ export function CreateCategory() {
 
     const CreateCategory = (categoryData: CategoryModel, imageData: ImageModel) => {
         const number = Math.random() * 100;
-        console.log(imageData.url);
         categoryData.name = categoryData.name.trim();
         imageData.url = imageData.url.replaceAll(" ", "");
         imageData.create_time = getDate();

@@ -70,7 +70,7 @@ function UserNavBar(userData: any) {
                                         </div>
                                     </div>
                                     <div className="btn-hover rounded truncate items-center flex justify-center p-0 m-0">
-                                        <button className="py-2 my-1 text-yellow-500">Flash Sales</button>
+                                        <Link href={`/products?on_sale=${true}`} className="py-2 my-1 text-yellow-500">Flash Sales</Link>
                                         <img src="https://tjcoding.sirv.com/website-images/sparkling.png" alt="Flash Sale Symbol" className="h-5" />
                                     </div>
                                     <div className="btn-hover rounded truncate items-center flex justify-center p-0 m-0">

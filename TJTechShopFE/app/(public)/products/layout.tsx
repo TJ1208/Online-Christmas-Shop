@@ -20,7 +20,7 @@ async function ProductsLayout({
 
 
 
-            <div className=" xl:px-44 overflow-x-clip">
+            <div className=" xl:px-44 sticky top-0 overflow-x-clip">
                 <Navbar />
             </div>
             <main className="sm:flex sm:flex-col items-center min-h-screen overflow-hidden">

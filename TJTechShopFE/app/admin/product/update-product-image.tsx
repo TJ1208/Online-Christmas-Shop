@@ -34,7 +34,7 @@ function UpdateProductImageButton(product: ProductModel) {
             <dialog open={showUpdateImageForm} className="modal z-40" id="modal3">
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Product Image(s)</h1>
-                    <FontAwesomeIcon icon={faX} className="font-awesome-icon border-2 absolute right-0" onClick={toggleModal} />
+                    <FontAwesomeIcon icon={faX} className="font-awesome-icon absolute right-0 bg-slate-400" onClick={toggleModal} />
                 </div>
                 <div className="border">
                     <div className="flex overflow-hidden items-center">

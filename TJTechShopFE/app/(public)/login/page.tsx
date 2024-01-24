@@ -31,7 +31,7 @@ const Login = () => {
                 }, 2000);
             } else {
                 
-                router.push('/techshop');
+                router.refresh();
             }
         })
     }

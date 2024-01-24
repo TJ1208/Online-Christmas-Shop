@@ -10,6 +10,12 @@ export const getAllCategories = async (): Promise<CategoryModel[]> => {
     return data;
 }
 
+export const getCategoryById = async (id: string): Promise<CategoryModel> => {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/category/id/${id}`)
+    const data = await response.json();
+    return data;
+}
+
 export const  addCategory = async (category: CategoryModel): Promise<CategoryModel> => {
     const response = await fetch('https://tjtechbe.tcjcoding.com/category', {
         method: 'POST',

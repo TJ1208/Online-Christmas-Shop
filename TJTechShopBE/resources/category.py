@@ -69,3 +69,13 @@ class CategoryExt(MethodView):
             db.session.delete(category)
             db.session.commit()
             return {"message": f"{name} category has been deleted.", "status": 200}
+
+
+@blp.route("/category/id/<int:category_id>")
+class CategoryId(MethodView):
+
+    @blp.response(200, CategorySchema)
+    def get(self, category_id):
+        category = CategoryModel.query.get_or_404(category_id,
+                                                  description=f"No category exists with the id: {category_id}")
+        return category
