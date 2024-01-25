@@ -1,7 +1,7 @@
 import { UserModel } from "../models/user"
 
 export const login = async (data: { email: string, password: string }): Promise<any> => {
-    const response = await fetch(`https://tjtechbe.azurewebsites.net/login`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: "include",
@@ -18,7 +18,7 @@ export const login = async (data: { email: string, password: string }): Promise<
 }
 
 export const getAllUsers = async (): Promise<UserModel[]> => {
-    const response = await fetch(`https://tjtechbe.azurewebsites.net/user`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user`, {
         next: {
             revalidate: 0
         }
@@ -27,7 +27,7 @@ export const getAllUsers = async (): Promise<UserModel[]> => {
 }
 
 export const registerUser = async (user: UserModel): Promise<UserModel> => {
-    const response = await fetch(`https://tjtechbe.azurewebsites.net/user`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -38,7 +38,7 @@ export const registerUser = async (user: UserModel): Promise<UserModel> => {
 }
 
 export const deleteUser = async (email: string): Promise<string> => {
-    const response = await fetch(`https://tjtechbe.azurewebsites.net/user/${email}`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`, {
         method: 'DELETE',
         body: JSON.stringify(email),
         headers: {
