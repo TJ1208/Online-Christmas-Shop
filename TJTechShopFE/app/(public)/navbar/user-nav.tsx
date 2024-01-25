@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import SideMenu from "../../components/side-menu"
 import { faCartShopping, faCircleUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import ModalToggle from "../../scripts/modal"
 import CategoryModel from "../../models/category"
@@ -16,7 +16,14 @@ import { BrandModel } from "@/app/models/brand"
 function UserNavBar(data: {userData: any, categories: CategoryModel[], brands: BrandModel[]}) {
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
+    const [userData, setUserData] = useState(data.userData);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            setUserData(data.userData);
+        }
+        fetchData();
+    })
     const toggleSideBar = () => {
         ModalToggle("", "modal-backdrop-input");
         setShowSearchBar(old => !old);
@@ -86,7 +93,7 @@ function UserNavBar(data: {userData: any, categories: CategoryModel[], brands: B
                                 <div className="flex items-center rounded w-full justify-center">
                                     <div className="flex items-center rounded w-full justify-start">
                                         <div className="">
-                                            <SideMenu {...data.userData} />
+                                            <SideMenu {...userData} />
                                         </div>
                                     </div>
                                     <Link href="/techshop" className="flex items-center rounded w-full justify-center mt-2">
@@ -106,7 +113,7 @@ function UserNavBar(data: {userData: any, categories: CategoryModel[], brands: B
                                                     <FontAwesomeIcon icon={faCircleUser} className="h-5" onClick={() => setShowUserDropdown(old => !old)} />
                                                 </button>
                                                 <div className={`absolute -left-5 ${showUserDropdown ? "block" : "hidden"} w-full text-center bg-opacity-50`}>
-                                                    <UserDropdown {...data.userData} />
+                                                    <UserDropdown {...userData} />
                                                 </div>
                                             </div>
                                         </li>
@@ -133,10 +140,10 @@ function UserNavBar(data: {userData: any, categories: CategoryModel[], brands: B
                                     <div className="relative inline-block dropdown items-center justify-center p-1 m-1 ml-5">
                                         <div className="hidden lg:flex items-center justify-center nav-button">
                                             <FontAwesomeIcon icon={faCircleUser} className="h-6 p-1" />
-                                            <p className="truncate font-normal px-1 w-full text-start italic">Hello, {data.userData.first_name}</p>
+                                            <p className="truncate font-normal px-1 w-full text-start italic">Hello, {userData.first_name}</p>
                                         </div>
                                         <div className={`absolute hidden dropdown-content bg-black w-full text-center z-30 bg-opacity-50`}>
-                                            <UserDropdown {...data.userData} />
+                                            <UserDropdown {...userData} />
                                         </div>
                                     </div>
                                 </li>

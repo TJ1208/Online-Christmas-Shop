@@ -1,11 +1,15 @@
+import { getAllProducts, getProduct } from "@/app/api/product";
 import ProductCard from "./product-card";
+import SimilarProducts from "./similar-products";
 
-function Product(productId: { params: {}, searchParams: { product_id: string } }) {
-
+async function Product(productId: { params: {}, searchParams: { product_id: string } }) {
+    const products = await getAllProducts();
+    const product = await getProduct(productId.searchParams.product_id);
     return (
         <>
             <div className="container">
-                <ProductCard {...productId} />
+                <ProductCard {...product} />
+                <SimilarProducts {...{ products, product }} />
             </div>
         </>
     )

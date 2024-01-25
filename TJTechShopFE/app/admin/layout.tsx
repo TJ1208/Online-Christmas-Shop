@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getTokenClaims } from "@/app/api/jwt-token";
-import Navbar from "@/app/(public)/navbar/page";
+import Navbar from "@/app/(public)/navbar";
 
 export default async function AdminLayout({
     children

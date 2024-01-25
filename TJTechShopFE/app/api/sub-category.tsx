@@ -1,7 +1,7 @@
 import SubCategoryModel from "../models/sub-category";
 
 export const getAllSubCategories = async (): Promise<SubCategoryModel[]> => {
-    const response = await fetch("https://tjtechbe.tcjcoding.com/sub/category", {
+    const response = await fetch("https://tjtechbe.azurewebsites.net/sub/category", {
         next: {
             revalidate: 0
         }
@@ -11,7 +11,7 @@ export const getAllSubCategories = async (): Promise<SubCategoryModel[]> => {
 }
 
 export const  addSubCategory = async (category: SubCategoryModel): Promise<SubCategoryModel> => {
-    const response = await fetch('https://tjtechbe.tcjcoding.com/sub/category', {
+    const response = await fetch('https://tjtechbe.azurewebsites.net/sub/category', {
         method: 'POST',
         body: JSON.stringify(category),
         headers: {
@@ -23,7 +23,7 @@ export const  addSubCategory = async (category: SubCategoryModel): Promise<SubCa
 }
 
 export const  updateSubCategory = async (category: SubCategoryModel, name: string): Promise<SubCategoryModel> => {
-    const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category/${name}`, {
+    const response = await fetch(`https://tjtechbe.azurewebsites.net/sub/category/${name}`, {
         method: 'PUT',
         body: JSON.stringify(category),
         headers: {
@@ -35,7 +35,7 @@ export const  updateSubCategory = async (category: SubCategoryModel, name: strin
 }
 
 export const deleteSubCategory = async (name: string): Promise<string> => {
-    const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category/${name}`, {
+    const response = await fetch(`https://tjtechbe.azurewebsites.net/sub/category/${name}`, {
         method: 'DELETE',
     });
     return response.json();
