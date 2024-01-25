@@ -10,7 +10,7 @@ class ProductModel(db.Model):
     sale_price = db.Column(db.Float(precision=2))
     description = db.Column(db.String(800), nullable=False)
     create_time = db.Column(db.Date, nullable=False)
-    category_id = db.Column(db.BigInteger, db.ForeignKey("sub_category.category_id", onupdate="CASCADE"), unique=False, nullable=False)
+    category_id = db.Column(db.BigInteger, db.ForeignKey("sub_category.id", onupdate="CASCADE"), unique=False, nullable=False)
     orders = db.relationship("OrderModel", secondary="order_product", back_populates="products")
     images = db.relationship("ImageModel", secondary="product_image", back_populates="products")
     order_history = db.relationship("OrderHistoryModel", secondary="order_history_product", back_populates="products")

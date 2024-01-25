@@ -75,7 +75,7 @@ const CreateProduct = () => {
     const CreateProduct = (productData: ProductModel, imageData: ImageModel) => {
         const number = Math.random() * 100;
         productData.name = productData.name.trim();
-        imageData.url = imageData.url.replaceAll(" ", "");
+        // imageData.url = imageData.url.replaceAll(" ", "");
         imageData.create_time = getDate();
         productData = {
             name: productData.name.trim(),

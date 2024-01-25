@@ -3,15 +3,12 @@ import CreateProduct from "./create-product";
 import DeleteProductButton  from "./delete-product";
 import { ProductModel } from "@/app/models/product";
 import UpdateProductButton from "./update-product";
-import getAllSubCategories from "@/app/api/sub-category";
 import getAllBrands from "@/app/api/brand";
 import UpdateProductImageButton from "./update-product-image";
 
 const AdminProduct = async () => {
     const products = await getAllProducts();
-    const categories = await getAllSubCategories();
     const brands = await getAllBrands();
-    console.log(products);
     return (
         <>
             <div className="w-full overflow-x-auto">
@@ -50,7 +47,7 @@ const AdminProduct = async () => {
                                     <td className="p-2 sm:min-w-fit min-w-[250px]">{product.description}</td>
                                     <td className="p-2">{product.price}</td>
                                     <td className="p-2">{product.sale_price! > 0 ? product.sale_price : "NOS"}</td>
-                                    <td className="p-2">{categories.find((category) => category.id == product.category_id)!.name}</td>
+                                    <td className="p-2">{product.sub_category?.name}</td>
                                     <td className="p-2">{brands.find((brand) => brand.brand_id == product.brand_id)!.name}</td>
                                     <td className="p-2">
                                         <div className="flex">

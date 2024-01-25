@@ -28,7 +28,7 @@ function ProductSearch(categories: CategoryModel[]) {
                 <div className="flex flex-col w-full justify-center ">
                     <input type="text" placeholder="What are you looking for?" autoFocus value={inputString} className="p-2 border-b border-gray-500 px-2 outline-none bg-black flex justify-center items-center w-full" onChange={changeEventHandler} />
                     {
-                        inputString.length > 2
+                        inputString.length > 1
                             ?
                             products.filter((product => product.name.concat(`${product.brand?.name}${product.sub_category?.name}s`).toLowerCase().includes(inputString.toLowerCase().trim()))).map(product => (
                                 <div className="flex items-center justify-between nav-button w-full" key={product.product_id}>

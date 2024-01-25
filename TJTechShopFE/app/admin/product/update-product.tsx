@@ -57,14 +57,14 @@ export function UpdateProductButton(product: ProductModel) {
     }
 
     const UpdateProduct = (productData: ProductModel, imageData: ImageModel) => {
+        const number = Math.random() * 100;
         productData.name = productData.name.trim();
         if (imageData.url != product.images![0].url) {
             console.log(imageData.url);
-            imageData.url = imageData.url.replaceAll(" ", "");
-            console.log(imageData.url);
-            FetchImage(imageData.url, productData.name, "products");
+            // imageData.url = imageData.url.replaceAll(" ", "");
+            FetchImage(imageData.url, number.toString(), "products");
             imageData = {
-                url: `https://tjcoding.sirv.com/products/${productData.name}.jpg`,
+                url: `https://tjcoding.sirv.com/products/${number.toString()}.jpg`,
                 create_time: getDate()
             }
             addImage(imageData).then(resultImage => {
