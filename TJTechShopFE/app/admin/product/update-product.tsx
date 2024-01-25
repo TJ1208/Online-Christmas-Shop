@@ -12,29 +12,16 @@ import ModalToggle from "@/app/scripts/modal";
 import { faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-export function UpdateProductButton(product: ProductModel) {
+export function UpdateProductButton(data: {product: ProductModel, categories: SubCategoryModel[], brands: BrandModel[]}) {
     let router = useRouter();
+    const product = data.product;
     const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false);
     const [showMessage, setShowMessage] = useState<boolean>(false);
-    const [productUpdate, setProductUpdate] = useState<ProductModel>(product);
+    const [productUpdate, setProductUpdate] = useState<ProductModel>(data.product);
     const [image, setImage] = useState<any>(product.images!.length == 0 ? product.images![0] = { image_id: 0, create_time: "", url: "" } : product.images![0]);
     const [message, setMessage] = useState({ isError: false });
-    const [categories, setCategories] = useState<SubCategoryModel[]>([]);
-    const [brands, setBrands] = useState<BrandModel[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category`);
-            const data = await response.json();
-            setCategories(data);
-            const brandResponse = await fetch(`https://tjtechbe.tcjcoding.com/brand`);
-            const brandData = await brandResponse.json();
-            setBrands(brandData);
-        }
-        fetchData();
-    }, [])
 
     const changeHandler = (event: ChangeEvent<any>) => {
         setProductUpdate({
@@ -140,7 +127,7 @@ export function UpdateProductButton(product: ProductModel) {
                         <select name="category_id" value={productUpdate.category_id != 0 ? productUpdate.category_id : ""} className="input" onChange={changeHandler} >
                             <option value="" disabled hidden key={0}>Select Category</option>
                             {
-                                categories.map((category) => (
+                                data.categories.map((category) => (
                                     <option value={category.id} key={category.id}>{category.name}</option>
                                 ))
                             }
@@ -151,7 +138,7 @@ export function UpdateProductButton(product: ProductModel) {
                         <select name="brand_id" value={productUpdate.brand_id != 0 ? productUpdate.brand_id : ""} className="input mx-6" onChange={changeHandler} >
                             <option value="" disabled hidden>Select Brand</option>
                             {
-                                brands.map((brand) => (
+                                data.brands.map((brand) => (
                                     <option value={brand.brand_id} key={brand.brand_id}>{brand.name}</option>
                                 ))
                             }

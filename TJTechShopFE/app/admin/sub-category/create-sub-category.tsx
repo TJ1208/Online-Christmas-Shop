@@ -7,13 +7,12 @@ import ModalToggle from "@/app/scripts/modal";
 import { faSquarePlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-export function CreateSubCategory() {
+export function CreateSubCategory(data: {categories: CategoryModel[]}) {
     let router = useRouter();
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [category, setCategory] = useState({
         name: '',
         category_id: 0
@@ -21,15 +20,6 @@ export function CreateSubCategory() {
     const [message, setMessage] = useState({
         isError: false
     })
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/category`);
-            const data = await response.json();
-            setCategories(data);
-        }
-        fetchData();
-    }, [])
 
     const changeHandler = (event: ChangeEvent<any>) => {
         setCategory({
@@ -85,7 +75,7 @@ export function CreateSubCategory() {
                         <select name="category_id" value={category.category_id != 0 ? category.category_id : ""} className="input" onChange={changeHandler} >
                             <option value="" disabled hidden key={0}>Select Category</option>
                             {
-                                categories.map((category) => (
+                                data.categories.map((category) => (
                                     <option value={category.category_id} key={category.category_id}>{category.name}</option>
                                 ))
                             }

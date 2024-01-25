@@ -7,24 +7,15 @@ import ModalToggle from "@/app/scripts/modal";
 import { faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-export function UpdateSubCategoryButton(category: SubCategoryModel) {
+export function UpdateSubCategoryButton(data: {subCategory: SubCategoryModel, categories: CategoryModel[]}) {
     let router = useRouter();
+    const category = data.subCategory;
     const [showUpdateForm, setShowUpdateForm] = useState<boolean>(false);
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [categoryUpdate, setCategoryUpdate] = useState<SubCategoryModel>(category);
     const [message, setMessage] = useState({ isError: false });
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/category`);
-            const data = await response.json();
-            setCategories(data);
-        }
-        fetchData();
-    }, [])
 
     const changeHandler = (event: ChangeEvent<any>) => {
         setCategoryUpdate({
@@ -80,7 +71,7 @@ export function UpdateSubCategoryButton(category: SubCategoryModel) {
                         <select name="category_id" value={categoryUpdate.category_id != 0 ? categoryUpdate.category_id : ""} className="input" onChange={changeHandler} >
                             <option value="" disabled hidden key={0}>Select Category</option>
                             {
-                                categories.map((category) => (
+                                data.categories.map((category) => (
                                     <option value={category.category_id} key={category.category_id}>{category.name}</option>
                                 ))
                             }

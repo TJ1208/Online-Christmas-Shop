@@ -5,9 +5,11 @@ import { ProductModel } from "@/app/models/product";
 import UpdateProductButton from "./update-product";
 import getAllBrands from "@/app/api/brand";
 import UpdateProductImageButton from "./update-product-image";
+import getAllSubCategories from "@/app/api/sub-category";
 
 const AdminProduct = async () => {
     const products = await getAllProducts();
+    const categories = await getAllSubCategories();
     const brands = await getAllBrands();
     return (
         <>
@@ -33,7 +35,7 @@ const AdminProduct = async () => {
                             <th className="font-semibold px-2">
                                 <div className="flex justify-between items-center">
                                     <p>Actions</p>
-                                    <CreateProduct />
+                                    <CreateProduct {...{categories, brands}}/>
                                 </div></th>
                         </tr>
                     </thead>
@@ -58,7 +60,7 @@ const AdminProduct = async () => {
                                     <td>
                                         <div className="flex items-center">
                                             <div className="p-1">
-                                                <UpdateProductButton {...product} />
+                                                <UpdateProductButton {...{product, categories, brands}} />
                                             </div>
                                             <div>
                                                 <DeleteProductButton {...product} />

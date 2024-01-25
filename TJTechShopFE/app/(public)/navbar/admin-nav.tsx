@@ -7,6 +7,7 @@ import { faArrowLeft, faCircleUser } from "@fortawesome/free-solid-svg-icons"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import ShopLogo from "../../components/shop-logo"
+import CategoryModel from "@/app/models/category"
 
 const AdminNavBar = () => {
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);

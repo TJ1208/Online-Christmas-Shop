@@ -27,7 +27,7 @@ const AdminSubCategory = async () => {
                             <th className="font-semibold px-2">
                                 <div className="flex w-full justify-between items-center">
                                     <p>Actions</p>
-                                    <CreateSubCategory />
+                                    <CreateSubCategory {...{categories}}/>
                                 </div>
                             </th>
                         </tr>
@@ -42,7 +42,7 @@ const AdminSubCategory = async () => {
                                     <td className="p-2">
                                         <div className="flex items-center">
                                             <div className="p-1">
-                                                <UpdateSubCategoryButton {...subCategory} />
+                                                <UpdateSubCategoryButton {...{subCategory, categories}} />
                                             </div>
                                             <div>
                                                 <DeleteSubCategoryButton {...subCategory} />

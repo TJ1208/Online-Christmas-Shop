@@ -12,26 +12,12 @@ import ModalToggle from "@/app/scripts/modal";
 import { faSquarePlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-const CreateProduct = () => {
+const CreateProduct = (data: {categories: SubCategoryModel[], brands: BrandModel[]}) => {
     let router = useRouter();
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
-    const [categories, setCategories] = useState<SubCategoryModel[]>([]);
-    const [brands, setBrands] = useState<BrandModel[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category`);
-            const data = await response.json();
-            setCategories(data);
-            const brandResponse = await fetch(`https://tjtechbe.tcjcoding.com/brand`);
-            const brandData = await brandResponse.json();
-            setBrands(brandData);
-        }
-        fetchData();
-    }, [])
 
     const [product, setProduct] = useState({
         name: "",
@@ -154,7 +140,7 @@ const CreateProduct = () => {
                         <select name="category_id" value={product.category_id != 0 ? product.category_id : ""} className="input " onChange={changeHandler} >
                             <option value="" disabled hidden>Select Category</option>
                             {
-                                categories.map((category) => (
+                                data.categories.map((category) => (
                                     <option value={category.id} key={category.id}>{category.name}</option>
                                 ))
                             }
@@ -165,7 +151,7 @@ const CreateProduct = () => {
                         <select name="brand_id" value={product.brand_id != 0 ? product.brand_id : ""} className="input mx-6" onChange={changeHandler} >
                             <option value="" disabled hidden>Select Brand</option>
                             {
-                                brands.map((brand) => (
+                                data.brands.map((brand) => (
                                     <option value={brand.brand_id} key={brand.brand_id}>{brand.name}</option>
                                 ))
                             }

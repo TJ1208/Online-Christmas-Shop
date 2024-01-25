@@ -6,7 +6,7 @@ function ProductCard(product: ProductModel) {
         <>
             <Link href={`/product?product_id=${product.product_id}`} className="lg:flex-col hover:cursor-pointer hover:bg-gray-800 hover:transition-all flex shadow-xl bg-slate-900 bg-opacity-10 items-center justify-between rounded w-full p-5" key={product.product_id}>
 
-                <img src={product.images![0].url} className="object-contain w-40 lg:min-w-[200px] lg:max-w-[200px] 2xl:min-w-[300px] 2xl:max-w-[300px] lg:min-h-[300px] lg:max-h-[300px]" />
+                <img src={product.images![0].url} className="object-contain w-40 lg:min-w-[200px] lg:max-w-[200px] 2xl:min-w-[250px] 2xl:max-w-[250px] lg:min-h-[300px] lg:max-h-[300px]" />
                 <div className="w-full flex flex-col justify-between h-full">
                     <div className="flex items-center">
                         <p className="rounded px-3 py-3 underline-offset-8 underline text-blue-300 font-normal">{product.brand?.name}</p>

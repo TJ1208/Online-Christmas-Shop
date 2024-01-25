@@ -13,24 +13,9 @@ import UserDropdown from "./user-dropdown"
 import ProductSearch from "../../components/product-search"
 import { BrandModel } from "@/app/models/brand"
 
-function UserNavBar(userData: any) {
-    const router = useRouter();
+function UserNavBar(data: {userData: any, categories: CategoryModel[], brands: BrandModel[]}) {
     const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
-    const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false);
-    const [brands, setBrands] = useState<BrandModel[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch('https://tjtechbe.tcjcoding.com/category');
-            const categories = await response.json();
-            setCategories(categories);
-            const brandResponse = await fetch('https://tjtechbe.tcjcoding.com/brand');
-            const brands = await brandResponse.json();
-            setBrands(brands);
-        }
-        fetchData();
-    }, [])
 
     const toggleSideBar = () => {
         ModalToggle("", "modal-backdrop-input");
@@ -62,7 +47,7 @@ function UserNavBar(userData: any) {
 
                                             <div className="grid grid-flow-col grid-rows-3">
                                                 {
-                                                    categories.map(category =>
+                                                    data.categories.map(category =>
                                                         <Link className="dropdown-button"
                                                             href={`/products?category_id=${category.category_id}`} key={category.category_id}>{category.name}</Link>)
                                                 }
@@ -86,7 +71,7 @@ function UserNavBar(userData: any) {
 
                                             <div className="grid grid-flow-col grid-rows-5">
                                                 {
-                                                    brands.map(brand => (
+                                                    data.brands.map(brand => (
                                                         <Link className="dropdown-button" href={`/products?brand_id=${brand.brand_id}`} key={brand.brand_id}>{brand.name}</Link>
                                                     ))
                                                 }
@@ -101,7 +86,7 @@ function UserNavBar(userData: any) {
                                 <div className="flex items-center rounded w-full justify-center">
                                     <div className="flex items-center rounded w-full justify-start">
                                         <div className="">
-                                            <SideMenu {...userData} />
+                                            <SideMenu {...data.userData} />
                                         </div>
                                     </div>
                                     <Link href="/techshop" className="flex items-center rounded w-full justify-center mt-2">
@@ -121,7 +106,7 @@ function UserNavBar(userData: any) {
                                                     <FontAwesomeIcon icon={faCircleUser} className="h-5" onClick={() => setShowUserDropdown(old => !old)} />
                                                 </button>
                                                 <div className={`absolute -left-5 ${showUserDropdown ? "block" : "hidden"} w-full text-center bg-opacity-50`}>
-                                                    <UserDropdown {...userData} />
+                                                    <UserDropdown {...data.userData} />
                                                 </div>
                                             </div>
                                         </li>
@@ -148,10 +133,10 @@ function UserNavBar(userData: any) {
                                     <div className="relative inline-block dropdown items-center justify-center p-1 m-1 ml-5">
                                         <div className="hidden lg:flex items-center justify-center nav-button">
                                             <FontAwesomeIcon icon={faCircleUser} className="h-6 p-1" />
-                                            <p className="truncate font-normal px-1 w-full text-start italic">Hello, {userData.first_name}</p>
+                                            <p className="truncate font-normal px-1 w-full text-start italic">Hello, {data.userData.first_name}</p>
                                         </div>
                                         <div className={`absolute hidden dropdown-content bg-black w-full text-center z-30 bg-opacity-50`}>
-                                            <UserDropdown {...userData} />
+                                            <UserDropdown {...data.userData} />
                                         </div>
                                     </div>
                                 </li>
@@ -169,7 +154,7 @@ function UserNavBar(userData: any) {
                             showSearchBar
                                 ?
                                 <div className="absolute flex justify-center xl:justify-start md:w-9/12 lg:mx-0 md:mx-28 my-10 w-full">
-                                    <ProductSearch {...categories} />
+                                    <ProductSearch {...data.categories} />
                                     <dialog open={showSearchBar} className="modal-backdrop z-30" id="modal-backdrop-input" onClick={toggleSideBar} />
                                 </div>
                                 :

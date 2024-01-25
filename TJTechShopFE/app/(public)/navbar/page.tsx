@@ -3,9 +3,13 @@ import { getTokenClaims } from "../../api/jwt-token";
 import Link from "next/link";
 import AdminNavBar from "./admin-nav";
 import UserNavBar from "./user-nav";
+import getAllCategories from "@/app/api/category";
+import getAllBrands from "@/app/api/brand";
 
 export const Navbar = async () => {
     const userData = await getTokenClaims();
+    const brands = await getAllBrands();
+    const categories = await getAllCategories();
     return (
         <>
             <nav className="bg-black rounded-b w-full bg-opacity-50">
@@ -16,7 +20,7 @@ export const Navbar = async () => {
                         </Link>
                     </li>
                     {
-                           <UserNavBar {...userData} />
+                           <UserNavBar {...{userData, categories, brands}}/>
                     }
                     
                     <AdminNavBar />
