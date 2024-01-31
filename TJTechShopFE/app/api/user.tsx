@@ -26,6 +26,11 @@ export const getAllUsers = async (): Promise<UserModel[]> => {
     return response.json();
 }
 
+export const getUser = async (email: string): Promise<UserModel> => {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`);
+    return response.json();
+}
+
 export const registerUser = async (user: UserModel): Promise<UserModel> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/user`, {
         method: 'POST',

@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { ProductModel } from "../models/product";
 import { ProductImageModel } from "../models/product_image";
 
@@ -19,9 +18,6 @@ export const getProduct = async (id: string): Promise<ProductModel> => {
         }
     })
 
-    if (!response.ok) {
-        notFound()
-    }
     return response.json();
 }
 
@@ -48,7 +44,7 @@ export const addProductToImage = async (productImage: ProductImageModel): Promis
     return response.json();
 }
 
-export const deleteProductToImage = async(productId: number, imageId: number): Promise<string> => {
+export const deleteProductToImage = async (productId: number, imageId: number): Promise<string> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/product_image/${productId}/${imageId}`, {
         method: 'DELETE',
         headers: {
@@ -70,7 +66,7 @@ export const updateProduct = async (product: ProductModel, id: number): Promise<
     return response.json();
 }
 
-export const deleteProduct = async (id: number): Promise<{message: string, code: number}> => {
+export const deleteProduct = async (id: number): Promise<{ message: string, code: number }> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/product/${id}`, {
         method: 'DELETE',
         body: JSON.stringify(id),

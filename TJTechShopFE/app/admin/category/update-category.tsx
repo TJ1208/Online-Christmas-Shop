@@ -25,7 +25,6 @@ export function UpdateCategoryButton(category: CategoryModel) {
             ...categoryUpdate,
             [event.target.name]: event.target.value
         })
-        console.log(event.target.value);
     }
 
     const changeHandlerImage = (event: ChangeEvent<HTMLTextAreaElement>) => {

@@ -115,7 +115,8 @@ class ProductSchema(PlainProductSchema):
 
 
 class OrderSchema(PlainOrderSchema):
-    products = fields.List(fields.Nested(PlainProductSchema()), dump_only=True, require=True)
+    user = fields.Nested(PlainUserSchema(), dump_only=True)
+    products = fields.List(fields.Nested(PlainProductSchema()), dump_only=True)
 
 
 class UpdateOrderSchema(Schema):
@@ -126,6 +127,11 @@ class PlainOrderProductSchema(Schema):
     order_id = fields.Integer(require=True)
     product_id = fields.Integer(require=True)
     quantity = fields.Integer(require=True)
+
+
+class OrderProductSchema(PlainOrderProductSchema):
+    order = fields.Nested(PlainOrderSchema(), dump_only=True)
+    product = fields.Nested(PlainProductSchema(), dump_only=True)
 
 
 class UpdateOrderProductSchema(Schema):
@@ -167,5 +173,35 @@ class UpdateOrderHistoryProductSchema(Schema):
     product_id = fields.Integer()
     order_history_id = fields.Integer()
 
+
+class PlainCartSchema(Schema):
+    cart_id = fields.Integer()
+    user_id = fields.Integer(require=True)
+
+
+class UpdateCartSchema(Schema):
+    cart_id = fields.Integer()
+    user_id = fields.Integer(required=True)
+
+
+class CartSchema(PlainCartSchema):
+    products = fields.List(fields.Nested(PlainProductSchema()), dump_only=True)
+
+
+class PlainCartProductSchema(Schema):
+    cart_id = fields.Integer(required=True)
+    product_id = fields.Integer(require=True)
+    quantity = fields.Integer(required=True)
+
+
+class UpdateCartProductSchema(Schema):
+    cart_id = fields.Integer()
+    product_id = fields.Integer()
+    quantity = fields.Integer(require=True)
+
+
+class CartProductSchema(PlainCartProductSchema):
+    cart = fields.Nested(PlainCartSchema(), dump_only=True)
+    product = fields.Nested(PlainProductSchema(), dump_only=True)
 
 

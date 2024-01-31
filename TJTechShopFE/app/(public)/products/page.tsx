@@ -39,7 +39,10 @@ function ProductsPage() {
             setOnSale(params.get("on_sale") || "");
             const products = await getAllProducts();
             setProducts(products);
-            const category = await getCategoryById(categoryId);
+            const category = categoryId ? await getCategoryById(categoryId): {
+                name: '',
+                image_id: 0
+            };
             setCategory(category);
             setIsLoading(false);
 
@@ -75,7 +78,7 @@ function ProductsPage() {
 
                             </div>
                         </div>
-                        <div className="lg:grid lg:grid-cols-4 lg:grid-flow-row xl:grid-cols-5 p-5 justify-center">
+                        <div className="lg:grid lg:grid-cols-4 lg:grid-flow-row xl:grid-cols-5 p-5 justify-center w-full lg:w-auto">
                             {
                                 categoryId != ""
                                     ?

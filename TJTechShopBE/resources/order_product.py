@@ -3,7 +3,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from models.order_product import OrderProductModel
 from resources.db import db
-from schemas import PlainOrderProductSchema, UpdateOrderProductSchema
+from schemas import PlainOrderProductSchema, UpdateOrderProductSchema, OrderProductSchema
 
 blp = Blueprint("OrderProductSchema", __name__, description="Operations on order_product")
 
@@ -11,12 +11,12 @@ blp = Blueprint("OrderProductSchema", __name__, description="Operations on order
 @blp.route("/order_product")
 class OrderProduct(MethodView):
 
-    @blp.response(200, PlainOrderProductSchema(many=True))
+    @blp.response(200, OrderProductSchema(many=True))
     def get(self):
         return OrderProductModel.query.all()
 
     @blp.arguments(PlainOrderProductSchema)
-    @blp.response(201, PlainOrderProductSchema)
+    @blp.response(201, OrderProductSchema)
     def post(self, order_product_data):
         order_product = OrderProductModel(**order_product_data)
 
@@ -30,9 +30,9 @@ class OrderProduct(MethodView):
 
 
 @blp.route("/order_product/<int:order_id>/<int:product_id>")
-class ImageExt(MethodView):
+class OrderProductExt(MethodView):
 
-    @blp.response(200, PlainOrderProductSchema)
+    @blp.response(200, OrderProductSchema)
     def get(self, order_id, product_id):
         order_product = OrderProductModel.query.filter(OrderProductModel.order_id == order_id and
                                                        OrderProductModel.product_id == product_id).first()

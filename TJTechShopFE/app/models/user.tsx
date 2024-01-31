@@ -1,3 +1,5 @@
+import { CartModel } from "./cart";
+
 export interface UserModel {
     user_id?: number;
     first_name: string;

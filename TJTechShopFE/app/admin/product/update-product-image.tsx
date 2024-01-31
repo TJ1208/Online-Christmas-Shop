@@ -22,7 +22,6 @@ function UpdateProductImageButton(product: ProductModel) {
 
     const DeleteImage = (productId: number, imageId: number) => {
         deleteProductToImage(productId, imageId).then((result) => {
-            console.log(result);
             router.refresh();
             
         });

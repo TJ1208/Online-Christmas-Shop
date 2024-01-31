@@ -40,7 +40,6 @@ const CreateUser = () => {
     }
 
     const CreateUser = (user: UserModel) => {
-        console.log(user);
         user.create_time! = getDate();
         registerUser(user).then((result) => {
             setMessage({ isError: result.first_name == undefined ? true : false })

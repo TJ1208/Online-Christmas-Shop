@@ -41,11 +41,9 @@ class OrderExt(MethodView):
     @blp.arguments(UpdateOrderSchema)
     @blp.response(201, OrderSchema)
     def put(self, order_data, order_id):
-
         order = OrderModel.query.get_or_404(order_id,
                                             description=f"No order exists with the id: {order_id}")
         order.user_id = order_data["user_id"]
-
         db.session.add(order)
         db.session.commit()
 

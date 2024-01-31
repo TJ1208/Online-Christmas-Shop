@@ -4,6 +4,7 @@ import ProductFilter from "@/app/components/product-filter";
 import { getAllProducts } from "../../api/product";
 import ViewProduct from "@/app/components/view-product";
 import getAllCategories from "@/app/api/category";
+import AddToCartFP from "@/app/components/add-to-cart-fp";
 
 const TechShop = async () => {
   const categories = await getAllCategories();
@@ -33,7 +34,7 @@ const TechShop = async () => {
                 </div>
                 <div className="flex items-center justify-center w-full">
                   <ViewProduct {...products[0]} />
-                  <button className="bg-slate-500 rounded p-3 shadow-sm home-button m-3 w-1/2 font-semibold text-gray-300">Add To Cart</button>
+                  <AddToCartFP {...products[0]} />
                 </div>
               </div>
             </div>
@@ -48,7 +49,7 @@ const TechShop = async () => {
                 </div>
                 <div className="flex items-center justify-center w-full">
                   <ViewProduct {...products[1]} />
-                  <button className="bg-slate-500 rounded p-3 shadow-sm home-button m-3 w-1/2 font-semibold text-gray-300">Add To Cart</button>
+                  <AddToCartFP {...products[1]} />
                 </div>
               </div>
               <img src={products[1].images![0].url} className="object-cover w-full" />
@@ -65,7 +66,7 @@ const TechShop = async () => {
                 </div>
                 <div className="flex items-center justify-center w-full">
                   <ViewProduct {...products[0]} />
-                  <button className="bg-slate-500 rounded p-3 shadow-sm home-button m-3 w-1/2 font-semibold text-gray-300">Add To Cart</button>
+                  <AddToCartFP {...products[0]} />
                 </div>
               </div>
             </div>
@@ -81,7 +82,7 @@ const TechShop = async () => {
                 </div>
                 <div className="flex items-center justify-center w-full">
                   <ViewProduct {...products[1]} />
-                  <button className="bg-slate-500 rounded p-3 shadow-sm home-button m-3 w-1/2 font-semibold text-gray-300">Add To Cart</button>
+                  <AddToCartFP {...products[1]} />
                 </div>
               </div>
             </div>
@@ -91,7 +92,7 @@ const TechShop = async () => {
       <div className="grid grid-cols-2 justify-evenly text-center bg-slate-900 bg-opacity-10 shadow p-5 mt-5 container">
         {
           categories.map(category => (
-            <div className="flex flex-col p-5 nav-button shadow-2xl" key={category.category_id}>
+            <div className="flex flex-col p-5 hover:opacity-80 hover:cursor-pointer hover:transition-all shadow-2xl" key={category.category_id}>
               <ProductFilter {...category} />
             </div>
           ))

@@ -20,7 +20,6 @@ export function UpdateBrandButton(brand: BrandModel) {
             ...brandUpdate,
             [event.target.name]: event.target.value
         })
-        console.log(event.target.value);
     }
 
     const toggleModal = () => {
@@ -30,7 +29,6 @@ export function UpdateBrandButton(brand: BrandModel) {
     }
 
     const UpdateBrand = (brandData: BrandModel) => {
-        console.log(brandData);
         brandData = {
             name: brandData.name.trim(),
             brand_id: brandData.brand_id

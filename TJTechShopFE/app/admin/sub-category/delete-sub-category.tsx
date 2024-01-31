@@ -15,7 +15,6 @@ export function DeleteSubCategoryButton(category: SubCategoryModel) {
     const removeCategory = (name: string) => {
         deleteSubCategory(name).then((res) => {
             toggleModal();
-            console.log(res);
             getAllSubCategories().then(() => {
                 router.refresh();
             })

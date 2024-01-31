@@ -8,6 +8,7 @@ import ShopLogo from "../../components/shop-logo";
 import { UserModel } from "../../models/user";
 import getDate from "../../scripts/get-current-date";
 import { useRouter } from "next/navigation";
+import { addCart } from "@/app/api/cart";
 
 const SignUp = () => {
     const router = useRouter();
@@ -41,7 +42,8 @@ const SignUp = () => {
                     setEmail("");
                 }, 3000)
             } else {
-                router.push("/");
+                addCart({user_id: result.user_id!})
+                router.push("/login");
             }
 
             setLoginData({
@@ -59,7 +61,7 @@ const SignUp = () => {
 
     return (
         <>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="w-1/2 container flex items-center justify-center mt-24">
                 <div className="flex flex-col items-center justify-center h-auto bg-black bg-opacity-50 rounded p-5 mb-24">
                     <ShopLogo />
                     <div className="flex">

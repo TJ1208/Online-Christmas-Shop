@@ -8,6 +8,7 @@ import { ProductModel } from "@/app/models/product";
 import SubCategoryModel from "@/app/models/sub-category";
 import FetchImage from "@/app/scripts/fetch-image";
 import getDate from "@/app/scripts/get-current-date";
+import initToken from "@/app/scripts/get-sirv-token";
 import ModalToggle from "@/app/scripts/modal";
 import { faSquarePlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +19,7 @@ const CreateProduct = (data: {categories: SubCategoryModel[], brands: BrandModel
     let router = useRouter();
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
-
+    
     const [product, setProduct] = useState({
         name: "",
         description: "",
@@ -61,7 +62,7 @@ const CreateProduct = (data: {categories: SubCategoryModel[], brands: BrandModel
     const CreateProduct = (productData: ProductModel, imageData: ImageModel) => {
         const number = Math.random() * 100;
         productData.name = productData.name.trim();
-        // imageData.url = imageData.url.replaceAll(" ", "");
+        initToken();
         imageData.create_time = getDate();
         productData = {
             name: productData.name.trim(),

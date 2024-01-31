@@ -17,6 +17,8 @@ from resources.product import blp as product_blueprint
 from resources.product_image import blp as product_image_blueprint
 from resources.jwt_token import blp as jwt_token_blueprint
 from resources.brand import blp as brand_blueprint
+from resources.cart import blp as cart_blueprint
+from resources.cart_product import blp as cart_product_blueprint
 
 from flask_cors import CORS
 
@@ -59,6 +61,8 @@ api.register_blueprint(product_blueprint)
 api.register_blueprint(product_image_blueprint)
 api.register_blueprint(jwt_token_blueprint)
 api.register_blueprint(brand_blueprint)
+api.register_blueprint(cart_blueprint)
+api.register_blueprint(cart_product_blueprint)
 
 db.init_app(app)
 bcrypt.init_app(app)

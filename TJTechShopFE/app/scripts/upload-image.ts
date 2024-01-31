@@ -31,7 +31,6 @@ export const UploadImage = (name: string) => {
 
         res.on("end", function () {
             var body = Buffer.concat(chunks);
-            console.log(body.toString());
         });
     });
 

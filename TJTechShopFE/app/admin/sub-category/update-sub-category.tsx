@@ -22,7 +22,6 @@ export function UpdateSubCategoryButton(data: {subCategory: SubCategoryModel, ca
             ...categoryUpdate,
             [event.target.name]: event.target.value
         })
-        console.log(event.target.value);
     }
 
     const toggleModal = () => {
@@ -32,7 +31,6 @@ export function UpdateSubCategoryButton(data: {subCategory: SubCategoryModel, ca
     }
 
     const UpdateSubCategory = (categoryData: SubCategoryModel) => {
-        console.log(categoryData);
         categoryData = {
             name: categoryData.name.trim(),
             category_id: categoryData.category_id

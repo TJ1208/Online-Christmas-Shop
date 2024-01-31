@@ -28,7 +28,6 @@ export const DeleteImage = (name: string, fileName: string) => {
 
         res.on("end", function () {
             var body = Buffer.concat(chunks);
-            console.log(body.toString());
         });
     });
 

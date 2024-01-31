@@ -16,7 +16,6 @@ export function DeleteImageButton(image: ImageModel) {
         // DeleteImage(name, "categories");
         deleteImage(id).then((res) => {
             toggleModal();
-            console.log(res);
             getAllImages().then(() => {
                 router.refresh();
             })

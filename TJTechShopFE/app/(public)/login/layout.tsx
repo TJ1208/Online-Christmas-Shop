@@ -3,7 +3,7 @@
 import { getTokenClaims } from "../../api/jwt-token";
 import { redirect } from "next/navigation";
 
-async function TechShopLayout({
+async function LoginLayout({
     children
 }: {
     children: React.ReactNode
@@ -24,4 +24,4 @@ async function TechShopLayout({
     );
 }
 
-export default TechShopLayout;
+export default LoginLayout;

@@ -8,6 +8,7 @@ import { ProductModel } from "@/app/models/product";
 import SubCategoryModel from "@/app/models/sub-category";
 import FetchImage from "@/app/scripts/fetch-image";
 import getDate from "@/app/scripts/get-current-date";
+import initToken from "@/app/scripts/get-sirv-token";
 import ModalToggle from "@/app/scripts/modal";
 import { faPenToSquare, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -44,11 +45,10 @@ export function UpdateProductButton(data: {product: ProductModel, categories: Su
     }
 
     const UpdateProduct = (productData: ProductModel, imageData: ImageModel) => {
+        initToken();
         const number = Math.random() * 100;
         productData.name = productData.name.trim();
         if (imageData.url != product.images![0].url) {
-            console.log(imageData.url);
-            // imageData.url = imageData.url.replaceAll(" ", "");
             FetchImage(imageData.url, number.toString(), "products");
             imageData = {
                 url: `https://tjcoding.sirv.com/products/${number.toString()}.jpg`,

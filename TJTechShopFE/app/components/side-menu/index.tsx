@@ -44,7 +44,7 @@ function SideMenu(userData: any) {
             ?
             <>
                 <FontAwesomeIcon icon={faBars} className="font-awesome-icon" onClick={() => setShowSideBar(old => !old)} />
-                <dialog open={showSideBar} id="side-menu" className="side-menu mx-0 z-40 bg-black bg-opacity-80">
+                <dialog open={showSideBar} id="side-menu" className="side-menu mx-0 z-40 fixed bg-black bg-opacity-80">
                     <div className="">
                         <FontAwesomeIcon icon={faXmark} className="nav-button shadow shadow-white border-b absolute right-0 top-2" onClick={toggleSideBar} />
                     </div>

@@ -4,7 +4,7 @@ import Navbar from "../navbar";
 import { getTokenClaims } from "../../api/jwt-token";
 import { redirect } from "next/navigation";
 
-async function ProductsLayout({
+async function ProductLayout({
     children
 }: {
     children: React.ReactNode
@@ -24,11 +24,11 @@ async function ProductsLayout({
                 <Navbar />
             </div>
             <main className="sm:flex sm:flex-col items-center min-h-screen overflow-hidden">
-                {children}
+                    {children}
             </main>
         </>
 
     );
 }
 
-export default ProductsLayout;
+export default ProductLayout;

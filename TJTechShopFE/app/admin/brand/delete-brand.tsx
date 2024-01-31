@@ -15,7 +15,6 @@ export function DeleteBrandButton(brand: BrandModel) {
     const removeBrand = (name: string) => {
         deleteBrand(name).then((res) => {
             toggleModal();
-            console.log(res);
             getAllBrands().then(() => {
                 router.refresh();
             })

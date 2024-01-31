@@ -17,7 +17,6 @@ const DeleteProductButton = (product: ProductModel) => {
         DeleteImage(product.name, "products");
         deleteProduct(id).then((res) => {
             toggleModal();
-            console.log(res);
             getAllProducts().then(() => {
                 router.refresh();
             })

@@ -13,6 +13,7 @@ class ProductModel(db.Model):
     category_id = db.Column(db.BigInteger, db.ForeignKey("sub_category.id", onupdate="CASCADE"), unique=False, nullable=False)
     orders = db.relationship("OrderModel", secondary="order_product", back_populates="products")
     images = db.relationship("ImageModel", secondary="product_image", back_populates="products")
+    carts = db.relationship("CartModel", secondary="cart_product", back_populates="products")
     order_history = db.relationship("OrderHistoryModel", secondary="order_history_product", back_populates="products")
     brand_id = db.Column(db.BigInteger, db.ForeignKey("brand.brand_id", onupdate="CASCADE"), nullable=False, default=0)
     sub_category = db.relationship("SubCategoryModel", backref="sub_category")

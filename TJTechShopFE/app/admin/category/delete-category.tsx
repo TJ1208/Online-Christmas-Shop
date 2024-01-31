@@ -17,7 +17,6 @@ export function DeleteCategoryButton(category: CategoryModel) {
         DeleteImage(name, "categories");
         deleteCategory(name).then((res) => {
             toggleModal();
-            console.log(res);
             getAllCategories().then(() => {
                 router.refresh();
             })

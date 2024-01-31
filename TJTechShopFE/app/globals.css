@@ -120,7 +120,8 @@ textarea {
 
 .side-menu {
   right: 50%;
-  @apply fixed inset-0 w-96 h-full;
+  @apply inset-0 w-96 h-full;
+  z-index: 99;
 }
 
 .side-menu[open] {

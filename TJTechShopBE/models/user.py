@@ -13,7 +13,3 @@ class UserModel(db.Model):
     create_time = db.Column(db.Date, nullable=False)
     age = db.Column(db.SmallInteger)
     phone_number = db.Column(db.String(10), nullable=False)
-
-    # used to share relation with another table
-    # store_id = db.Column(db.Integer, db.ForeignKey("stores.id"), unique=False, nullable=False)
-    # store = db.relationship("StoreModel", back_populates="items")

@@ -54,7 +54,6 @@ export function CreateCategory() {
         imageData.create_time = getDate();
         FetchImage(imageData.url, number.toString(), "categories");
         imageData.url = `https://tjcoding.sirv.com/categories/${number.toString()}.jpg`;
-        console.log(imageData.url);
         addImage(imageData).then(result => {
             categoryData.image_id = result.image_id || 0;
             addCategory(categoryData).then((result) => {
