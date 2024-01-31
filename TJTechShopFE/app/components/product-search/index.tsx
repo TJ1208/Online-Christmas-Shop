@@ -29,7 +29,6 @@ function ProductSearch() {
             getAllProducts().then((result) => {
                 setProducts(result);
             })
-            setShowSearchBar(old => !old);
         }
         fetchProducts();
     }, [])
