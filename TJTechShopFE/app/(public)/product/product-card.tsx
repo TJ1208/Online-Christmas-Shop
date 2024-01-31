@@ -93,7 +93,7 @@ function ProductCard(newProduct: ProductModel) {
                         </div>
 
                         {/* Desktop View */}
-                        <div className="lg:flex hidden w-full justify-betwee items-end">
+                        <div className="lg:flex hidden w-full justify-between">
                             <div className="shadow-xl bg-slate-900 bg-opacity-10 rounded w-full min-h-[500px] max-h-[500px] m-5">
                                 <ImageCarousel images={product.images!} />
                             </div>
