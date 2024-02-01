@@ -74,13 +74,16 @@ async function UserNavBar(data: { userData: any, categories: CategoryModel[], br
                                 <div className="">
                                     <SideMenu {...userData} />
                                 </div>
+                                <div className="px-5">
+                                    <ProductSearch />
+                                </div>
                             </div>
                             <Link href="/techshop" className="flex items-center rounded w-full justify-center mt-2">
                                 <ShopLogo />
                             </Link>
                             <div className="flex items-center rounded w-full justify-end p-2">
-                                <ProductSearch />
-                                <li className="btn-hover px-3">
+
+                                <li className="btn-hover">
                                     <div className={`relative inline-block`}>
                                         <UserDropdown {...userData} />
                                     </div>

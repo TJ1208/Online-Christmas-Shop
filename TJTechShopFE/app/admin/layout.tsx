@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getTokenClaims } from "@/app/api/jwt-token";
-import Navbar from "@/app/(public)/navbar";
+import AdminNavBar from "../(public)/navbar/admin-nav";
 
 export default async function AdminLayout({
     children
@@ -19,7 +19,7 @@ export default async function AdminLayout({
 
 
             <div className=" xl:px-44 sticky top-0 overflow-x-clip">
-                <Navbar />
+                <AdminNavBar />
             </div>
             <main className="sm:flex sm:flex-col items-center min-h-screen overflow-hidden">
                 {children}

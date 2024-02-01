@@ -115,6 +115,18 @@ function ProductsPage() {
                                     <>
                                     </>
                             }
+                            {
+                                onSale == "" && brandId == "" && categoryId == ""
+                                    ?
+                                    products.map(product => (
+                                        <div key={product.product_id}>
+                                            <ProductCard {...product} />
+                                        </div>
+                                    ))
+                                    :
+                                    <>
+                                    </>
+                            }
                         </div>
                     </div>
             }

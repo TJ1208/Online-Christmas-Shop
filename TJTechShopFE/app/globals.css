@@ -65,9 +65,23 @@ body {
   background-size: 200% 100%;
 }
 
+
+
 .home-button:hover {
    background-position: left;
    transition:all 500ms ease;
+   @apply hover:cursor-pointer;
+}
+
+.checkout-button {
+  background: linear-gradient(to left, rgb(69, 72, 75) 50%, rgb(151, 179, 217) 50%) right;
+  background-size: 200% 100%;
+}
+
+.checkout-button:hover {
+  background-position: left;
+  transition:all 500ms ease;
+  @apply hover:cursor-pointer;
 }
 
 .side-menu-button {

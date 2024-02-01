@@ -58,6 +58,17 @@ function SideMenu(userData: any) {
                                 {
                                     showCategories
                                         ?
+                                        <Link className="side-menu-button" href={`/products`} onClick={() => setShowSideBar(old => !old)}>
+                                            <p className="border-l px-5 w-fit">Shop All Products</p>
+                                        </Link>
+                                        :
+                                        <>
+                                        </>
+                                }
+                                {
+
+                                    showCategories
+                                        ?
                                         categories.map(category => (
                                             <Link className="side-menu-button" key={category.category_id} href={`/products?category_id=${category.category_id}`} onClick={() => setShowSideBar(old => !old)}>
                                                 <p className="border-l px-5 w-fit">{category.name}</p>

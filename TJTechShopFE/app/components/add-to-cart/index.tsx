@@ -23,6 +23,7 @@ function AddToCart(product: ProductModel) {
     }
 
     const addToCart = () => {
+        console.log(quantity.quantity);
         getTokenClaims().then((result) => {
             getUser(result.sub).then((user) => {
                 getCartByUserId(user.user_id!.toString()).then((cart) => {
@@ -37,7 +38,7 @@ function AddToCart(product: ProductModel) {
                             }, 3000)
                         })
                         :
-                        addProductToCart({ cart_id: cart.cart_id!, product_id: product.product_id!, quantity: quantity.quantity }).then((cartResult) => {
+                        addProductToCart({ cart_id: cart.cart_id!, product_id: product.product_id!, quantity: quantity.quantity }, cart.cart_id || 0).then((cartResult) => {
                             setMessage({ isError: cartResult.quantity == undefined ? true : false })
                             setShowMessage(old => !old)
                             router.refresh();

@@ -8,16 +8,16 @@ from schemas import PlainCartProductSchema, UpdateCartProductSchema, CartProduct
 blp = Blueprint("CartProductSchema", __name__, description="Operations on cart_product")
 
 
-@blp.route("/cart_product")
+@blp.route("/cart_product/<int:cart_id>")
 class CartProduct(MethodView):
 
     @blp.response(200, CartProductSchema(many=True))
-    def get(self):
-        return CartProductModel.query.all()
+    def get(self, cart_id):
+        return CartProductModel.query.filter(CartProductModel.cart_id == cart_id)
 
     @blp.arguments(PlainCartProductSchema)
     @blp.response(201, CartProductSchema)
-    def post(self, cart_product_data):
+    def post(self, cart_product_data, cart_id):
         cart_product = CartProductModel(**cart_product_data)
 
         try:
@@ -34,18 +34,19 @@ class CartProductExt(MethodView):
 
     @blp.response(200, CartProductSchema)
     def get(self, cart_id, product_id):
-        cart_product = CartProductModel.query.filter(CartProductModel.cart_id == cart_id and CartProductModel.product_id == product_id).first()
+        cart_product = CartProductModel.query.filter(CartProductModel.cart_id == cart_id or CartProductModel.product_id == product_id).first()
         if not cart_product:
             abort(404,
                   message=f"No cart exists with the id: {cart_id}, and product id: {product_id}")
         else:
             return cart_product
 
-    @blp.arguments(UpdateCartProductSchema)
+    @blp.arguments(PlainCartProductSchema)
     @blp.response(201, PlainCartProductSchema)
     def put(self, cart_product_data, cart_id, product_id):
-
-        cart_product = CartProductModel.query.filter(CartProductModel.cart_id == cart_id and CartProductModel.product_id == product_id).first()
+        print(cart_id, product_id)
+        cart_product = CartProductModel.query.filter(CartProductModel.cart_id == cart_id or CartProductModel.product_id == product_id).first()
+        print(cart_product.cart_id, cart_product.product_id)
         if not cart_product:
             abort(404,
                   message=f"No cart exists with the id: {cart_id}, and product id: {product_id}")
@@ -60,7 +61,7 @@ class CartProductExt(MethodView):
     @blp.response(200)
     def delete(self, cart_id, product_id):
 
-        cart_product = CartProductModel.query.filter(CartProductModel.cart_id == cart_id and CartProductModel.product_id == product_id).first()
+        cart_product = CartProductModel.query.filter(CartProductModel.cart_id == cart_id or CartProductModel.product_id == product_id).first()
         if not cart_product:
             abort(404,
                   message=f"No cart exists with the id: {cart_id}, and product id: {product_id}")
