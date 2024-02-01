@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const CartItems = async () => {
     const userData = await getTokenClaims();
-    const user = await getUser(userData.sub);
+    const user = await getUser(userData ? userData.sub : "");
     const userCart = await getCartByUserId(user.user_id?.toString() || "0");
     const cartItems = await GetCartItems(userCart.cart_id || 0);
     var initialValue: number = 0;
