@@ -1,13 +1,13 @@
 import { BrandModel } from "../models/brand";
 
 export const getAllBrands = async (): Promise<BrandModel[]> => {
-    const response = await fetch("https://tjtechbe.tcjcoding.com/brand")
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/brand`)
     const data = await response.json();
     return data;
 }
 
 export const  addBrand = async (brand: BrandModel): Promise<BrandModel> => {
-    const response = await fetch('https://tjtechbe.tcjcoding.com/brand', {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/brand`, {
         method: 'POST',
         body: JSON.stringify(brand),
         headers: {

@@ -101,6 +101,7 @@ class UpdateProductSchema(Schema):
 class PlainOrderSchema(Schema):
     order_id = fields.Integer()
     user_id = fields.Integer(require=True)
+    address_id = fields.Integer(require=True)
     create_time = fields.Date(require=True)
 
 
@@ -114,13 +115,43 @@ class ProductSchema(PlainProductSchema):
     brand = fields.Nested(PlainBrandSchema(), dump_only=True)
 
 
+class PlainAddressSchema(Schema):
+    address_id = fields.Integer()
+    user_id = fields.Integer(require=True)
+    street = fields.String(required=True)
+    apt = fields.String(require=True)
+    city = fields.String(require=True)
+    country = fields.String(required=True)
+    state = fields.String(require=True)
+    zipcode = fields.String(require=True)
+    active = fields.Boolean(require=True)
+
+
+class UpdateAddressSchema(Schema):
+    address_id = fields.Integer()
+    user_id = fields.Integer()
+    street = fields.String(required=True)
+    apt = fields.String(require=True)
+    city = fields.String(require=True)
+    country = fields.String(required=True)
+    state = fields.String(require=True)
+    zipcode = fields.String(require=True)
+    active = fields.Boolean(require=True)
+
+
+class AddressSchema(PlainAddressSchema):
+    user = fields.Nested(PlainUserSchema(), dump_only=True)
+
+
 class OrderSchema(PlainOrderSchema):
     user = fields.Nested(PlainUserSchema(), dump_only=True)
     products = fields.List(fields.Nested(PlainProductSchema()), dump_only=True)
+    address = fields.Nested(PlainAddressSchema(), dump_only=True)
 
 
 class UpdateOrderSchema(Schema):
     user_id = fields.Integer(require=True)
+    address_id = fields.Integer(require=True)
 
 
 class PlainOrderProductSchema(Schema):
@@ -203,5 +234,3 @@ class UpdateCartProductSchema(Schema):
 class CartProductSchema(PlainCartProductSchema):
     cart = fields.Nested(PlainCartSchema(), dump_only=True)
     product = fields.Nested(PlainProductSchema(), dump_only=True)
-
-

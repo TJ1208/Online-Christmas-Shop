@@ -23,7 +23,6 @@ function AddToCart(product: ProductModel) {
     }
 
     const addToCart = () => {
-        console.log(quantity.quantity);
         getTokenClaims().then((result) => {
             getUser(result.sub).then((user) => {
                 getCartByUserId(user.user_id!.toString()).then((cart) => {

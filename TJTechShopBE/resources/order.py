@@ -44,6 +44,7 @@ class OrderExt(MethodView):
         order = OrderModel.query.get_or_404(order_id,
                                             description=f"No order exists with the id: {order_id}")
         order.user_id = order_data["user_id"]
+        order.address_id = order_data["address_id"]
         db.session.add(order)
         db.session.commit()
 

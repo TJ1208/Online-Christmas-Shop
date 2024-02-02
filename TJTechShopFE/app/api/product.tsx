@@ -1,3 +1,5 @@
+"use server"
+
 import { ProductModel } from "../models/product";
 import { ProductImageModel } from "../models/product_image";
 

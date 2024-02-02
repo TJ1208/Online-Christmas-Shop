@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 const CartDelete = (cartProduct: CartProductModel) => {
     const router = useRouter();
     const removeCartItem = () => {
-        console.log(cartProduct);
         removeProductFromCart(cartProduct.cart_id, cartProduct.product_id).then(() => {
             router.refresh();
         })

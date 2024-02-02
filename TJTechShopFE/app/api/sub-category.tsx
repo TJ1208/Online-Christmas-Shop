@@ -1,7 +1,7 @@
 import SubCategoryModel from "../models/sub-category";
 
 export const getAllSubCategories = async (): Promise<SubCategoryModel[]> => {
-    const response = await fetch("https://tjtechbe.tcjcoding.com/sub/category", {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category`, {
         next: {
             revalidate: 0
         }
@@ -11,7 +11,7 @@ export const getAllSubCategories = async (): Promise<SubCategoryModel[]> => {
 }
 
 export const  addSubCategory = async (category: SubCategoryModel): Promise<SubCategoryModel> => {
-    const response = await fetch('https://tjtechbe.tcjcoding.com/sub/category', {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/sub/category`, {
         method: 'POST',
         body: JSON.stringify(category),
         headers: {

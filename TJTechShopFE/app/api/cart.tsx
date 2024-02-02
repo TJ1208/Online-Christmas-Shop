@@ -8,7 +8,7 @@ export const getCartByUserId = async (id: string): Promise<CartModel> => {
 }
 
 export const addCart = async (cart: CartModel): Promise<CartModel> => {
-    const response = await fetch('https://tjtechbe.tcjcoding.com/cart', {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/cart`, {
         method: 'POST',
         body: JSON.stringify(cart),
         headers: {

@@ -14,7 +14,7 @@ export const getAllImages = async (): Promise<ImageModel[]> => {
 }
 
 export const addImage = async (image: ImageModel): Promise<ImageModel> => {
-    const response = await fetch('https://tjtechbe.tcjcoding.com/image', {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/image`, {
         method: 'POST',
         body: JSON.stringify(image),
         headers: {

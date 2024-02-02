@@ -65,6 +65,9 @@ body {
   background-size: 200% 100%;
 }
 
+.public-input {
+  @apply p-2 m-2 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 w-full hover:opacity-90 hover:transition-all;
+}
 
 
 .home-button:hover {

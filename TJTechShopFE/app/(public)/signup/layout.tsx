@@ -11,8 +11,6 @@ async function SignUpLayout({
     await getTokenClaims().then((result) => {
         if (result) {
             redirect('/techshop');
-        } else {
-            redirect('/login');
         }
     })
 
