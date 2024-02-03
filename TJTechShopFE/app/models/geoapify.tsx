@@ -17,6 +17,7 @@ export interface GeoapifyModel {
             address_line1: string;
             address_line2: string;
             category: string;
+            state_code: string;
         }
         geometry: {
             type: string;

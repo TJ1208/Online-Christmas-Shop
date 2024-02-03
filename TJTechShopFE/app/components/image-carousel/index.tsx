@@ -17,12 +17,21 @@ const ImageCarousel = (images: { images: ImageModel[] }) => {
                     <>
                     </>
                     :
-                    <div className="Sirv opacity-100" data-options="fullscreen.enable:false; thumbnails.position:left; thumbnails.type:crop; " >
-                        {
-                            images.images.map(image => (
-                                <div data-type="zoom" data-src={image.url} key={image.image_id}></div>
-                            ))
-                        }
+                    <div>
+                        <div className="hidden sm:flex Sirv opacity-100" data-options="fullscreen.enable:false; thumbnails.position:left; thumbnails.type:crop; " >
+                            {
+                                images.images.map(image => (
+                                    <div data-type="zoom" data-src={image.url} key={image.image_id}></div>
+                                ))
+                            }
+                        </div>
+                        <div className="sm:hidden flex Sirv opacity-100" data-options="fullscreen.enable:false; thumbnails.type:bullets; " >
+                            {
+                                images.images.map(image => (
+                                    <div data-type="zoom" data-src={image.url} key={image.image_id}></div>
+                                ))
+                            }
+                        </div>
                     </div>
             }
 

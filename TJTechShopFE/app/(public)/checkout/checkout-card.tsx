@@ -5,17 +5,16 @@ import getGeoapifyAddress from "@/app/api/geoapify";
 import { AddressModel } from "@/app/models/address";
 import { CartProductModel } from "@/app/models/cart_product";
 import { GeoapifyModel } from "@/app/models/geoapify";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import CheckoutItem from "./checkout-item";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ProductLoad from "../products/product-load";
-import getUserAddresses, { addAddress, deleteAddress } from "@/app/api/address";
+import getUserAddresses, { addAddress, deleteAddress, updateAddress } from "@/app/api/address";
 
 const CheckoutCard = () => {
-    const router = useRouter();
     const params = useSearchParams();
     const [geoapifyData, setGeoapifyData] = useState<GeoapifyModel>();
     const [cartItems, setCartItems] = useState<CartProductModel[]>([]);
@@ -23,6 +22,7 @@ const CheckoutCard = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
     const [addresses, setAddresses] = useState<AddressModel[]>([]);
+    const [selectedAddress, setSelectedAddress] = useState<AddressModel>();
     const [newAddress, setNewAddress] = useState<AddressModel>({
         user_id: 0,
         street: "",
@@ -54,8 +54,34 @@ const CheckoutCard = () => {
     }
 
     const addUserAddress = (address: AddressModel) => {
+        const currentAddress = addresses.find(address => address.active == true);
+        if (currentAddress) {
+            updateAddress({
+                address_id: currentAddress.address_id,
+                user_id: currentAddress.user_id,
+                street: currentAddress.street,
+                apt: currentAddress.apt,
+                city: currentAddress.city,
+                state: currentAddress.state,
+                country: currentAddress.country,
+                zipcode: currentAddress.zipcode,
+                active: false
+            }, currentAddress?.address_id || 0)
+        }
+
         address.active = true;
         addAddress(address).then((result) => {
+            setSelectedAddress({
+                address_id: result.address_id,
+                user_id: result.user_id,
+                street: result.street,
+                apt: result.apt,
+                city: result.city,
+                state: result.state,
+                country: result.country,
+                zipcode: result.zipcode,
+                active: true
+            })
             setNewAddress({
                 user_id: 0,
                 street: "",
@@ -68,12 +94,37 @@ const CheckoutCard = () => {
             });
             getUserAddresses(cartItems[0].cart?.user_id || 0).then((result) => {
                 setAddresses(result);
+                setShowAddressForm(false);
             })
         });
 
     }
 
+    const changeAddress = (address: AddressModel) => {
+        const currentAddress = addresses.find(address => address.active == true);
+        if (currentAddress) {
+            updateAddress({
+                address_id: currentAddress.address_id,
+                user_id: currentAddress.user_id,
+                street: currentAddress.street,
+                apt: currentAddress.apt,
+                city: currentAddress.city,
+                state: currentAddress.state,
+                country: currentAddress.country,
+                zipcode: currentAddress.zipcode,
+                active: false
+            }, currentAddress?.address_id || 0)
+        }
+        updateAddress(address, address.address_id || 0).then(() => {
+            setSelectedAddress(address);
+            getUserAddresses(cartItems[0].cart?.user_id || 0).then((result) => {
+                setAddresses(result);
+            })
+        })
+    }
+
     const removeAddress = (address_id: number) => {
+        // address_id == selectedAddress?.address_id ? setSelectedAddress(undefined) : "";
         deleteAddress(address_id).then(() => {
             getUserAddresses(cartItems[0].cart?.user_id || 0).then((result) => {
                 setAddresses(result);
@@ -87,6 +138,7 @@ const CheckoutCard = () => {
             setCartItems(cartItems);
             const addresses = await getUserAddresses(cartItems[0].cart?.user_id || 0);
             setAddresses(addresses);
+            setSelectedAddress(addresses.find(address => address.active));
             setIsLoading(false);
         }
         fetchData();
@@ -100,7 +152,7 @@ const CheckoutCard = () => {
                     <ProductLoad />
                     :
                     <div className="flex flex-col justify-center items-center w-full">
-                        <div className="lg:flex-row lg:gap-10 flex flex-col items-start justify-center shadow-xl p-5 relative w-9/12">
+                        <div className="lg:flex-row lg:gap-10 flex flex-col items-start justify-center shadow-xl p-5 relative">
                             <div className="lg:border-r lg:pr-10 flex flex-col items-center justify-between w-full">
                                 <div className="flex gap-5 shadow-xl mb-10">
                                     <Link href={`/cart?user_id=${cartItems[0].cart?.user_id}`} className="nav-button border-b"><sub>Cart</sub></Link>
@@ -151,10 +203,22 @@ const CheckoutCard = () => {
                                             <div className="w-full flex flex-col gap-3">
                                                 {
                                                     addresses.map(address => (
-                                                        <div className="flex items-center w-full justify-evenly px-3 py-5 shadow-xl home-button rounded" key={address.address_id}>
-                                                            <input type="radio" checked={address.active} onChange={changeHandler}/>
+                                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" key={address.address_id} onClick={() => address.active ? "" : changeAddress({
+                                                            address_id: address.address_id,
+                                                            user_id: address.user_id,
+                                                            street: address.street,
+                                                            apt: address.apt,
+                                                            city: address.city,
+                                                            state: address.state,
+                                                            country: address.country,
+                                                            zipcode: address.zipcode,
+                                                            active: true
+                                                        })}>
+                                                            <input type="radio" checked={address.active} onChange={changeHandler} className="ml-5" />
                                                             <p className="text-blue-200 px-3 text-center sm:text-left">{address.street}, {address.city}, {address.country} {address.zipcode}</p>
-                                                            <FontAwesomeIcon icon={faTrash} className="text-red-200 hover:text-red-400 hover:transition-all" onClick={() => removeAddress(address.address_id || 0)} />
+                                                            <button className="btn-hover hover:bg-red-500 hover:opacity-50 rounded-full px-2 py-1" onClick={() => removeAddress(address.address_id || 0)}>
+                                                                <FontAwesomeIcon icon={faTrash} />
+                                                            </button>
                                                         </div>
                                                     ))
                                                 }
@@ -183,12 +247,12 @@ const CheckoutCard = () => {
                                                                         apt: newAddress.apt,
                                                                         city: address.properties.city,
                                                                         country: address.properties.country,
-                                                                        state: address.properties.state,
+                                                                        state: address.properties.state_code,
                                                                         zipcode: address.properties.postcode,
                                                                         active: false
                                                                     });
                                                                     setShowAddressSuggestion(false);
-                                                                }} key={address.properties.lat}>{address.properties.address_line1}, {address.properties.city}, {address.properties.country_code.toUpperCase()} {address.properties.postcode}</label>
+                                                                }} key={address.properties.lat}>{address.properties.address_line1}, {address.properties.city}, {address.properties.state_code?.toUpperCase()} {address.properties.postcode}</label>
                                                             ))
                                                         }
                                                     </div>
@@ -199,10 +263,10 @@ const CheckoutCard = () => {
                                             <div className="flex w-full items-center sm:flex-row flex-col">
                                                 <input type="text" autoComplete="one-time-code" name="country" value={newAddress.country} placeholder="Country" className="public-input" onChange={changeHandler} />
                                                 <input type="text" autoComplete="one-time-code" name="state" value={newAddress.state} placeholder="State" className="public-input" onChange={changeHandler} />
-                                                <input type="text" autoComplete="one-time-code" name="zipcode" value={newAddress.zipcode} placeholder="Zipcode" className="public-input" onChange={changeHandler} />
+                                                <input type="text" autoComplete="one-time-code" name="zipcode" value={newAddress.zipcode.trim()} placeholder="Zipcode" className="public-input" onChange={changeHandler} />
                                             </div>
 
-                                            <button className="nav-button border hover:bg-green-100 hover:text-black" disabled={newAddress.street == "" || newAddress.city == "" || newAddress.country == "" || newAddress.state == "" || newAddress.zipcode == ""}
+                                            <button className="nav-button border hover:bg-green-100 hover:text-black" disabled={newAddress.street == "".trim() || newAddress.city == "".trim() || newAddress.country == "".trim() || newAddress.state == "".trim() || newAddress.zipcode == "".trim()}
                                                 onClick={() => addUserAddress(newAddress)}>Add</button>
                                         </div>
                                         :
@@ -210,8 +274,8 @@ const CheckoutCard = () => {
                                         </>
                                 }
                                 <div className="w-full p-5 flex flex-col gap-5 items-center">
-                                    <button disabled={newAddress.street == "" || newAddress.city == "" || newAddress.country == "" || newAddress.state == "" || newAddress.zipcode == ""} onClick={() => console.log("hey")}
-                                        className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Shipping</button>
+                                    <button disabled={selectedAddress ? false : true}
+                                        className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Payment</button>
                                     <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
                                         <FontAwesomeIcon icon={faChevronLeft} />
                                         <Link href={`/cart?user_id=${1}`}>Return To Cart</Link>

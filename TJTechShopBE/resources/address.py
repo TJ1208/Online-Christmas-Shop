@@ -15,7 +15,7 @@ class Address(MethodView):
     def get(self):
         return AddressModel.query.all()
 
-    @blp.arguments(PlainAddressSchema)
+    @blp.arguments(AddressSchema)
     @blp.response(201, AddressSchema)
     def post(self, address_data):
         address = AddressModel(**address_data)

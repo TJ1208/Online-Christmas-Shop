@@ -28,8 +28,8 @@ export const SimilarProducts = (data: { products: ProductModel[], product: Produ
                             {
                                 products.splice(productRange.low, productRange.high).map(product => (
                                     <Link href={`/product?product_id=${product.product_id}`} className="container mx:auto shadow-xl" key={product.product_id}>
-                                        <div className="m-2 p-2 hover:opacity-80 hover:transition-all">
-                                            <img src={product.images?.at(0)!.url} alt="Product Image" className="w-full h-40 sm:object-contain object-cover mt-5" />
+                                        <div className="m-2 p-2 hover:opacity-80 hover:transition-all flex flex-col justify-evenly h-full">
+                                            <img src={product.images?.at(0)!.url} alt="Product Image" className="w-full h-auto object-contain mt-5" />
                                             <p className="text-left w-full">{product.name}</p>
                                             {
                                                 product.sale_price > 0
