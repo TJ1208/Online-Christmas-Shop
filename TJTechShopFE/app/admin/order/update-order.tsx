@@ -1,6 +1,6 @@
 "use client"
 
-import getAllCategories, { updateCategory } from "@/app/api/category";
+import getAllCategories from "@/app/api/category";
 import { updateOrder } from "@/app/api/order";
 import { OrderModel } from "@/app/models/order";
 import { UserModel } from "@/app/models/user";

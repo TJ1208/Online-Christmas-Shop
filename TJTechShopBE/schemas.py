@@ -103,6 +103,7 @@ class PlainOrderSchema(Schema):
     user_id = fields.Integer(require=True)
     address_id = fields.Integer(require=True)
     create_time = fields.Date(require=True)
+    total = fields.Integer(require=True)
 
 
 class ImageSchema(PlainImageSchema):

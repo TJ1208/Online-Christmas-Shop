@@ -1,15 +1,11 @@
 import { getAllOrderProducts, getAllOrders } from "@/app/api/order";
 import { OrderModel } from "@/app/models/order";
-import CreateOrder from "./create-order";
-import UpdateOrderButton from "./update-order";
 import DeleteOrderButton from "./delete-order";
-import { getAllUsers } from "@/app/api/user";
 import ViewProductsButton from "./view-products";
 import { getAllProducts } from "@/app/api/product";
 
 const AdminOrder = async () => {
     const orders = await getAllOrders();
-    const users = await getAllUsers();
     const products = await getAllProducts();
     const orderProducts = await getAllOrderProducts();
     const initialValue = 0;
@@ -43,7 +39,7 @@ const AdminOrder = async () => {
                                     <td className="p-2">{order.user?.email}</td>
                                     <td className="p-2 sm:min-w-fit min-w-[250px]">{order.user?.phone_number}</td>
                                     <td className="p-2 flex items-center"><ViewProductsButton {...{ order, products, orderProducts }} />({order.products?.length})</td>
-                                    <td className="p-2">${order.products?.reduce((productTotal, product) => productTotal + orderProducts.filter(orderProduct => orderProduct.product_id == product.product_id).reduce((orderTotal: any, orderPrice) => orderTotal + orderPrice.product.sale_price > 0 ? orderPrice.product.sale_price * orderPrice.quantity : orderPrice.product.price * orderPrice.quantity, initialValue), initialValue).toFixed(2)}</td>
+                                    <td className="p-2">${order.total}</td>
                                     <td>
                                         <div>
                                             <DeleteOrderButton />

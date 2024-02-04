@@ -10,9 +10,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 import CheckoutItem from "./checkout-item";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faCircleExclamation, faTrash, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import ProductLoad from "../products/product-load";
 import getUserAddresses, { addAddress, deleteAddress, updateAddress } from "@/app/api/address";
+import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
 
 const CheckoutCard = () => {
     const params = useSearchParams();
@@ -23,6 +24,37 @@ const CheckoutCard = () => {
     const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
     const [addresses, setAddresses] = useState<AddressModel[]>([]);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel>();
+    const [shippingMethod, setShippingMethod] = useState({ shipping_id: 0, price: 0 })
+    const today = new Date(); const yyyy = today.getFullYear();
+    let mm: any = today.getMonth() + 1;
+    let dd: any = today.getDate();
+    if (mm == 1) {
+        mm = "Jan";
+    } else if (mm == 2) {
+        mm = "Feb"
+    } else if (mm == 3) {
+        mm = "Mar"
+    } else if (mm == 4) {
+        mm = "Apr"
+    } else if (mm == 5) {
+        mm = "May"
+    } else if (mm == 6) {
+        mm = "Jun"
+    } else if (mm == 7) {
+        mm = "Jul"
+    } else if (mm == 8) {
+        mm = "Aug"
+    } else if (mm == 9) {
+        mm = "Sep"
+    } else if (mm == 10) {
+        mm = "Oct"
+    } else if (mm == 11) {
+        mm = "Nov"
+    } else if (mm == 12) {
+        mm = "Dec"
+    }
+    const formattedToday = mm + " " + dd + ", " + yyyy;
+    const date = formattedToday;
     const [newAddress, setNewAddress] = useState<AddressModel>({
         user_id: 0,
         street: "",
@@ -124,7 +156,6 @@ const CheckoutCard = () => {
     }
 
     const removeAddress = (address_id: number) => {
-        // address_id == selectedAddress?.address_id ? setSelectedAddress(undefined) : "";
         deleteAddress(address_id).then(() => {
             getUserAddresses(cartItems[0].cart?.user_id || 0).then((result) => {
                 setAddresses(result);
@@ -178,7 +209,13 @@ const CheckoutCard = () => {
                                         </div>
                                         <div className="w-full flex justify-between items-center">
                                             <p>Shipping:</p>
-                                            <sup className="text-slate-400 flex">* Calculated At Shipping</sup>
+                                            {
+                                                shippingMethod.price > 0
+                                                    ?
+                                                    <p>${shippingMethod.price}</p>
+                                                    :
+                                                    <sup className="text-slate-400 flex">* Calculated At Shipping</sup>
+                                            }
                                         </div>
                                         <div className="w-full flex justify-between items-center">
                                             <p>Sales Taxes:</p>
@@ -186,7 +223,7 @@ const CheckoutCard = () => {
                                         </div>
                                         <div className="w-full flex justify-between items-center border-t pt-5">
                                             <p>Total:</p>
-                                            <span>${(parseFloat(params.get("total") || "0") + parseFloat(params.get("total") || "0") * .0475).toFixed(2)}</span>
+                                            <span>${parseFloat((params.get("total") || "0") + parseFloat(params.get("total") || "0") * .0475).toFixed(2)}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -273,6 +310,37 @@ const CheckoutCard = () => {
                                         <>
                                         </>
                                 }
+                                <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method</label>
+                                <div className="w-full grid gap-3">
+                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => setShippingMethod({ shipping_id: 1, price: parseFloat((parseFloat((params.get("total") || "0")) * .005).toFixed(2)) })}>
+                                        <input type="radio" checked={shippingMethod.shipping_id == 1} onChange={changeHandler} className="ml-5" />
+                                        <div className="flex gap-1 items-center justify-center">
+                                            <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
+                                            <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                        </div>
+                                        {/* <p>Expected Delivery: <span>{date}</span></p> */}
+                                        <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
+                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
+                                    </div>
+                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => setShippingMethod({ shipping_id: 2, price: parseFloat((parseFloat((params.get("total") || "0")) * .009).toFixed(2)) })}>
+                                        <input type="radio" checked={shippingMethod.shipping_id == 2} onChange={changeHandler} className="ml-5" />
+                                        <div className="flex gap-1 items-center justify-center">
+                                            <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
+                                            <FontAwesomeIcon icon={faTruckFast} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                        </div>
+                                        <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
+                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
+                                    </div>
+                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => setShippingMethod({ shipping_id: 3, price: parseFloat((parseFloat((params.get("total") || "0")) * .0125).toFixed(2)) })}>
+                                        <input type="radio" checked={shippingMethod.shipping_id == 3} onChange={changeHandler} className="ml-5" />
+                                        <div className="flex gap-1 items-center justify-center">
+                                            <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
+                                            <FontAwesomeIcon icon={faCircleExclamation} size="lg" className="text-blue-300 hover:nav-button" />
+                                        </div>
+                                        <p className="text-red-200"><span className="font-semibold italic">1-2</span> Business Days</p>
+                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .0125).toFixed(2)}</p>
+                                    </div>
+                                </div>
                                 <div className="w-full p-5 flex flex-col gap-5 items-center">
                                     <button disabled={selectedAddress ? false : true}
                                         className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Payment</button>
@@ -302,7 +370,13 @@ const CheckoutCard = () => {
                                     </div>
                                     <div className="w-full flex justify-between items-center">
                                         <p>Shipping:</p>
-                                        <sup className="text-slate-400 flex">* Calculated At Shipping</sup>
+                                        {
+                                            shippingMethod.price > 0
+                                                ?
+                                                <p>${shippingMethod.price}</p>
+                                                :
+                                                <sup className="text-slate-400 flex">* Calculated At Shipping</sup>
+                                        }
                                     </div>
                                     <div className="w-full flex justify-between items-center">
                                         <p>Sales Taxes:</p>

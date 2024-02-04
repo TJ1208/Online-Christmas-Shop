@@ -7,6 +7,7 @@ class OrderModel(db.Model):
     order_id = db.Column(db.BigInteger, primary_key=True)
     user_id = db.Column(db.BigInteger, db.ForeignKey("user.user_id", ondelete="CASCADE"), unique=False, nullable=False)
     address_id = db.Column(db.BigInteger, db.ForeignKey("address.address_id", ondelete="CASCADE"), unique=False, nullable=False)
+    total = db.Column(db.Integer, nullable=False)
     create_time = db.Column(db.Date, nullable=False)
     user = db.relationship("UserModel", backref="user", cascade="all, delete", lazy=True)
     address = db.relationship("AddressModel", backref="AddressModel", cascade="all, delete", lazy=True)
