@@ -90,7 +90,7 @@ async function UserNavBar(data: { userData: any, categories: CategoryModel[], br
                                 </li>
                                 <li className=" btn-hover p-1 m-1">
                                     <Link href={`/cart?user_id=${user.user_id}`} className="flex items-center justify-center">
-                                        <p className="px-3 font-semibold text-green-200 text-md mx-2 rounded-full border border-gray-700">{userCart?.products!.length}</p>
+                                        <p className="px-3 font-semibold text-green-200 text-md mx-2 rounded-full border border-gray-700">{userCart?.products?.length || 0}</p>
                                         <p className="p-1">
                                             <FontAwesomeIcon icon={faCartShopping} className="h-5" />
                                         </p>
@@ -108,7 +108,7 @@ async function UserNavBar(data: { userData: any, categories: CategoryModel[], br
                         </li>
                         <li className=" btn-hover p-1 m-1 ml-5">
                             <Link href={`/cart?user_id=${user.user_id}`} className="flex items-center justify-center">
-                                <p className="px-3 font-semibold text-green-200 text-lg mx-2 rounded-full border border-gray-700">{userCart?.products!.length}</p>
+                                <p className="px-3 font-semibold text-green-200 text-lg mx-2 rounded-full border border-gray-700">{userCart?.products?.length || 0}</p>
                                 <p className="p-1">
                                     <FontAwesomeIcon icon={faCartShopping} className="h-5" />
                                 </p>

@@ -5,7 +5,7 @@ import getGeoapifyAddress from "@/app/api/geoapify";
 import { AddressModel } from "@/app/models/address";
 import { CartProductModel } from "@/app/models/cart_product";
 import { GeoapifyModel } from "@/app/models/geoapify";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,9 +15,12 @@ import getUserAddresses, { addAddress, deleteAddress, updateAddress } from "@/ap
 import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
 import CheckoutNavbar from "./checkout-navbar";
 import CheckoutTotal from "./checkout-total";
+import CheckoutForm from "../../components/payment/index";
 
 const CheckoutCard = () => {
+    const router = useRouter();
     const params = useSearchParams();
+    const [isPayment, setIsPayment] = useState<boolean>(false);
     const [geoapifyData, setGeoapifyData] = useState<GeoapifyModel>();
     const [cartItems, setCartItems] = useState<CartProductModel[]>([]);
     const [showAddressSuggestion, setShowAddressSuggestion] = useState<boolean>(false);
@@ -67,6 +70,14 @@ const CheckoutCard = () => {
         zipcode: "",
         active: false
     });
+
+    if (!isPayment && params.get("payment")) {
+        setIsPayment(true)
+    }
+
+    // if (productId != params.get("product_id") && params.get("product_id")) {
+    //     setProductId(params.get("product_id") || "");
+    // }
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setNewAddress({
@@ -168,15 +179,19 @@ const CheckoutCard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsPayment(params.get("payment") ? true : false);
+
+            console.log(isPayment);
             const cartItems = await GetCartItems(parseInt(params.get("cart_id") || "0"));
             setCartItems(cartItems);
             const addresses = await getUserAddresses(cartItems[0].cart?.user_id || 0);
             setAddresses(addresses);
             setSelectedAddress(addresses.find(address => address.active));
             setIsLoading(false);
+            console.log(params.get("payment"));
         }
         fetchData();
-    }, [])
+    }, [isPayment])
 
     return (
         <>
@@ -186,137 +201,144 @@ const CheckoutCard = () => {
                     <ProductLoad />
                     :
                     <div className="flex flex-col justify-center items-center w-full">
-                        <div className="lg:flex-row lg:gap-10 flex flex-col items-start justify-center shadow-xl p-5 relative">
+                        <div className="lg:flex-row lg:gap-10 flex flex-col items-start justify-center shadow-xl p-5 w-full">
                             <div className="lg:border-r lg:pr-10 flex flex-col items-center justify-between w-full">
                                 <div className="flex gap-5 shadow-xl mb-10">
                                     <CheckoutNavbar {...{ cartItems, currentPage: "checkout" }} />
                                 </div>
-                                <div className="lg:hidden">
-                                    <CheckoutTotal {...{ cartItems, orderTotal }} />
-                                </div>
-                                <label className="text-left w-full font-semibold italic text-lg p-2">Saved Addresses</label>
-                                {
-                                    addresses.length == 0
-                                        ?
-                                        <>
-                                            <p className="py-5 text-sm opacity-50">No Saved Addresses</p>
-                                        </>
-                                        :
-                                        <>
+                                <div className={`${isPayment ? "hidden" : ""}`}>
 
-                                            <div className="w-full flex flex-col gap-3">
-                                                {
-                                                    addresses.map(address => (
-                                                        <div className={`flex items-center w-full justify-between px-3 py-5 shadow-xl ${address.active ? "bg-blue-400 hover:cursor-pointer" : "home-button"} rounded`} key={address.address_id} onClick={() => address.active ? "" : changeAddress({
-                                                            address_id: address.address_id,
-                                                            user_id: address.user_id,
-                                                            street: address.street,
-                                                            apt: address.apt,
-                                                            city: address.city,
-                                                            state: address.state,
-                                                            country: address.country,
-                                                            zipcode: address.zipcode,
-                                                            active: true
-                                                        })}>
-                                                            <input type="radio" checked={address.active} onChange={changeHandler} className="ml-5" />
-                                                            <p className={`${address.active ? "text-gray-800 font-semibold" : "text-blue-200"} px-3 text-center sm:text-left`}>{address.street}, {address.city}, {address.country} {address.zipcode}</p>
-                                                            <button className="btn-hover hover:bg-red-500 hover:opacity-50 rounded-full px-2 py-1" onClick={() => removeAddress(address.address_id || 0)}>
-                                                                <FontAwesomeIcon icon={faTrash} />
-                                                            </button>
+                                    <div className="lg:hidden w-full">
+                                        <CheckoutTotal {...{ cartItems, orderTotal }} />
+                                    </div>
+                                    <label className="text-left w-full font-semibold italic text-lg p-2">Saved Addresses</label>
+                                    {
+                                        addresses.length == 0
+                                            ?
+                                            <>
+                                                <p className="py-5 text-sm opacity-50">No Saved Addresses</p>
+                                            </>
+                                            :
+                                            <>
+
+                                                <div className="w-full flex flex-col gap-3">
+                                                    {
+                                                        addresses.map(address => (
+                                                            <div className={`flex items-center w-full justify-between px-3 py-5 shadow-xl ${address.active ? "bg-blue-400 hover:cursor-pointer" : "home-button"} rounded`} key={address.address_id} onClick={() => address.active ? "" : changeAddress({
+                                                                address_id: address.address_id,
+                                                                user_id: address.user_id,
+                                                                street: address.street,
+                                                                apt: address.apt,
+                                                                city: address.city,
+                                                                state: address.state,
+                                                                country: address.country,
+                                                                zipcode: address.zipcode,
+                                                                active: true
+                                                            })}>
+                                                                <input type="radio" checked={address.active} onChange={changeHandler} className="ml-5" />
+                                                                <p className={`${address.active ? "text-gray-800 font-semibold" : "text-blue-200"} px-3 text-center sm:text-left`}>{address.street}, {address.city}, {address.country} {address.zipcode}</p>
+                                                                <button className="btn-hover hover:bg-red-500 hover:opacity-50 rounded-full px-2 py-1" onClick={() => removeAddress(address.address_id || 0)}>
+                                                                    <FontAwesomeIcon icon={faTrash} />
+                                                                </button>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                    <p className="underline underline-offset-4 nav-button hover:text-blue-200 p-2" onClick={() => setShowAddressForm(old => !old)}>+ Add Address</p>
+                                                </div>
+                                            </>
+                                    }
+
+                                    {
+                                        showAddressForm || addresses.length == 0
+                                            ?
+                                            <div className="w-full flex flex-col items-center justify-center">
+                                                <p className="text-left w-full font-semibold italic text-lg p-2">Shipping Address</p>
+
+                                                <div className="w-full flex flex-col items-center relative">
+                                                    <input type="text" value={newAddress.street} autoComplete="one-time-code" name="street" placeholder="Address" className="public-input" onChange={changeHandler} />
+                                                    <div className="text-gray-500 border bg-white rounded-sm w-full absolute top-12 my-1 z-50 h-56 overflow-y-scroll" hidden={!showAddressSuggestion}>
+                                                        <p className="p-2 font-medium border-b">Suggestions</p>
+                                                        <div className="flex flex-col rounded-full">
+                                                            {
+                                                                geoapifyData?.features.map(address => (
+                                                                    <label className="px-3 py-2 hover:bg-gray-200 hover:transition-all hover:cursor-pointer whitespace-nowrap text-xs sm:text-sm" onClick={() => {
+                                                                        setNewAddress({
+                                                                            user_id: cartItems[0].cart?.user_id || 0,
+                                                                            street: address.properties.address_line1,
+                                                                            apt: newAddress.apt,
+                                                                            city: address.properties.city,
+                                                                            country: address.properties.country,
+                                                                            state: address.properties.state_code,
+                                                                            zipcode: address.properties.postcode,
+                                                                            active: false
+                                                                        });
+                                                                        setShowAddressSuggestion(false);
+                                                                    }} key={address.properties.lat}>{address.properties.address_line1}, {address.properties.city}, {address.properties.state_code?.toUpperCase()} {address.properties.postcode}</label>
+                                                                ))
+                                                            }
                                                         </div>
-                                                    ))
-                                                }
-                                                <p className="underline underline-offset-4 nav-button hover:text-blue-200 p-2" onClick={() => setShowAddressForm(old => !old)}>+ Add Address</p>
-                                            </div>
-                                        </>
-                                }
-
-                                {
-                                    showAddressForm || addresses.length == 0
-                                        ?
-                                        <div className="w-full flex flex-col items-center justify-center">
-                                            <p className="text-left w-full font-semibold italic text-lg p-2">Shipping Address</p>
-
-                                            <div className="w-full flex flex-col items-center relative">
-                                                <input type="text" value={newAddress.street} autoComplete="one-time-code" name="street" placeholder="Address" className="public-input" onChange={changeHandler} />
-                                                <div className="text-gray-500 border bg-white rounded-sm w-full absolute top-12 my-1 z-50 h-56 overflow-y-scroll" hidden={!showAddressSuggestion}>
-                                                    <p className="p-2 font-medium border-b">Suggestions</p>
-                                                    <div className="flex flex-col rounded-full">
-                                                        {
-                                                            geoapifyData?.features.map(address => (
-                                                                <label className="px-3 py-2 hover:bg-gray-200 hover:transition-all hover:cursor-pointer whitespace-nowrap text-xs sm:text-sm" onClick={() => {
-                                                                    setNewAddress({
-                                                                        user_id: cartItems[0].cart?.user_id || 0,
-                                                                        street: address.properties.address_line1,
-                                                                        apt: newAddress.apt,
-                                                                        city: address.properties.city,
-                                                                        country: address.properties.country,
-                                                                        state: address.properties.state_code,
-                                                                        zipcode: address.properties.postcode,
-                                                                        active: false
-                                                                    });
-                                                                    setShowAddressSuggestion(false);
-                                                                }} key={address.properties.lat}>{address.properties.address_line1}, {address.properties.city}, {address.properties.state_code?.toUpperCase()} {address.properties.postcode}</label>
-                                                            ))
-                                                        }
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <input type="text" autoComplete="one-time-code" name="apt" value={newAddress.apt} placeholder="Apartment, suite, etc. (optional)" className="public-input" onChange={changeHandler} />
-                                            <input type="text" autoComplete="one-time-code" name="city" value={newAddress.city} placeholder="City" className="public-input" onChange={changeHandler} />
-                                            <div className="flex w-full items-center sm:flex-row flex-col">
-                                                <input type="text" autoComplete="one-time-code" name="country" value={newAddress.country} placeholder="Country" className="public-input" onChange={changeHandler} />
-                                                <input type="text" autoComplete="one-time-code" name="state" value={newAddress.state} placeholder="State" className="public-input" onChange={changeHandler} />
-                                                <input type="text" autoComplete="one-time-code" name="zipcode" value={newAddress.zipcode.trim()} placeholder="Zipcode" className="public-input" onChange={changeHandler} />
-                                            </div>
+                                                <input type="text" autoComplete="one-time-code" name="apt" value={newAddress.apt} placeholder="Apartment, suite, etc. (optional)" className="public-input" onChange={changeHandler} />
+                                                <input type="text" autoComplete="one-time-code" name="city" value={newAddress.city} placeholder="City" className="public-input" onChange={changeHandler} />
+                                                <div className="flex w-full items-center sm:flex-row flex-col">
+                                                    <input type="text" autoComplete="one-time-code" name="country" value={newAddress.country} placeholder="Country" className="public-input" onChange={changeHandler} />
+                                                    <input type="text" autoComplete="one-time-code" name="state" value={newAddress.state} placeholder="State" className="public-input" onChange={changeHandler} />
+                                                    <input type="text" autoComplete="one-time-code" name="zipcode" value={newAddress.zipcode.trim()} placeholder="Zipcode" className="public-input" onChange={changeHandler} />
+                                                </div>
 
-                                            <button className="nav-button border hover:bg-green-100 hover:text-black" disabled={newAddress.street == "".trim() || newAddress.city == "".trim() || newAddress.country == "".trim() || newAddress.state == "".trim() || newAddress.zipcode == "".trim()}
-                                                onClick={() => addUserAddress(newAddress)}>Add</button>
+                                                <button className="nav-button border hover:bg-green-100 hover:text-black" disabled={newAddress.street == "".trim() || newAddress.city == "".trim() || newAddress.country == "".trim() || newAddress.state == "".trim() || newAddress.zipcode == "".trim()}
+                                                    onClick={() => addUserAddress(newAddress)}>Add</button>
+                                            </div>
+                                            :
+                                            <>
+                                            </>
+                                    }
+                                    <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method</label>
+                                    <div className="w-full grid gap-3">
+                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 1, price: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }) }}>
+                                            <input type="radio" checked={shippingMethod.shipping_id == 1} onChange={changeHandler} className="ml-5" />
+                                            <div className="flex gap-1 items-center justify-center">
+                                                <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
+                                                <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                            </div>
+                                            {/* <p>Expected Delivery: <span>{date}</span></p> */}
+                                            <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
+                                            <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
                                         </div>
-                                        :
-                                        <>
-                                        </>
-                                }
-                                <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method</label>
-                                <div className="w-full grid gap-3">
-                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 1, price: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }) }}>
-                                        <input type="radio" checked={shippingMethod.shipping_id == 1} onChange={changeHandler} className="ml-5" />
-                                        <div className="flex gap-1 items-center justify-center">
-                                            <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
-                                            <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 2, price: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }) }}>
+                                            <input type="radio" checked={shippingMethod.shipping_id == 2} onChange={changeHandler} className="ml-5" />
+                                            <div className="flex gap-1 items-center justify-center">
+                                                <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
+                                                <FontAwesomeIcon icon={faTruckFast} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                            </div>
+                                            <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
+                                            <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
                                         </div>
-                                        {/* <p>Expected Delivery: <span>{date}</span></p> */}
-                                        <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
-                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
+                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 3, price: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }) }}>
+                                            <input type="radio" checked={shippingMethod.shipping_id == 3} onChange={changeHandler} className="ml-5" />
+                                            <div className="flex gap-1 items-center justify-center">
+                                                <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
+                                                <FontAwesomeIcon icon={faCircleExclamation} size="lg" className="text-blue-300 hover:nav-button" />
+                                            </div>
+                                            <p className="text-red-200"><span className="font-semibold italic">1-2</span> Business Days</p>
+                                            <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .0125).toFixed(2)}</p>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 2, price: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }) }}>
-                                        <input type="radio" checked={shippingMethod.shipping_id == 2} onChange={changeHandler} className="ml-5" />
-                                        <div className="flex gap-1 items-center justify-center">
-                                            <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
-                                            <FontAwesomeIcon icon={faTruckFast} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                    <div className="w-full p-5 flex flex-col gap-5 items-center">
+                                        <button disabled={selectedAddress?.address_id && parseInt(shippingMethod.price) > 0 ? false : true} onClick={() => router.replace(`/checkout?${params}&payment=true`)}
+                                            className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Payment</button>
+                                        <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
+                                            <FontAwesomeIcon icon={faChevronLeft} />
+                                            <Link href={`/cart?user_id=${1}`}>Return To Cart</Link>
                                         </div>
-                                        <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
-                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
-                                    </div>
-                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 3, price: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }) }}>
-                                        <input type="radio" checked={shippingMethod.shipping_id == 3} onChange={changeHandler} className="ml-5" />
-                                        <div className="flex gap-1 items-center justify-center">
-                                            <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
-                                            <FontAwesomeIcon icon={faCircleExclamation} size="lg" className="text-blue-300 hover:nav-button" />
-                                        </div>
-                                        <p className="text-red-200"><span className="font-semibold italic">1-2</span> Business Days</p>
-                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .0125).toFixed(2)}</p>
+
                                     </div>
                                 </div>
-                                <div className="w-full p-5 flex flex-col gap-5 items-center">
-                                    <button disabled={selectedAddress?.address_id && parseInt(shippingMethod.price) > 0 ? false : true}
-                                        className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Payment</button>
-                                    <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
-                                        <FontAwesomeIcon icon={faChevronLeft} />
-                                        <Link href={`/cart?user_id=${1}`}>Return To Cart</Link>
-                                    </div>
-
+                                <div className={` ${isPayment ? "" : "hidden"}`}>
+                                    <CheckoutForm {...cartItems}/>
                                 </div>
+                                {/*  */}
                             </div>
                             <div className="lg:flex hidden w-full">
                                 <CheckoutTotal {...{ cartItems, orderTotal }} />

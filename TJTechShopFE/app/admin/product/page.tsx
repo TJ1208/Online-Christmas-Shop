@@ -6,6 +6,7 @@ import UpdateProductButton from "./update-product";
 import getAllBrands from "@/app/api/brand";
 import UpdateProductImageButton from "./update-product-image";
 import getAllSubCategories from "@/app/api/sub-category";
+import addStripePrice from "@/app/api/stripe-price";
 
 const AdminProduct = async () => {
     const products = await getAllProducts();
