@@ -34,7 +34,11 @@ const CartItems = async () => {
                 </div>
                 <div className="lg:flex hidden items-center justify-between flex-col my-5 w-1/2 shadow-xl h-fit">
                     <p className=" w-full px-3 text-lg italic text-slate-400 font-semibold underline underline-offset-8 my-5">Checkout</p>
-                    <Link href={`/checkout?cart_id=${userCart.cart_id}&total=${initialValue}`} className="checkout-button rounded-full p-3 text-center mx-5 font-semibold text-md w-1/2 my-5">Checkout</Link>
+                    <div className="flex w-full justify-between items-center font-semibold">
+                        <p>Subtotal:</p>
+                        <p>${initialValue}</p>
+                    </div>
+                    <Link href={`/checkout?cart_id=${userCart.cart_id}&total=${initialValue}`} className="checkout-button rounded-full p-3 text-center mx-5 font-semibold text-md w-full my-5">Checkout</Link>
 
                 </div>
             </div>

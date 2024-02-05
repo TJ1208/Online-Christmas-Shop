@@ -3,7 +3,9 @@ import CartItems from "./cart-items";
 const Cart = () => {
     return (
         <>
-            <CartItems />
+            <div className="my-5">
+                <CartItems />
+            </div>
         </>
     )
 }

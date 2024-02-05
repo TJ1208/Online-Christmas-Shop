@@ -7,13 +7,14 @@ import { CartProductModel } from "@/app/models/cart_product";
 import { GeoapifyModel } from "@/app/models/geoapify";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
-import CheckoutItem from "./checkout-item";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faCircleExclamation, faTrash, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import ProductLoad from "../products/product-load";
 import getUserAddresses, { addAddress, deleteAddress, updateAddress } from "@/app/api/address";
 import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
+import CheckoutNavbar from "./checkout-navbar";
+import CheckoutTotal from "./checkout-total";
 
 const CheckoutCard = () => {
     const params = useSearchParams();
@@ -24,7 +25,8 @@ const CheckoutCard = () => {
     const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
     const [addresses, setAddresses] = useState<AddressModel[]>([]);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel>();
-    const [shippingMethod, setShippingMethod] = useState({ shipping_id: 0, price: 0 })
+    const [shippingMethod, setShippingMethod] = useState({ shipping_id: 0, price: "0" })
+    var [orderTotal, setOrderTotal] = useState({ total: (parseFloat((params.get("total") || "0")) + (parseFloat(params.get("total") || "0") * .0475)).toFixed(2), shippingPrice: shippingMethod.price || "0" });
     const today = new Date(); const yyyy = today.getFullYear();
     let mm: any = today.getMonth() + 1;
     let dd: any = today.getDate();
@@ -159,6 +161,7 @@ const CheckoutCard = () => {
         deleteAddress(address_id).then(() => {
             getUserAddresses(cartItems[0].cart?.user_id || 0).then((result) => {
                 setAddresses(result);
+                setSelectedAddress(undefined);
             })
         })
     }
@@ -186,46 +189,10 @@ const CheckoutCard = () => {
                         <div className="lg:flex-row lg:gap-10 flex flex-col items-start justify-center shadow-xl p-5 relative">
                             <div className="lg:border-r lg:pr-10 flex flex-col items-center justify-between w-full">
                                 <div className="flex gap-5 shadow-xl mb-10">
-                                    <Link href={`/cart?user_id=${cartItems[0].cart?.user_id}`} className="nav-button border-b"><sub>Cart</sub></Link>
-                                    <Link href={`/cart?user_id=${cartItems[0].cart?.user_id}`} className="nav-button border-b"><sub>Shipping</sub></Link>
-                                    <Link href={`/cart?user_id=${cartItems[0].cart?.user_id}`} className="nav-button border-b"><sub>Payment</sub></Link>
-                                    <Link href={`/cart?user_id=${cartItems[0].cart?.user_id}`} className="nav-button border-b"><sub>Review</sub></Link>
+                                    <CheckoutNavbar {...{ cartItems, currentPage: "checkout" }} />
                                 </div>
-                                <div className="lg:hidden w-full border-t my-5">
-
-
-                                    {
-                                        cartItems.map(cart => (
-                                            <div className="flex w-full items-center justify-between shadow-xl" key={cart.product?.product_id}>
-                                                <CheckoutItem {...cart} />
-                                            </div>
-
-                                        ))
-                                    }
-                                    <div className="flex flex-col gap-5 p-2 font-medium text-white my-5">
-                                        <div className="w-full flex justify-between items-center">
-                                            <p>Subtotal:</p>
-                                            <span>${params.get("total")}</span>
-                                        </div>
-                                        <div className="w-full flex justify-between items-center">
-                                            <p>Shipping:</p>
-                                            {
-                                                shippingMethod.price > 0
-                                                    ?
-                                                    <p>${shippingMethod.price}</p>
-                                                    :
-                                                    <sup className="text-slate-400 flex">* Calculated At Shipping</sup>
-                                            }
-                                        </div>
-                                        <div className="w-full flex justify-between items-center">
-                                            <p>Sales Taxes:</p>
-                                            <span>${(parseFloat(params.get("total") || "0") * .0475).toFixed(2)}</span>
-                                        </div>
-                                        <div className="w-full flex justify-between items-center border-t pt-5">
-                                            <p>Total:</p>
-                                            <span>${parseFloat((params.get("total") || "0") + parseFloat(params.get("total") || "0") * .0475).toFixed(2)}</span>
-                                        </div>
-                                    </div>
+                                <div className="lg:hidden">
+                                    <CheckoutTotal {...{ cartItems, orderTotal }} />
                                 </div>
                                 <label className="text-left w-full font-semibold italic text-lg p-2">Saved Addresses</label>
                                 {
@@ -240,7 +207,7 @@ const CheckoutCard = () => {
                                             <div className="w-full flex flex-col gap-3">
                                                 {
                                                     addresses.map(address => (
-                                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" key={address.address_id} onClick={() => address.active ? "" : changeAddress({
+                                                        <div className={`flex items-center w-full justify-between px-3 py-5 shadow-xl ${address.active ? "bg-blue-400 hover:cursor-pointer" : "home-button"} rounded`} key={address.address_id} onClick={() => address.active ? "" : changeAddress({
                                                             address_id: address.address_id,
                                                             user_id: address.user_id,
                                                             street: address.street,
@@ -252,7 +219,7 @@ const CheckoutCard = () => {
                                                             active: true
                                                         })}>
                                                             <input type="radio" checked={address.active} onChange={changeHandler} className="ml-5" />
-                                                            <p className="text-blue-200 px-3 text-center sm:text-left">{address.street}, {address.city}, {address.country} {address.zipcode}</p>
+                                                            <p className={`${address.active ? "text-gray-800 font-semibold" : "text-blue-200"} px-3 text-center sm:text-left`}>{address.street}, {address.city}, {address.country} {address.zipcode}</p>
                                                             <button className="btn-hover hover:bg-red-500 hover:opacity-50 rounded-full px-2 py-1" onClick={() => removeAddress(address.address_id || 0)}>
                                                                 <FontAwesomeIcon icon={faTrash} />
                                                             </button>
@@ -312,7 +279,7 @@ const CheckoutCard = () => {
                                 }
                                 <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method</label>
                                 <div className="w-full grid gap-3">
-                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => setShippingMethod({ shipping_id: 1, price: parseFloat((parseFloat((params.get("total") || "0")) * .005).toFixed(2)) })}>
+                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 1, price: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }) }}>
                                         <input type="radio" checked={shippingMethod.shipping_id == 1} onChange={changeHandler} className="ml-5" />
                                         <div className="flex gap-1 items-center justify-center">
                                             <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
@@ -322,7 +289,7 @@ const CheckoutCard = () => {
                                         <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
                                         <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
                                     </div>
-                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => setShippingMethod({ shipping_id: 2, price: parseFloat((parseFloat((params.get("total") || "0")) * .009).toFixed(2)) })}>
+                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 2, price: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }) }}>
                                         <input type="radio" checked={shippingMethod.shipping_id == 2} onChange={changeHandler} className="ml-5" />
                                         <div className="flex gap-1 items-center justify-center">
                                             <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
@@ -331,7 +298,7 @@ const CheckoutCard = () => {
                                         <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
                                         <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
                                     </div>
-                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => setShippingMethod({ shipping_id: 3, price: parseFloat((parseFloat((params.get("total") || "0")) * .0125).toFixed(2)) })}>
+                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 3, price: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }) }}>
                                         <input type="radio" checked={shippingMethod.shipping_id == 3} onChange={changeHandler} className="ml-5" />
                                         <div className="flex gap-1 items-center justify-center">
                                             <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
@@ -342,7 +309,7 @@ const CheckoutCard = () => {
                                     </div>
                                 </div>
                                 <div className="w-full p-5 flex flex-col gap-5 items-center">
-                                    <button disabled={selectedAddress ? false : true}
+                                    <button disabled={selectedAddress?.address_id && parseInt(shippingMethod.price) > 0 ? false : true}
                                         className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Payment</button>
                                     <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
                                         <FontAwesomeIcon icon={faChevronLeft} />
@@ -351,44 +318,8 @@ const CheckoutCard = () => {
 
                                 </div>
                             </div>
-                            <div className="lg:flex lg:flex-col hidden w-full my-5">
-
-
-                                {
-                                    cartItems.map(cart => (
-                                        <div className="flex w-full items-center justify-between shadow-xl" key={cart.product?.product_id}>
-                                            <CheckoutItem {...cart} />
-                                        </div>
-
-                                    ))
-
-                                }
-                                <div className="flex flex-col gap-5 p-2 font-medium text-white my-5">
-                                    <div className="w-full flex justify-between items-center">
-                                        <p>Subtotal:</p>
-                                        <span>${params.get("total")}</span>
-                                    </div>
-                                    <div className="w-full flex justify-between items-center">
-                                        <p>Shipping:</p>
-                                        {
-                                            shippingMethod.price > 0
-                                                ?
-                                                <p>${shippingMethod.price}</p>
-                                                :
-                                                <sup className="text-slate-400 flex">* Calculated At Shipping</sup>
-                                        }
-                                    </div>
-                                    <div className="w-full flex justify-between items-center">
-                                        <p>Sales Taxes:</p>
-                                        <span>${(parseFloat(params.get("total") || "0") * .0475).toFixed(2)}</span>
-                                    </div>
-                                    <div className="w-full flex justify-between items-center border-t pt-5">
-                                        <p>Total:</p>
-                                        <span>${(parseFloat(params.get("total") || "0") + parseFloat(params.get("total") || "0") * .0475).toFixed(2)}</span>
-                                    </div>
-                                </div>
-
-
+                            <div className="lg:flex hidden w-full">
+                                <CheckoutTotal {...{ cartItems, orderTotal }} />
                             </div>
                         </div>
                     </div>

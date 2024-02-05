@@ -4,7 +4,6 @@ import { getProduct } from "@/app/api/product";
 import { CartProductModel } from "@/app/models/cart_product";
 import { ProductModel } from "@/app/models/product";
 import { useEffect, useState } from "react";
-import ProductLoad from "../products/product-load";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 
