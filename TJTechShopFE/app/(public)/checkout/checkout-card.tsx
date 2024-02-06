@@ -180,15 +180,12 @@ const CheckoutCard = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsPayment(params.get("payment") ? true : false);
-
-            console.log(isPayment);
             const cartItems = await GetCartItems(parseInt(params.get("cart_id") || "0"));
             setCartItems(cartItems);
             const addresses = await getUserAddresses(cartItems[0].cart?.user_id || 0);
             setAddresses(addresses);
             setSelectedAddress(addresses.find(address => address.active));
             setIsLoading(false);
-            console.log(params.get("payment"));
         }
         fetchData();
     }, [isPayment])

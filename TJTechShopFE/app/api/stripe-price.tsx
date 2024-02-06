@@ -12,6 +12,7 @@ export const getStripePrices = async (): Promise<any> => {
 const addStripePrice = async (product: ProductModel) => {
     const stripePrice = await stripe.prices.create({
         currency: "usd",
+        billing_scheme: "per_unit",
         product: product.product_id,
         unit_amount_decimal: product.sale_price > 0 ? product.sale_price : product.price,
         active: true,

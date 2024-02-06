@@ -29,7 +29,7 @@ function UpdateProductImageButton(product: ProductModel) {
 
     return (
         <>
-            <img src={product.images!.length ? product.images![0].url : ""} alt="Product Image" className="w-24 h-24 object-cover rounded p-1 hover:cursor-pointer hover:" onClick={() => setShowUpdateImageForm(old => !old)} />
+            <img src={product.images!.length ? product.images![0].url : ""} alt="Product Image" className="w-24 h-24 object-contain rounded p-1 hover:cursor-pointer hover:" onClick={() => setShowUpdateImageForm(old => !old)} />
             <dialog open={showUpdateImageForm} className="modal z-40" id="modal3">
                 <div className="flex items-center">
                     <h1 className="text-center border-b pb-2 font-semibold text-base w-full p-2">Product Image(s)</h1>

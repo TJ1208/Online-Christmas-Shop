@@ -1,4 +1,4 @@
-import { getAllProducts } from "@/app/api/product";
+import { getAllProducts, getProduct } from "@/app/api/product";
 import CreateProduct from "./create-product";
 import DeleteProductButton  from "./delete-product";
 import { ProductModel } from "@/app/models/product";
@@ -7,6 +7,7 @@ import getAllBrands from "@/app/api/brand";
 import UpdateProductImageButton from "./update-product-image";
 import getAllSubCategories from "@/app/api/sub-category";
 import addStripePrice from "@/app/api/stripe-price";
+import addStripeProduct from "@/app/api/stripe-product";
 
 const AdminProduct = async () => {
     const products = await getAllProducts();

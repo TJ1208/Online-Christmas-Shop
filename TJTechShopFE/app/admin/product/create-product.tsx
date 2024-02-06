@@ -2,6 +2,7 @@
 
 import { addImage } from "@/app/api/image";
 import { addProduct, addProductToImage, getAllProducts } from "@/app/api/product";
+import addStripePrice from "@/app/api/stripe-price";
 import { BrandModel } from "@/app/models/brand";
 import { ImageModel } from "@/app/models/image";
 import { ProductModel } from "@/app/models/product";
@@ -80,6 +81,9 @@ const CreateProduct = (data: {categories: SubCategoryModel[], brands: BrandModel
         }
         addImage(imageData).then((resultImage) => {
             addProduct(productData).then((resultProduct) => {
+                addStripePrice(resultProduct).then(() => {
+                    addStripePrice(resultProduct);
+                })
                 setMessage({ isError: resultProduct.name == undefined ? true : false })
                 addProductToImage({ product_id: resultProduct.product_id!, image_id: resultImage.image_id! });
                 setShowMessage(old => !old)

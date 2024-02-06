@@ -9,7 +9,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const userData = await getTokenClaims();
     const response: CartProductModel[] = await req.json();
     const prices = await getStripePrices();
-    console.log(prices);
     var newResponse = [];
     var i = 0
     var j = 0
@@ -38,9 +37,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         return NextResponse.json(({ clientSecret: session.client_secret }));
     } catch (err: any) {
-        // console.log(err);
-        console.log(newResponse);
-        // res.status(err.statusCode || 500).json(err.message);
+        console.log(err);
     }
 }
 

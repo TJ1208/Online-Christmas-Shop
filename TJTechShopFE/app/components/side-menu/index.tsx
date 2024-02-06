@@ -12,7 +12,6 @@ import { BrandModel } from "@/app/models/brand";
 
 function SideMenu(userData: any) {
     const path = usePathname();
-    const router = useRouter();
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [showCategories, setShowCategories] = useState<boolean>(false);
     const [showBrands, setShowBrands] = useState<boolean>(false);
