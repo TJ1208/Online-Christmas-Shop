@@ -1,10 +1,10 @@
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is missing. Please set the environment variable.');
+if (!process.env.sk_test_51LkwQ6AvRlTvliZhCLzxAaZzbMcvpFm6gaqJX55mxKdn8QeNXnoRc4ez34obobhhusHaFOUaw7Rww6KxEtTfTECx00SGxxgQAJ) {
+    throw new Error('sk_test_51LkwQ6AvRlTvliZhCLzxAaZzbMcvpFm6gaqJX55mxKdn8QeNXnoRc4ez34obobhhusHaFOUaw7Rww6KxEtTfTECx00SGxxgQAJ is missing. Please set the environment variable.');
 }
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.sk_test_51LkwQ6AvRlTvliZhCLzxAaZzbMcvpFm6gaqJX55mxKdn8QeNXnoRc4ez34obobhhusHaFOUaw7Rww6KxEtTfTECx00SGxxgQAJ, {
     apiVersion: "2023-10-16",
 });
 

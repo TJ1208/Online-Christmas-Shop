@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getStripePrices } from "../stripe-price";
 import { getTokenClaims } from "../jwt-token";
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')("sk_test_51LkwQ6AvRlTvliZhCLzxAaZzbMcvpFm6gaqJX55mxKdn8QeNXnoRc4ez34obobhhusHaFOUaw7Rww6KxEtTfTECx00SGxxgQAJ");
 
 export async function POST(req: NextRequest, res: NextResponse) {
     const userData = await getTokenClaims();

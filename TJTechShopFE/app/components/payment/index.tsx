@@ -8,7 +8,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { CartProductModel } from '@/app/models/cart_product';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
+const stripePromise = loadStripe("pk_test_51LkwQ6AvRlTvliZhIprOBnCe3xKCsmogPJishhKaaiDWMCGS3O7CNKuEdIYWnfJnhoCh1szHns1L4pAFULSoRByp00nXdd2lea");
 
 export default function CheckoutForm(cartItems: CartProductModel[]) {
   const [clientSecret, setClientSecret] = useState('');
