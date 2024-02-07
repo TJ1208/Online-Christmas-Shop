@@ -11,25 +11,21 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const prices = await getStripePrices();
     var newResponse = [];
     var i = 0
-    var j = 0
     while (response[i]) {
-        while (prices.data[j]) {
-            if (prices.data[j].product == response[i].product_id.toString()) {
-                newResponse.push({ price: prices.data[j].id, quantity: response[i].quantity })
-            }
-            j += 1;
-        }
+        newResponse.push({ price: prices.data.find((price: any) => price.product == response[i].product_id.toString()).id, quantity: response[i].quantity });
         i += 1;
-        j = 0;
     }
     try {
         // Create Checkout Sessions from body params.
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
             customer_email: userData.sub,
-            line_items: 
+            line_items:
                 newResponse
             ,
+            automatic_tax: {
+                enabled: true,
+            },
             mode: 'payment',
             return_url:
                 `${req.headers.get("origin")}/techshop?session_id={CHECKOUT_SESSION_ID}`,

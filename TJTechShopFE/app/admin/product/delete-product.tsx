@@ -1,5 +1,6 @@
 "use client"
 
+import { deleteImage } from "@/app/api/image";
 import { deleteProduct, getAllProducts } from "@/app/api/product";
 import { ProductModel } from "@/app/models/product";
 import DeleteImage from "@/app/scripts/delete-image";
@@ -15,7 +16,8 @@ const DeleteProductButton = (product: ProductModel) => {
 
     const removeProduct = (id: number) => {
         DeleteImage(product.name, "products");
-        deleteProduct(id).then((res) => {
+        product.images?.forEach((image) => deleteImage(image.image_id || 0));
+        deleteProduct(id).then(() => {
             toggleModal();
             getAllProducts().then(() => {
                 router.refresh();

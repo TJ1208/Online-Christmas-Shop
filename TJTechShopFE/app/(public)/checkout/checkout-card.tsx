@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faCircleExclamation, faTrash, faTruckFast } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faCircleExclamation, faEnvelope, faPhone, faTrash, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import ProductLoad from "../products/product-load";
 import getUserAddresses, { addAddress, deleteAddress, updateAddress } from "@/app/api/address";
 import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
@@ -21,6 +21,7 @@ const CheckoutCard = () => {
     const router = useRouter();
     const params = useSearchParams();
     const [isPayment, setIsPayment] = useState<boolean>(false);
+    const [isReview, setIsReview] = useState<boolean>(false);
     const [geoapifyData, setGeoapifyData] = useState<GeoapifyModel>();
     const [cartItems, setCartItems] = useState<CartProductModel[]>([]);
     const [showAddressSuggestion, setShowAddressSuggestion] = useState<boolean>(false);
@@ -59,7 +60,6 @@ const CheckoutCard = () => {
         mm = "Dec"
     }
     const formattedToday = mm + " " + dd + ", " + yyyy;
-    const date = formattedToday;
     const [newAddress, setNewAddress] = useState<AddressModel>({
         user_id: 0,
         street: "",
@@ -73,6 +73,10 @@ const CheckoutCard = () => {
 
     if (!isPayment && params.get("payment")) {
         setIsPayment(true)
+    }
+
+    if (!isReview && params.get("review")) {
+        setIsReview(true)
     }
 
     // if (productId != params.get("product_id") && params.get("product_id")) {
@@ -180,6 +184,7 @@ const CheckoutCard = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsPayment(params.get("payment") ? true : false);
+            setIsReview(params.get("review") ? true : false);
             const cartItems = await GetCartItems(parseInt(params.get("cart_id") || "0"));
             setCartItems(cartItems);
             const addresses = await getUserAddresses(cartItems[0].cart?.user_id || 0);
@@ -188,7 +193,7 @@ const CheckoutCard = () => {
             setIsLoading(false);
         }
         fetchData();
-    }, [isPayment])
+    }, [isPayment, isReview])
 
     return (
         <>
@@ -201,9 +206,9 @@ const CheckoutCard = () => {
                         <div className="lg:flex-row lg:gap-10 flex flex-col items-start justify-center shadow-xl p-5 w-full">
                             <div className="lg:border-r lg:pr-10 flex flex-col items-center justify-between w-full">
                                 <div className="flex gap-5 shadow-xl mb-10">
-                                    <CheckoutNavbar {...{ cartItems, currentPage: "checkout" }} />
+                                    <CheckoutNavbar {...{ cartItems, currentPage: window.location.search }} />
                                 </div>
-                                <div className={`${isPayment ? "hidden" : ""}`}>
+                                <div className={`${isPayment || isReview ? "hidden" : ""}`}>
 
                                     <div className="lg:hidden w-full">
                                         <CheckoutTotal {...{ cartItems, orderTotal }} />
@@ -299,7 +304,6 @@ const CheckoutCard = () => {
                                                 <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
                                                 <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
                                             </div>
-                                            {/* <p>Expected Delivery: <span>{date}</span></p> */}
                                             <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
                                             <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
                                         </div>
@@ -323,8 +327,8 @@ const CheckoutCard = () => {
                                         </div>
                                     </div>
                                     <div className="w-full p-5 flex flex-col gap-5 items-center">
-                                        <button disabled={selectedAddress?.address_id && parseInt(shippingMethod.price) > 0 ? false : true} onClick={() => router.replace(`/checkout?${params}&payment=true`)}
-                                            className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue to Payment</button>
+                                        <button disabled={selectedAddress?.address_id && shippingMethod.shipping_id != 0 ? false : true} onClick={() => router.replace(`/checkout?${params}&shipping_method=${shippingMethod.shipping_id}&review=true`)}
+                                            className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Review Order</button>
                                         <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
                                             <FontAwesomeIcon icon={faChevronLeft} />
                                             <Link href={`/cart?user_id=${1}`}>Return To Cart</Link>
@@ -332,8 +336,67 @@ const CheckoutCard = () => {
 
                                     </div>
                                 </div>
+                                <div className={`${isReview ? "" : "hidden"} sm:w-9/12`}>
+                                    <label className="text-left w-full font-semibold italic text-lg p-2">Shipping To:</label>
+                                    {
+                                        addresses.filter(address => address.active).map(address => (
+                                            <p className="m-2 p-2 text-blue-200 font-medium" key={address.address_id}>{address.street}, {address.city} {address.state} {address.zipcode}</p>
+                                        ))
+                                    }
+                                    <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method:</label>
+                                    <div className="m-5 text-sm">
+                                        {
+                                            params.get("shipping_method") == "1"
+                                                ?
+                                                <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl bg-gray-500 bg-opacity-50 rounded" onClick={() => { setShippingMethod({ shipping_id: 1, price: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }) }}>
+                                                    <div className="flex gap-1 items-center justify-center">
+                                                        <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
+                                                        <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                                    </div>
+                                                    <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
+                                                    <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
+                                                </div>
+                                                :
+                                                params.get("shipping_method") == "2"
+                                                    ?
+                                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl bg-gray-500 bg-opacity-50 rounded" onClick={() => { setShippingMethod({ shipping_id: 2, price: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }) }}>
+                                                        <div className="flex gap-1 items-center justify-center">
+                                                            <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
+                                                            <FontAwesomeIcon icon={faTruckFast} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                                        </div>
+                                                        <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
+                                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
+                                                    </div>
+                                                    :
+                                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl bg-gray-500 bg-opacity-50 rounded" onClick={() => { setShippingMethod({ shipping_id: 3, price: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }) }}>
+                                                        <div className="flex gap-1 items-center justify-center">
+                                                            <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
+                                                            <FontAwesomeIcon icon={faCircleExclamation} size="lg" className="text-blue-300 hover:nav-button" />
+                                                        </div>
+                                                        <p className="text-red-200"><span className="font-semibold italic">1-2</span> Business Days</p>
+                                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .0125).toFixed(2)}</p>
+                                                    </div>
+                                        }
+                                    </div>
+                                    <label className="text-left w-full font-semibold italic text-lg p-2">Contact Information:</label>
+                                    <div className="flex flex-col gap-5 justify-center m-5">
+                                        <p className="text-blue-200 font-medium flex items-center gap-3"><span><FontAwesomeIcon icon={faEnvelope} size="lg" /></span>{addresses.find(address => address.active)?.user?.email}</p>
+                                        <p className="text-blue-200 font-medium flex items-center gap-3"><span><FontAwesomeIcon icon={faPhone} size="lg" /></span>{addresses.find(address => address.active)?.user?.phone_number}</p>
+                                    </div>
+                                    <div className="lg:hidden w-full">
+                                        <CheckoutTotal {...{ cartItems, orderTotal }} />
+                                    </div>
+                                    <div className="w-full p-5 flex flex-col gap-5 items-center">
+                                        <button disabled={selectedAddress?.address_id && shippingMethod.shipping_id != 0 ? false : true} onClick={() => router.replace(`/checkout?${params.toString().replace("&review=true", "")}&payment=true`)}
+                                            className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue To Payment</button>
+                                        <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
+                                            <FontAwesomeIcon icon={faChevronLeft} />
+                                            <Link href={`/cart?user_id=${1}`}>Return To Cart</Link>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className={` ${isPayment ? "" : "hidden"}`}>
-                                    <CheckoutForm {...cartItems}/>
+                                    <CheckoutForm {...cartItems} />
                                 </div>
                                 {/*  */}
                             </div>

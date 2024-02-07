@@ -16,7 +16,7 @@ export default function Return() {
       .then((res) => res.json())
       .then((data) => {
         setStatus(data.status);
-        setCustomerEmail("TaylorJ1208@gmail.com");
+        setCustomerEmail(data.customerEmail);
       });
   }, []);
 
