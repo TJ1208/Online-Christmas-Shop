@@ -1,9 +1,11 @@
+
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from models.order import OrderModel
 from resources.db import db
 from schemas import PlainOrderSchema, UpdateOrderSchema, OrderSchema
+import mailtrap as mt
 
 blp = Blueprint("OrderSchema", __name__, description="Operations on order")
 
@@ -15,7 +17,7 @@ class Order(MethodView):
     def get(self):
         return OrderModel.query.all()
 
-    @blp.arguments(OrderSchema)
+    @blp.arguments(PlainOrderSchema)
     @blp.response(201, OrderSchema)
     def post(self, order_data):
         order = OrderModel(**order_data)
@@ -36,6 +38,7 @@ class OrderExt(MethodView):
     def get(self, order_id):
         order = OrderModel.query.get_or_404(order_id,
                                             description=f"No order exists with the id: {order_id}")
+        send_order_details(order)
         return order
 
     @blp.arguments(UpdateOrderSchema)
@@ -57,3 +60,21 @@ class OrderExt(MethodView):
         db.session.delete(order)
         db.session.commit()
         return f"Order with the id, {order_id}, has been removed."
+
+
+def send_order_details(order):
+    print(order.user.email)
+    try:
+        mail = mt.Mail(
+            sender=mt.Address(email="TaylorJ1208@yahoo.com"),
+            to=[mt.Address(email=order.user.email)],
+            subject="TJTechShop Order#12345",
+            text="Thank you for your purchase!",
+            category="Integration Test"
+        )
+        client = mt.MailtrapClient(token="4909bbe4e80053f7457f598819de759d")
+        client.send(mail)
+    except Exception as e:
+        print(e)
+    # for product in order.products:
+    #     print(product)

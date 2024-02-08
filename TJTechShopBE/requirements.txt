@@ -9,3 +9,5 @@ SQLAlchemy
 flask-jwt-extended
 pymysql
 upgrade-ensurepip
+Flask-Mail
+mailtrap
