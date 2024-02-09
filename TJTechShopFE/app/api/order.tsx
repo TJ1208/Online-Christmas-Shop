@@ -11,6 +11,12 @@ export const getAllOrders = async (): Promise<OrderModel[]> => {
     return data;
 }
 
+export const getOrder = async (order_id: number): Promise<OrderModel> => {
+    const response = fetch(`https://tjtechbe.tcjcoding.com/order/${order_id}`)
+    const data = (await response).json();
+    return data;
+}
+
 export const getOrderProduct = async (order_id: number, product_id: number): Promise<OrderProductModel> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/order_product/${order_id}/${product_id}`);
     return response.json();
@@ -25,6 +31,17 @@ export const addOrder = async (order: OrderModel): Promise<OrderModel> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/order`, {
         method: 'POST',
         body: JSON.stringify(order),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+
+    });
+    return response.json();
+}
+
+export const sendOrderReviewEmail = async (order_id: number): Promise<any> => {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/order/${order_id}`, {
+        method: 'POST',
         headers: {
             'Content-type': 'application/json; charset=UTF-8'
         }

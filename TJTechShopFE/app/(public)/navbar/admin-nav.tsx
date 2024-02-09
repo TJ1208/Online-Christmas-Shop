@@ -28,6 +28,7 @@ const AdminNavBar = () => {
                             <Link href="/admin/category" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/category' ? '' : 'text-opacity-50'}`}>Categories</Link>
                             <Link href="/admin/sub-category" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/sub-category' ? '' : 'text-opacity-50'}`}>Sub-Categories</Link>
                             <Link href="/admin/brand" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/brand' ? '' : 'text-opacity-50'}`}>Brands</Link>
+                            <Link href="/admin/shipping-method" className={`text-white hover:text-white p-2 m-1 px-3 ${path == '/admin/shipping-method' ? '' : 'text-opacity-50'}`}>Shipping Methods</Link>
 
                         </div>
                         <div className="items-center justify-center w-full pb-1 lg:hidden flex flex-col">
@@ -38,9 +39,9 @@ const AdminNavBar = () => {
                                         <SideMenu />
                                     </div>
                                 </div>
-                                <div className="flex items-center rounded w-full justify-center px-14">
+                                <Link href="/techshop" className="flex items-center rounded w-full justify-center">
                                     <ShopLogo />
-                                </div>
+                                </Link>
                                 <div className="flex items-center rounded w-full justify-end p-2 " >
                                     <div className="btn-hover p-2 pr-5 hover:cursor-pointer" onClick={() => setShowUserDropdown(old => !old)} >
                                         <div className={`relative inline-block p-1`} >

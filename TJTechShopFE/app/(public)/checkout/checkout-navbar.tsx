@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 const CheckoutNavbar = (data: { cartItems: CartProductModel[], currentPage: string }) => {
     const router = useRouter();
     const cartItems = data.cartItems;
+    let newString = data.currentPage.substring(data.currentPage.indexOf("shipping"));
+    let shippingString = newString.substring(0, newString.indexOf("&"));
     return (
         <>
             <Link href={`/cart?user_id=${cartItems[0].cart?.user_id}`} className={`border-b ${data.currentPage == "cart" ? "p-2 m-1 rounded" : "nav-button"}`}><sub>Cart</sub></Link>
-            <a href={`/checkout${data.currentPage.replace("&payment=true", "").replace("&review=true", "")}`} className={`border-b ${data.currentPage.includes("cart_id") && !(data.currentPage.includes("payment") || data.currentPage.includes("review")) ? "p-2 m-1 rounded" : "nav-button"}`} onClick={() => router.refresh()}><sub>Shipping</sub></a>
+            <Link href={`/checkout${data.currentPage.replace("&payment=true", "").replace("&review=true", "").replace("&"+shippingString, "")}`} className={`border-b ${data.currentPage.includes("cart_id") && !(data.currentPage.includes("payment") || data.currentPage.includes("review")) ? "p-2 m-1 rounded" : "nav-button"}`} onClick={() => router.refresh()}><sub>Shipping</sub></Link>
             {
                 data.currentPage.includes("payment=true")
                     ?

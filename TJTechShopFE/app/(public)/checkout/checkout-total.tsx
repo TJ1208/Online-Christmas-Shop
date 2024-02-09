@@ -38,7 +38,7 @@ const CheckoutTotal = (data: {cartItems: CartProductModel[], orderTotal: {total:
                     </div>
                     <div className="w-full flex justify-between items-center border-t pt-5">
                         <p>Total:</p>
-                        <span>${(parseFloat(data.orderTotal.total) + parseFloat(data.orderTotal.shippingPrice)).toFixed(2)}</span>
+                        <span>${(parseFloat(data.orderTotal.total) + parseFloat(data.orderTotal.shippingPrice) + (data.orderTotal.total * .0475)).toFixed(2)}</span>
                     </div>
                 </div>
             </div>

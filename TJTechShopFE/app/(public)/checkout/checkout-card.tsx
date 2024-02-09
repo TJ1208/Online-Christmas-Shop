@@ -16,6 +16,8 @@ import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
 import CheckoutNavbar from "./checkout-navbar";
 import CheckoutTotal from "./checkout-total";
 import CheckoutForm from "../../components/payment/index";
+import { ShippingMethodModel } from "@/app/models/shipping-method";
+import { getAllShippingMethods, getShippingMethodById } from "@/app/api/shipping-method";
 
 const CheckoutCard = () => {
     const router = useRouter();
@@ -29,8 +31,14 @@ const CheckoutCard = () => {
     const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
     const [addresses, setAddresses] = useState<AddressModel[]>([]);
     const [selectedAddress, setSelectedAddress] = useState<AddressModel>();
-    const [shippingMethod, setShippingMethod] = useState({ shipping_id: 0, price: "0" })
-    var [orderTotal, setOrderTotal] = useState({ total: (parseFloat((params.get("total") || "0")) + (parseFloat(params.get("total") || "0") * .0475)).toFixed(2), shippingPrice: shippingMethod.price || "0" });
+    const [shippingMethod, setShippingMethod] = useState<ShippingMethodModel>({
+        name: '',
+        rate: 0,
+        early_arrival: 0,
+        late_arrival: 0
+    })
+    const [shippingMethods, setShippingMethods] = useState<ShippingMethodModel[]>([]);
+    var [orderTotal, setOrderTotal] = useState({ total: (parseFloat((params.get("total") || "0")) + (parseFloat(params.get("total") || "0") * .0475)).toFixed(2), shippingPrice: shippingMethod.rate || 0 });
     const today = new Date(); const yyyy = today.getFullYear();
     let mm: any = today.getMonth() + 1;
     let dd: any = today.getDate();
@@ -78,10 +86,6 @@ const CheckoutCard = () => {
     if (!isReview && params.get("review")) {
         setIsReview(true)
     }
-
-    // if (productId != params.get("product_id") && params.get("product_id")) {
-    //     setProductId(params.get("product_id") || "");
-    // }
 
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setNewAddress({
@@ -189,6 +193,12 @@ const CheckoutCard = () => {
             setCartItems(cartItems);
             const addresses = await getUserAddresses(cartItems[0].cart?.user_id || 0);
             setAddresses(addresses);
+            const shippingMethods = await getAllShippingMethods();
+            setShippingMethods(shippingMethods);
+            if (params.get("shipping_method")) {
+                const shippingMethod = await getShippingMethodById(parseInt(params.get("shipping_method") || "0"));
+                setShippingMethod(shippingMethod);
+            }
             setSelectedAddress(addresses.find(address => address.active));
             setIsLoading(false);
         }
@@ -298,36 +308,22 @@ const CheckoutCard = () => {
                                     }
                                     <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method</label>
                                     <div className="w-full grid gap-3">
-                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 1, price: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }) }}>
-                                            <input type="radio" checked={shippingMethod.shipping_id == 1} onChange={changeHandler} className="ml-5" />
-                                            <div className="flex gap-1 items-center justify-center">
-                                                <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
-                                                <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
-                                            </div>
-                                            <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
-                                            <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 2, price: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }) }}>
-                                            <input type="radio" checked={shippingMethod.shipping_id == 2} onChange={changeHandler} className="ml-5" />
-                                            <div className="flex gap-1 items-center justify-center">
-                                                <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
-                                                <FontAwesomeIcon icon={faTruckFast} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
-                                            </div>
-                                            <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
-                                            <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" onClick={() => { setShippingMethod({ shipping_id: 3, price: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }) }}>
-                                            <input type="radio" checked={shippingMethod.shipping_id == 3} onChange={changeHandler} className="ml-5" />
-                                            <div className="flex gap-1 items-center justify-center">
-                                                <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
-                                                <FontAwesomeIcon icon={faCircleExclamation} size="lg" className="text-blue-300 hover:nav-button" />
-                                            </div>
-                                            <p className="text-red-200"><span className="font-semibold italic">1-2</span> Business Days</p>
-                                            <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .0125).toFixed(2)}</p>
-                                        </div>
+                                        {
+                                            shippingMethods.map((method: ShippingMethodModel, i: number) => (
+                                                <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" key={i} onClick={() => { setShippingMethod(method); setOrderTotal({ total: orderTotal.total, shippingPrice: method.rate }) }}>
+                                                    <input type="radio" checked={shippingMethod.shipping_id == method.shipping_id} onChange={changeHandler} className="ml-5" />
+                                                    <div className="flex gap-1 items-center justify-center">
+                                                        <p className="text-blue-200 px-3 text-center sm:text-left">{method.name}</p>
+                                                        <FontAwesomeIcon icon={i==0 ? faTruck : i==1 ? faTruckFast : faCircleExclamation} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
+                                                    </div>
+                                                    <p className="text-red-200"><span className="font-semibold italic">{method.early_arrival}-{method.late_arrival}</span> Business Days</p>
+                                                    <p className="text-green-200 font-medium">${method.rate}</p>
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                     <div className="w-full p-5 flex flex-col gap-5 items-center">
-                                        <button disabled={selectedAddress?.address_id && shippingMethod.shipping_id != 0 ? false : true} onClick={() => router.replace(`/checkout?${params}&shipping_method=${shippingMethod.shipping_id}&review=true`)}
+                                        <button disabled={selectedAddress?.address_id && shippingMethod.shipping_id ? false : true} onClick={() => router.replace(`/checkout?${params}&shipping_method=${shippingMethod.shipping_id}&review=true`)}
                                             className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Review Order</button>
                                         <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
                                             <FontAwesomeIcon icon={faChevronLeft} />
@@ -346,36 +342,16 @@ const CheckoutCard = () => {
                                     <label className="text-left w-full font-semibold italic text-lg p-2">Shipping Method:</label>
                                     <div className="m-5 text-sm">
                                         {
-                                            params.get("shipping_method") == "1"
-                                                ?
-                                                <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl bg-gray-500 bg-opacity-50 rounded" onClick={() => { setShippingMethod({ shipping_id: 1, price: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .005).toFixed(2) }) }}>
+                                            shippingMethods.filter(selectedMethod => selectedMethod.shipping_id == parseInt(params.get("shipping_method") || "0")).map(method => (
+                                                <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl home-button rounded" key={method.shipping_id}>
                                                     <div className="flex gap-1 items-center justify-center">
-                                                        <p className="text-blue-200 px-3 text-center sm:text-left">Basic Delivery</p>
+                                                        <p className="text-blue-200 px-3 text-center sm:text-left">{method.name}</p>
                                                         <FontAwesomeIcon icon={faTruck} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
                                                     </div>
-                                                    <p className="text-red-200"><span className="font-semibold italic">6-10</span> Business Days</p>
-                                                    <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .005).toFixed(2)}</p>
+                                                    <p className="text-red-200"><span className="font-semibold italic">{method.early_arrival}-{method.late_arrival}</span> Business Days</p>
+                                                    <p className="text-green-200 font-medium">${method.rate}</p>
                                                 </div>
-                                                :
-                                                params.get("shipping_method") == "2"
-                                                    ?
-                                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl bg-gray-500 bg-opacity-50 rounded" onClick={() => { setShippingMethod({ shipping_id: 2, price: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .008).toFixed(2) }) }}>
-                                                        <div className="flex gap-1 items-center justify-center">
-                                                            <p className="text-blue-200 px-3 text-center sm:text-left">Express Delivery</p>
-                                                            <FontAwesomeIcon icon={faTruckFast} size="lg" className="text-blue-300 border-gray-500 hover:nav-button" />
-                                                        </div>
-                                                        <p className="text-red-200"><span className="font-semibold italic">3-5</span> Business Days</p>
-                                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .008).toFixed(2)}</p>
-                                                    </div>
-                                                    :
-                                                    <div className="flex items-center w-full justify-between px-3 py-5 shadow-xl bg-gray-500 bg-opacity-50 rounded" onClick={() => { setShippingMethod({ shipping_id: 3, price: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }); setOrderTotal({ total: orderTotal.total, shippingPrice: (parseFloat((params.get("total") || "0")) * .0125).toFixed(2) }) }}>
-                                                        <div className="flex gap-1 items-center justify-center">
-                                                            <p className="text-blue-200 px-3 text-center sm:text-left">Urgent Delivery</p>
-                                                            <FontAwesomeIcon icon={faCircleExclamation} size="lg" className="text-blue-300 hover:nav-button" />
-                                                        </div>
-                                                        <p className="text-red-200"><span className="font-semibold italic">1-2</span> Business Days</p>
-                                                        <p className="text-green-200 font-medium">${(parseFloat((params.get("total") || "0")) * .0125).toFixed(2)}</p>
-                                                    </div>
+                                            ))
                                         }
                                     </div>
                                     <label className="text-left w-full font-semibold italic text-lg p-2">Contact Information:</label>
@@ -387,7 +363,7 @@ const CheckoutCard = () => {
                                         <CheckoutTotal {...{ cartItems, orderTotal }} />
                                     </div>
                                     <div className="w-full p-5 flex flex-col gap-5 items-center">
-                                        <button disabled={selectedAddress?.address_id && shippingMethod.shipping_id != 0 ? false : true} onClick={() => router.replace(`/checkout?${params.toString().replace("&review=true", "")}&payment=true`)}
+                                        <button disabled={selectedAddress?.address_id && parseInt(params.get("shipping_method") || "0") != 0 ? false : true} onClick={() => { router.replace(`/checkout?${params.toString().replace("&review=true", "")}&payment=true`) }}
                                             className="nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">Continue To Payment</button>
                                         <div className="flex items-center justify-center nav-button border border-gray-600 hover:bg-blue-300 hover:transition-all hover:text-gray-800 rounded p-2 gap-2 font-medium text-gray-200">
                                             <FontAwesomeIcon icon={faChevronLeft} />

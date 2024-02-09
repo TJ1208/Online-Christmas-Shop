@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
             mode: 'payment',
             return_url:
-                `${req.headers.get("origin")}/techshop?session_id={CHECKOUT_SESSION_ID}`,
+                `${req.headers.get("origin")}/order-confirmation?session_id={CHECKOUT_SESSION_ID}&user_info=${userData.sub}`,
         });
 
         return NextResponse.json(({ clientSecret: session.client_secret }));
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 export async function GET(req: NextRequest, res: Response) {
     try {
         const session =
-            await stripe.checkout.sessions.retrieve(req.nextUrl.searchParams.get("session_id"));
+            await stripe.checkout.sessions.retrieve(req.nextUrl.searchParams);
 
         return NextResponse.json(({
             status: session.status,

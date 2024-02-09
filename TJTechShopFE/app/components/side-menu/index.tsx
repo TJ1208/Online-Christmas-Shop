@@ -172,6 +172,8 @@ function SideMenu(userData: any) {
                                     onClick={toggleSideBar}>Sub-Categories</Link>
                                 <Link href="/admin/brand" className={`side-menu-button ${path == '/admin/brand' ? 'border' : ''}`}
                                     onClick={toggleSideBar}>Brands</Link>
+                                    <Link href="/admin/shipping-method" className={`side-menu-button ${path == '/admin/shipping-method' ? 'border' : ''}`}
+                                    onClick={toggleSideBar}>Shipping Methods</Link>
                             </div>
                         </dialog>
                     </div>
