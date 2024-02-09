@@ -102,8 +102,9 @@ class PlainOrderSchema(Schema):
     order_id = fields.Integer()
     user_id = fields.Integer(require=True)
     address_id = fields.Integer(require=True)
+    shipping_id = fields.Integer(require=True)
     create_time = fields.Date(require=True)
-    total = fields.Integer(require=True)
+    total = fields.Float(require=True)
 
 
 class ImageSchema(PlainImageSchema):
@@ -114,6 +115,14 @@ class ProductSchema(PlainProductSchema):
     images = fields.List(fields.Nested(PlainImageSchema()), dump_only=True)
     sub_category = fields.Nested(PlainSubCategorySchema(), dump_only=True)
     brand = fields.Nested(PlainBrandSchema(), dump_only=True)
+
+
+class PlainShippingMethodSchema(Schema):
+    shipping_id = fields.Integer()
+    name = fields.String(required=True)
+    rate = fields.Float(require=True)
+    early_arrival = fields.Integer(require=True)
+    late_arrival = fields.Integer(require=True)
 
 
 class PlainAddressSchema(Schema):
@@ -148,11 +157,13 @@ class OrderSchema(PlainOrderSchema):
     user = fields.Nested(PlainUserSchema(), dump_only=True)
     products = fields.List(fields.Nested(PlainProductSchema()), dump_only=True)
     address = fields.Nested(PlainAddressSchema(), dump_only=True)
+    shipping_method = fields.Nested(PlainShippingMethodSchema(), dump_only=True)
 
 
 class UpdateOrderSchema(Schema):
     user_id = fields.Integer(require=True)
     address_id = fields.Integer(require=True)
+    shipping_id = fields.Integer(require=True)
 
 
 class PlainOrderProductSchema(Schema):
