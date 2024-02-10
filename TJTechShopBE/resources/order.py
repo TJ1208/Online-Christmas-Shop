@@ -4,6 +4,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 
 from models.order import OrderModel
+from models.order_product import OrderProductModel
 from resources.db import db, mail
 from schemas import PlainOrderSchema, UpdateOrderSchema, OrderSchema
 
@@ -77,8 +78,9 @@ class OrderExt(MethodView):
                     <p>{product.name}</p>
                 </td>
                 <td colspan='1'
-                    style='color: rgb(94, 170, 122); font-style: italic; padding: 0.5em;'>
-                    <p>{product.sale_price if product.sale_price > 0 else product.price}</p>
+                    style='display: flex-col; font-style: italic; padding: 0.5em;'>
+                    <p style="padding: 0; margin: 0; color: rgb(94, 170, 122);">{product.sale_price if product.sale_price > 0 else product.price}</p>
+                    <p style="padding: 0.1em; margin: 0; font-size: small;">Qty: {OrderProductModel.query.filter(OrderProductModel.product_id == product.product_id).first().quantity}</p>
                 </td>
             </tr>                                            
             """
@@ -96,10 +98,10 @@ class OrderExt(MethodView):
     <title>Document</title>
 </head>
 
-<body style='font-family:sans-serif'>
+<body style='ffont-family:sans-serif; overflow-x: clip;'>
     <table cellspacing='0' cellpadding='0' width='100%' border='0'>
         <tbody>
-            <tr>
+            <tr width="100%" style="display: flex; justify-content: center; align-items: center;">
                 <td>&nbsp;</td>
                 <td width='720'></td>
                 <table cellspacing='0' cellpadding='0' width='100%' border='0'>
@@ -146,7 +148,7 @@ class OrderExt(MethodView):
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style='display:flex; justify-content: space-evenly; height: fit-content;'>
+                                            <td style='display:flex; flex-wrap: wrap; flex-direction: row; padding:10px; justify-content: space-evenly; height: fit-content;'>
                                                 <table cellspacing='0' cellpadding='0' width='100%' border='0'
                                                     style='border-collapse: collapse;'>
                                                     <p>&nbsp;</p>
