@@ -8,7 +8,6 @@ const AdminOrder = async () => {
     const orders = await getAllOrders();
     const products = await getAllProducts();
     const orderProducts = await getAllOrderProducts();
-    const initialValue = 0;
     return (
         <>
             <div className="w-full overflow-x-auto">

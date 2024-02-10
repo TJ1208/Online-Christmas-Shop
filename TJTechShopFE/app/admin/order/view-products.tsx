@@ -29,16 +29,33 @@ const ViewProductsButton = (data: { order: OrderModel, products: ProductModel[],
                 <div className="flex flex-col items-center p-2 bg-slate-900">
                     {
                         order.products?.map(product => data.products.filter(dataProduct => dataProduct.product_id == product.product_id)
-                            .map(product => data.orderProducts.filter(orderProduct => orderProduct.product_id == product.product_id).map(orderProduct => (
-                                <div key={product.product_id}>
+                            .map(product => data.orderProducts.filter(orderProduct => orderProduct.order_id == order.order_id).map((orderProduct: OrderProductModel, i: number) => (
+                                order.products!.length == 1
+                                    ?
+                                    <div key={i}>
 
-                                    <div className="shadow w-full shadow-slate-800 rounded my-2 container mx:auto flex flex-col justify-center items-center bg-slate-900">
-                                        <img src={product.images![0].url} alt="" className="object-cover min-h-[180px] max-h-[180px]" key={product.product_id} />
-                                        <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-blue-300 w-fit px-2 py-1 m-2 font-semibold">{product.name}</p>
-                                        <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-yellow-300 w-fit px-2 py-1 m-2">Quantity: <span className="font-semibold">{orderProduct.quantity}</span></p>
-                                        <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-green-300 w-fit px-2 py-1 m-2">Price: $<span className="font-semibold">{product.sale_price > 0 ? product.sale_price : product.price} / ${product.sale_price > 0 ? (product.sale_price * orderProduct.quantity).toFixed(2) : (product.price * orderProduct.quantity).toFixed(2)}</span></p>
+                                        <div className="shadow w-full shadow-slate-800 rounded my-2 container mx:auto flex flex-col justify-center items-center bg-slate-900">
+                                            <img src={product.images![0].url} alt="" className="object-cover min-h-[180px] max-h-[180px]" key={product.product_id} />
+                                            <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-blue-300 w-fit px-2 py-1 m-2 font-semibold">{product.name}</p>
+                                            <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-yellow-300 w-fit px-2 py-1 m-2">Quantity: <span className="font-semibold">{orderProduct.quantity}</span></p>
+                                            <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-green-300 w-fit px-2 py-1 m-2">Price: $<span className="font-semibold">{product.sale_price > 0 ? product.sale_price : product.price} / ${product.sale_price > 0 ? (product.sale_price * orderProduct.quantity).toFixed(2) : (product.price * orderProduct.quantity).toFixed(2)}</span></p>
+                                        </div>
                                     </div>
-                                </div>
+                                    :
+                                    orderProduct.product_id != product.product_id
+                                        ?
+                                        <div key={i}>
+
+                                            <div className="shadow w-full shadow-slate-800 rounded my-2 container mx:auto flex flex-col justify-center items-center bg-slate-900">
+                                                <img src={product.images![0].url} alt="" className="object-cover min-h-[180px] max-h-[180px]" key={product.product_id} />
+                                                <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-blue-300 w-fit px-2 py-1 m-2 font-semibold">{product.name}</p>
+                                                <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-yellow-300 w-fit px-2 py-1 m-2">Quantity: <span className="font-semibold">{orderProduct.quantity}</span></p>
+                                                <p className="shadow shadow-white rounded-full bg-slate-900 text-center text-green-300 w-fit px-2 py-1 m-2">Price: $<span className="font-semibold">{product.sale_price > 0 ? product.sale_price : product.price} / ${product.sale_price > 0 ? (product.sale_price * orderProduct.quantity).toFixed(2) : (product.price * orderProduct.quantity).toFixed(2)}</span></p>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div key={i}>
+                                        </div>
                             ))))
                     }
                 </div>

@@ -32,8 +32,8 @@ const OrderConfirmation = async () => {
 
     return (
         <>
-            <div className="w-9/12 text-center lg:w-1/2">
-                <p className="text-2xl text-gray-200 border-b m-5 p-5">Order <span className="text-red-300">#1</span></p>
+            <div className="sm:w-9/12 text-center lg:w-1/2 mx-5 flex flex-col gap-5 mb-10">
+                <p className="text-2xl  border-b m-5 p-5 text-blue-300">Order <span className="text-red-300">Confirmed!</span></p>
                 <div className="text-center">
                     <p className="p-1">Thank you for your order, <span className="text-blue-400">{userData?.first_name}!</span></p>
                     <p className="p-1">Please review your order details below.</p>
@@ -48,19 +48,22 @@ const OrderConfirmation = async () => {
                         ))
                     }
                 </div>
-                <div className="p-3 my-10 flex w-full justify-between font-medium border rounded-full ">
-                    <p className="text-blue-200">Sales Taxes :</p>
-                    <p className="text-green-200">${(initialValue * .0475).toFixed(2)}</p>
+                <div className="font-medium border rounded">
+                    <div className="p-3 my-10 flex w-full justify-between">
+                        <p className="text-blue-200">Sales Taxes :</p>
+                        <p className="text-green-200">${(initialValue * .0475).toFixed(2)}</p>
+                    </div>
+                    <div className="p-3 my-10 flex w-full justify-between">
+                        <p className="text-blue-200">Shipping & Handling :</p>
+                        <p className="text-green-200">${shippingAndHandling}</p>
+                    </div>
+                    <div className="p-3 my-10 flex w-full justify-between">
+                        <p className="text-blue-200">Total + Shipping & Handling :</p>
+                        <p className="text-green-200">${(initialValue + (initialValue * .0475) + shippingAndHandling).toFixed(2)}</p>
+                    </div>
                 </div>
-                <div className="p-3 my-10 flex w-full justify-between font-medium border rounded-full ">
-                    <p className="text-blue-200">Shipping & Handling :</p>
-                    <p className="text-green-200">${shippingAndHandling}</p>
-                </div>
-                <div className="p-3 my-10 flex w-full justify-between font-medium border rounded-full ">
-                    <p className="text-blue-200">Total + Shipping & Handling :</p>
-                    <p className="text-green-200">${(initialValue + (initialValue * .0475) + shippingAndHandling).toFixed(2)}</p>
-                </div>
-                <Link href="/techshop" className="nav-button border">Back to Shop</Link>
+
+                <Link href="/techshop" className="home-button p-3 rounded font-medium">Back To Shop</Link>
             </div>
         </>
     )
