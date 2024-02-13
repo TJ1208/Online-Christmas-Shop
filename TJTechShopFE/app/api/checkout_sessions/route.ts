@@ -47,6 +47,6 @@ export async function GET(req: NextRequest, res: Response) {
             customer_email: session.customer_details.email
         })).json();
     } catch (err: any) {
-        return NextResponse.json((err.statusCode || 500).json(err.message));
+        return NextResponse.json((err.statusCode || 500));
     }
 }

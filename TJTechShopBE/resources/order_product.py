@@ -74,3 +74,11 @@ class OrderProductExt(MethodView):
             db.session.commit()
 
         return f"Order with the id: {order_id}, and product id: {product_id}, has been deleted."
+
+
+@blp.route("/order_product/product/<int:product_id>")
+class OrderProductByProduct(MethodView):
+    @blp.response(200, OrderProductSchema(many=True))
+    def get(self, product_id):
+        order_product = OrderProductModel.query.filter(OrderProductModel.product_id == product_id)
+        return order_product

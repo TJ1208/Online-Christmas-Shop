@@ -22,6 +22,11 @@ export const getOrderProduct = async (order_id: number, product_id: number): Pro
     return response.json();
 }
 
+export const getOrderProductByProduct = async (product_id: number): Promise<OrderProductModel[]> => {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/order_product/product/${product_id}`);
+    return response.json();
+}
+
 export const getAllOrderProducts = async (): Promise<OrderProductModel[]> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/order_product`);
     return response.json();

@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 
 export async function getTokenClaims(): Promise<any> {
@@ -29,6 +30,6 @@ export const logout = async (): Promise<any> => {
             'Authorization': `Bearer ${cookies().get('access_token_cookie')?.value}`,
         }
     });
-    // redirect('/login');
+    redirect('/login');
     return response.json();
 }

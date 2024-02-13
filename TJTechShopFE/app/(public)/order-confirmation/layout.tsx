@@ -1,6 +1,5 @@
 "use server"
 
-import Navbar from "../navbar";
 import { getTokenClaims } from "../../api/jwt-token";
 import { redirect } from "next/navigation";
 import ShopLogo from "@/app/components/shop-logo";

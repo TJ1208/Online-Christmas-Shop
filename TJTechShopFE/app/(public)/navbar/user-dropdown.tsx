@@ -15,7 +15,7 @@ function UserDropdown(userData: any) {
 
     const LogOut = async () => {
         await logout().then(() => {
-            router.push("/login");
+            router.refresh();
         })
     }
 

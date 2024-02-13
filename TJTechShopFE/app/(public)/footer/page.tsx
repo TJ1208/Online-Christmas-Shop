@@ -56,7 +56,6 @@ const Footer = async () => {
                 </div>
                 <div className="flex flex-col items-center my-5">
                     <ShopLogo />
-                    <p className="text-white text-xs space-x-1"><span className="text-blue-200">&quot;Buy Today,</span>&nbsp;<span className="text-red-400">Love Tomorrow&quot;</span></p>
                 </div>
             </div>
 

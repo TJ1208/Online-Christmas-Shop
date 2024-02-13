@@ -8,10 +8,12 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductLoad from "../products/product-load";
+import { getOrderProductByProduct } from "@/app/api/order";
 
 function ProductCard(newProduct: ProductModel) {
     const params = useSearchParams();
     const [product, setProduct] = useState<ProductModel>(newProduct);
+    const [soldAmount, setSoldAmount] = useState<number>(0);
     const [productId, setProductId] = useState<string>(newProduct.product_id!.toString());
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -26,7 +28,8 @@ function ProductCard(newProduct: ProductModel) {
             const product = await getProduct(productId);
             setProduct(product);
             setIsLoading(false);
-
+            const soldAmount = await getOrderProductByProduct(product.product_id || 0);
+            setSoldAmount(soldAmount.length);
         }
         fetchData()
     }, [productId])
@@ -93,12 +96,12 @@ function ProductCard(newProduct: ProductModel) {
                         </div>
 
                         {/* Desktop View */}
-                        <div className="lg:flex hidden w-full justify-between">
-                            <div className="shadow-xl bg-slate-900 bg-opacity-10 rounded w-full min-h-[500px] max-h-[500px] m-5">
+                        <div className="lg:flex hidden w-full items-center justify-center">
+                            <div className="shadow-xl bg-slate-900 bg-opacity-10 rounded w-full text-center m-5">
                                 <ImageCarousel images={product.images!} />
                             </div>
                             <div className="flex flex-col items-center justify-center w-full">
-                                <p className="italic text-gray-200 text-left w-full m-5 px-10 border shadow-xl bg-slate-700 border-slate-700 rounded-md p-3"><span className="text-blue-200 underline underline-offset-4">0</span> Sold Yesterday</p>
+                                <p className="italic text-gray-200 text-left w-full m-5 px-10 border shadow-xl bg-slate-700 border-slate-700 rounded-md p-3"><span className="text-blue-200 underline underline-offset-4">{soldAmount}</span> Sold Recently</p>
                                 <div className="shadow-xl bg-slate-900 bg-opacity-10 rounded w-full p-5 border border-slate-700">
                                     <div className="my-3 flex text-left w-full">
                                         <div>
