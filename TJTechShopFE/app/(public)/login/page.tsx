@@ -6,12 +6,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { login } from "../../api/user";
 import ShopLogo from "../../components/shop-logo";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
     const router = useRouter();
     const [loginData, setLoginData] = useState({ email: "", password: "" })
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setLoginData({
             ...loginData,
@@ -30,7 +33,7 @@ const Login = () => {
                     setShowErrorMessage(false);
                 }, 2000);
             } else {
-                
+
                 router.refresh();
             }
         })
@@ -46,8 +49,21 @@ const Login = () => {
                         <ShopLogo />
                         <input type="email" name="email" placeholder="Email"
                             value={loginData.email} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
-                        <input type="password" name="password" placeholder="Password"
-                            value={loginData.password} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
+                        <div className="relative">
+                            <input type={`${showPassword ? 'text' : 'password'}`} name="password" placeholder="Password"
+                                value={loginData.password} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
+                            {
+                                showPassword
+                                    ?
+                                    <button className="btn-hover p-1 absolute top-5 right-5" onClick={() => setShowPassword(old => !old)}>
+                                        <FontAwesomeIcon icon={faEye} />
+                                    </button>
+                                    :
+                                    <button className="btn-hover p-1 absolute top-5 right-5" onClick={() => setShowPassword(old => !old)}>
+                                        <FontAwesomeIcon icon={faEyeSlash} />
+                                    </button>
+                            }
+                        </div>
                         {
                             showErrorMessage
                                 ?
@@ -79,6 +95,7 @@ const Login = () => {
                                 <a href="https://www.linkedin.com/in/taylor-joostema-26ba66244/" className="bg-white rounded btn-hover hover:cursor-pointer m-2"><Image src="https://tjcoding.sirv.com/website-images/icons8-linkedin.svg" alt="LinkedIn Logo" width={30} height={30} /></a>
                             </div>
                         </div>
+                        <Link href="/login/password-reset" className=" mt-3 mb-1 opacity-10 text-xs btn-hover">Forgot Password? Click Here</Link>
                     </div>
                 </div>
             </div>

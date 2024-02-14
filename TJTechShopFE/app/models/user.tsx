@@ -10,4 +10,6 @@ export interface UserModel {
     role_id: number;
     age:  number;
     phone_number: string;
+    authenticated?: boolean;
+    reset_code?: string;
 }

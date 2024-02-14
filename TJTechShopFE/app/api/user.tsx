@@ -42,6 +42,17 @@ export const registerUser = async (user: UserModel): Promise<UserModel> => {
     return response.json();
 }
 
+export const updateUser = async (userData: UserModel, email: string): Promise<UserModel> => {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`, {
+        method: 'PUT',
+        body: JSON.stringify(userData),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
+    return response.json();
+}
+
 export const deleteUser = async (email: string): Promise<string> => {
     const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`, {
         method: 'DELETE',
@@ -50,5 +61,16 @@ export const deleteUser = async (email: string): Promise<string> => {
             'Content-type': 'application/json; charset=UTF-8'
         }
     });
+    return response.json();
+}
+
+export const sendPasswordResetCode = async (resetCode: {reset_code: string}, email: string): Promise<UserModel> => {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/reset-password/${email}`, {
+        method: 'PUT',
+        body: JSON.stringify(resetCode),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    })
     return response.json();
 }
