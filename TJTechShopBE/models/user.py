@@ -13,3 +13,5 @@ class UserModel(db.Model):
     create_time = db.Column(db.Date, nullable=False)
     age = db.Column(db.SmallInteger)
     phone_number = db.Column(db.String(10), nullable=False)
+    authenticated = db.Column(db.Boolean, nullable=False, default=False)
+    reset_code = db.Column(db.String(6), nullable=True, default="")

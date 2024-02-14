@@ -108,9 +108,7 @@ class OrderExt(MethodView):
                     <tbody>
                         <tr>
                             <td style='font-weight: bolder; font-size: x-large; opacity: 0.8; text-align: center;'>
-                                <h3><span
-                                        style='color:rgb(96 165 250); letter-spacing: 1px; margin-right: 0.5vh;'>TJTECH</span><span
-                                        style='color:rgb(248 113 113);'>SHOP</span></h3>
+                                <img src="https://tjcoding.sirv.com/website-images/tjtech-shop-image.png" alt="Shop Logo" style="object-fit: cover; height: 5em; background-color: black; border-radius: 5px; border-style: solid;">
                             </td>
                         </tr>
                         <tr>
@@ -339,16 +337,5 @@ class OrderExt(MethodView):
 
 </html>""")
             mail.send(msg)
-            # mail = mt.Mail(
-            #     sender=mt.Address(email="TaylorJ1208@yahoo.com"),
-            #     to=[mt.Address(email=order.user.email)],
-            #     subject="TJTechShop Order#12345",
-            #     text="Thank you for your purchase!",
-            #     category="Integration Test"
-            # )
-            # client = mt.MailtrapClient(token="4909bbe4e80053f7457f598819de759d")
-            # client.send(mail)
         except Exception as e:
             print(e)
-        # for product in order.products:
-        #     print(product)

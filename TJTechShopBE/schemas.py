@@ -11,6 +11,8 @@ class PlainUserSchema(Schema):
     create_time = fields.Date(require=True)
     age = fields.Integer(require=True)
     phone_number = fields.String(require=True)
+    authenticated = fields.Boolean()
+    reset_code = fields.String()
 
 
 class PlainRoleSchema(Schema):
@@ -26,6 +28,8 @@ class UpdateUserSchema(Schema):
     password = fields.String(require=True)
     age = fields.Integer()
     phone_number = fields.String()
+    authenticated = fields.Boolean()
+    reset_code = fields.String()
 
 
 class PlainCategorySchema(Schema):
