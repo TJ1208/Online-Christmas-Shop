@@ -146,7 +146,7 @@ const PasswordReset = () => {
                             }
                             <div className="flex flex-col items-center justify-center gap-3">
                                 <div className="text-center">
-                                    <p className="btn-hover">Didn't receive a code?</p>
+                                    <p className="btn-hover">Didn&apos;t receive a code?</p>
                                     <sub className="opacity-50">Try sending again after 1 minute.</sub>
                                 </div>
                                 <button className="btn-hover border rounded p-2 w-fit" onClick={() => sendResetCode(resetEmail)}>
@@ -173,13 +173,13 @@ const PasswordReset = () => {
                             {
                                 showErrorMessage
                                     ?
-                                    <p className="text-red-400 opacity-70 text-sm text-center italic mb-3">Passwords Don't Match</p>
+                                    <p className="text-red-400 opacity-70 text-sm text-center italic mb-3">Passwords Don&apos;t Match</p>
                                     :
                                     <>
                                     </>
                             }
                             <div className="flex flex-col items-center justify-center gap-3">
-                                <p className="btn-hover">Didn't receive a code?</p>
+                                <p className="btn-hover">Didn&apos;t receive a code?</p>
 
                                 <button disabled={newPassword.newPassword == "" || newPassword.confirmPassword == "" || newPassword.newPassword != newPassword.confirmPassword} className="btn-hover border rounded p-2 w-fit" onClick={() => resetPassword()}>
                                     Reset Password
