@@ -8,7 +8,7 @@ export const addStripeProduct = async (product: ProductModel) => {
         name: product.name,
         description: product.description,
         active: true,
-        url: `https://tjtechbe.tcjcoding.com/product?product_id=${product.product_id}`,
+        url: `http://localhost:5000/product?product_id=${product.product_id}`,
         images: product.images?.map(product => product.url)
     });
 }

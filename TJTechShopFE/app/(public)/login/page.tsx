@@ -86,9 +86,9 @@ const Login = () => {
                             <p className="p-2 opacity-50">Don&apos;t have an account?</p>
                             <Link href="/signup" className="btn-hover">Sign Up</Link>
                         </div>
-                        <div className="flex items-center justify-start w-full mt-5 border-t">
-                            <p className="p-2 opacity-50 text-sm mt-5">TJCoding:</p>
-                            <div className="flex mt-5">
+                        <div className="flex flex-col items-center justify-start w-full mt-5 border-t">
+                            <p className="p-2 opacity-50 text-sm mt-3">TJCoding</p>
+                            <div className="flex mt-3">
                                 <a href="https://twitter.com/TJoostema71515" className="bg-white rounded btn-hover hover:cursor-pointer m-2"><Image src="https://tjcoding.sirv.com/website-images/icons8-twitterx.svg" alt="Twitter Logo" width={30} height={30} /></a>
                                 <a href="https://www.facebook.com/taylor.joostema.7" className="bg-white rounded btn-hover hover:cursor-pointer m-2"><Image src="https://tjcoding.sirv.com/website-images/icons8-facebook.svg" alt="Facebook Logo" width={30} height={30} /></a>
                                 <a href="https://github.com/TJ1208" className="bg-white rounded btn-hover hover:cursor-pointer m-2"><Image src="https://tjcoding.sirv.com/website-images/icons8-github.svg" alt="Github Logo" width={30} height={30} /></a>

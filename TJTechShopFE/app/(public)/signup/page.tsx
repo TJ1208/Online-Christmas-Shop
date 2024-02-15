@@ -9,6 +9,8 @@ import { UserModel } from "../../models/user";
 import getDate from "../../scripts/get-current-date";
 import { useRouter } from "next/navigation";
 import { addCart } from "@/app/api/cart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const SignUp = () => {
     const router = useRouter();
@@ -22,13 +24,36 @@ const SignUp = () => {
         age: 0
     });
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
 
-    const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (event: any) => {
+        if (event.target.name == "phone_number" && event.nativeEvent["inputType"] != "deleteContentBackward") {
+            if (event.target.value.length == 1) {
+                event.target.value = "(" + event.target.value;
+            }
+            if (event.target.value.length == 4) {
+                event.target.value = event.target.value + ")-";
+            }
+            if (event.target.value.length == 9) {
+                event.target.value = event.target.value + "-";
+            }
+        }
+        if (event.target.name == "phone_number" && (event.nativeEvent["inputType"] == undefined || event.nativeEvent["inputType"] == "insertFromPaste")) {
+            if (event.target.value.length < 3) {
+                event.target.value = "(" + event.target.value;
+            } else if (event.target.value.length < 6) {
+                event.target.value = "(" + event.target.value.slice(0, 3) + ")-" + event.target.value.slice(3, 6)
+            } else if (event.target.value.length < 11) {
+                event.target.value = "(" + event.target.value.slice(0, 3) + ")-" + event.target.value.slice(3, 6) + "-" + event.target.value.slice(6, event.target.value.length)
+            }
+
+        }
         setLoginData({
             ...loginData,
             [event.target.name]: event.target.value
         });
+
     }
 
     const RegisterUser = (user: UserModel) => {
@@ -42,7 +67,7 @@ const SignUp = () => {
                     setEmail("");
                 }, 3000)
             } else {
-                addCart({user_id: result.user_id!})
+                addCart({ user_id: result.user_id! })
                 router.push("/login");
             }
 
@@ -64,20 +89,34 @@ const SignUp = () => {
             <div className="w-1/2 container flex items-center justify-center mt-24">
                 <div className="flex flex-col items-center justify-center h-auto bg-black bg-opacity-50 rounded p-5 mb-24">
                     <ShopLogo />
-                    <div className="flex">
+                    <div className="sm:flex-row items-center justify-center flex-col flex">
                         <input type="text" name="first_name" placeholder="First Name"
-                            value={loginData.first_name} onChange={changeHandler} className="p-2 m-3 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 w-1/2" />
+                            value={loginData.first_name} onChange={changeHandler} className="p-2 m-3 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 sm:w-1/2 w-full" />
                         <input type="text" name="last_name" placeholder="Last Name"
-                            value={loginData.last_name} onChange={changeHandler} className="p-2 m-3 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 w-1/2" />
+                            value={loginData.last_name} onChange={changeHandler} className="p-2 m-3 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 sm:w-1/2 w-full" />
                     </div>
                     <input type="email" name="email" placeholder="Email"
-                        value={loginData.email} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
-                    <input type="tel" name="phone_number" placeholder="Phone #"
-                        value={loginData.phone_number} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
-                    <input type="number" min={1} value={loginData.age == 0 ? "" : loginData.age} placeholder="Age"
-                        name="age" onChange={changeHandler} autoComplete="off" className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
-                    <input type="password" name="password" placeholder="Password"
-                        value={loginData.password} onChange={changeHandler}  autoComplete="off" className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70" />
+                        value={loginData.email} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 sm:w-1/2 w-full" />
+                    <input type="tel" name="phone_number" placeholder="Phone #" maxLength={14}
+                        value={loginData.phone_number} onChange={changeHandler} className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 sm:w-1/2 w-full" />
+                    <input type="number" min={1} value={loginData.age == 0 ? "" : loginData.age > 100 ? 100 : loginData.age} placeholder="Age"
+                        name="age" onChange={changeHandler} autoComplete="off" className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 sm:w-1/2 w-full" />
+                    <div className="relative sm:w-1/2 flex flex-col justify-center items-center">
+                        <input type={`${showPassword ? 'text' : 'password'}`} name="password" placeholder="Password"
+                            value={loginData.password} onChange={changeHandler} autoComplete="off" className="p-2 m-4 border-b border-gray-500 px-2 outline-none bg-black input-login opacity-70 w-full" />
+
+                        {
+                            showPassword
+                                ?
+                                <button className="btn-hover p-1 absolute top-5 right-3" onClick={() => setShowPassword(old => !old)}>
+                                    <FontAwesomeIcon icon={faEye} />
+                                </button>
+                                :
+                                <button className="btn-hover p-1 absolute top-5 right-3" onClick={() => setShowPassword(old => !old)}>
+                                    <FontAwesomeIcon icon={faEyeSlash} />
+                                </button>
+                        }
+                    </div>
                     {
                         showErrorMessage
                             ?

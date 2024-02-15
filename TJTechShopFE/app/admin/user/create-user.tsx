@@ -27,7 +27,28 @@ const CreateUser = () => {
         phone_number: ""
     });
 
-    const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (event: any) => {
+        if (event.target.name == "phone_number" && event.nativeEvent["inputType"] != "deleteContentBackward") {
+            if (event.target.value.length == 1) {
+                event.target.value = "(" + event.target.value;
+            }
+            if (event.target.value.length == 4) {
+                event.target.value = event.target.value + ")-";
+            }
+            if (event.target.value.length == 9) {
+                event.target.value = event.target.value + "-";
+            }
+        }
+        if (event.target.name == "phone_number" && (event.nativeEvent["inputType"] == undefined || event.nativeEvent["inputType"] == "insertFromPaste")) {
+            if (event.target.value.length < 3) {
+                event.target.value = "(" + event.target.value;
+            } else if (event.target.value.length < 6) {
+                event.target.value = "(" + event.target.value.slice(0, 3) + ")-" + event.target.value.slice(3, 6)
+            } else if (event.target.value.length < 11) {
+                event.target.value = "(" + event.target.value.slice(0, 3) + ")-" + event.target.value.slice(3, 6) + "-" + event.target.value.slice(6, event.target.value.length)
+            }
+
+        }
         setUser({
             ...user,
             [event.target.name]: event.target.value
@@ -95,11 +116,11 @@ const CreateUser = () => {
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Phone #: </label>
-                        <input type="tel" name="phone_number" value={user.phone_number} placeholder="Phone #" className="input placeholder:text-xs" onChange={changeHandler} />
+                        <input type="tel" name="phone_number" value={user.phone_number} placeholder="Phone #" maxLength={14} className="input placeholder:text-xs" onChange={changeHandler} />
                     </div>
                     <div className="flex items-center p-2">
                         <label className="p-2">*&nbsp;Age: </label>
-                        <input type="number" name="age" min={1} value={user.age == 0 ? "" : user.age} placeholder="Age" className="input" onChange={changeHandler} />
+                        <input type="number" name="age" min={1} max={100} value={user.age == 0 ? "" : user.age > 100 ? 100 : user.age} placeholder="Age" className="input" onChange={changeHandler} />
                     </div>
                     <div className="flex items-center justify-center">
                         {
