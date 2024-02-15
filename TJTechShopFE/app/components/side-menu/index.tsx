@@ -21,10 +21,10 @@ function SideMenu(userData: any) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('http://localhost:5000/category');
+            const response = await fetch('https://tjtechbe.tcjcoding.com/category');
             const categories: CategoryModel[] = await response.json();
             setCategories(categories);
-            const brandResponse = await fetch('http://localhost:5000/brand');
+            const brandResponse = await fetch('https://tjtechbe.tcjcoding.com/brand');
             const brands: BrandModel[] = await brandResponse.json();
             setBrands(brands);
         }

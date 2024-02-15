@@ -1,7 +1,7 @@
 import { UserModel } from "../models/user"
 
 export const login = async (data: { email: string, password: string }): Promise<any> => {
-    const response = await fetch(`http://localhost:5000/login`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/login`, {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: "include",
@@ -18,7 +18,7 @@ export const login = async (data: { email: string, password: string }): Promise<
 }
 
 export const getAllUsers = async (): Promise<UserModel[]> => {
-    const response = await fetch(`http://localhost:5000/user`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user`, {
         next: {
             revalidate: 0
         }
@@ -27,12 +27,12 @@ export const getAllUsers = async (): Promise<UserModel[]> => {
 }
 
 export const getUser = async (email: string): Promise<UserModel> => {
-    const response = await fetch(`http://localhost:5000/user/${email}`);
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`);
     return response.json();
 }
 
 export const registerUser = async (user: UserModel): Promise<UserModel> => {
-    const response = await fetch(`http://localhost:5000/user`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -43,7 +43,7 @@ export const registerUser = async (user: UserModel): Promise<UserModel> => {
 }
 
 export const updateUser = async (userData: UserModel, email: string): Promise<UserModel> => {
-    const response = await fetch(`http://localhost:5000/user/${email}`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`, {
         method: 'PUT',
         body: JSON.stringify(userData),
         headers: {
@@ -54,7 +54,7 @@ export const updateUser = async (userData: UserModel, email: string): Promise<Us
 }
 
 export const deleteUser = async (email: string): Promise<string> => {
-    const response = await fetch(`http://localhost:5000/user/${email}`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/${email}`, {
         method: 'DELETE',
         body: JSON.stringify(email),
         headers: {
@@ -65,7 +65,7 @@ export const deleteUser = async (email: string): Promise<string> => {
 }
 
 export const sendPasswordResetCode = async (resetCode: {reset_code: string}, email: string): Promise<UserModel> => {
-    const response = await fetch(`http://localhost:5000/user/reset-password/${email}`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/user/reset-password/${email}`, {
         method: 'PUT',
         body: JSON.stringify(resetCode),
         headers: {

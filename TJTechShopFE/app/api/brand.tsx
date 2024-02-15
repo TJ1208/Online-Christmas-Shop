@@ -1,13 +1,13 @@
 import { BrandModel } from "../models/brand";
 
 export const getAllBrands = async (): Promise<BrandModel[]> => {
-    const response = await fetch(`http://localhost:5000/brand`)
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/brand`)
     const data = await response.json();
     return data;
 }
 
 export const  addBrand = async (brand: BrandModel): Promise<BrandModel> => {
-    const response = await fetch(`http://localhost:5000/brand`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/brand`, {
         method: 'POST',
         body: JSON.stringify(brand),
         headers: {
@@ -19,7 +19,7 @@ export const  addBrand = async (brand: BrandModel): Promise<BrandModel> => {
 }
 
 export const  updateBrand = async (brand: BrandModel, name: string): Promise<BrandModel> => {
-    const response = await fetch(`http://localhost:5000/brand/${name}`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/brand/${name}`, {
         method: 'PUT',
         body: JSON.stringify(brand),
         headers: {
@@ -31,7 +31,7 @@ export const  updateBrand = async (brand: BrandModel, name: string): Promise<Bra
 }
 
 export const deleteBrand = async (name: string): Promise<string> => {
-    const response = await fetch(`http://localhost:5000/brand/${name}`, {
+    const response = await fetch(`https://tjtechbe.tcjcoding.com/brand/${name}`, {
         method: 'DELETE',
     });
     return response.json();
